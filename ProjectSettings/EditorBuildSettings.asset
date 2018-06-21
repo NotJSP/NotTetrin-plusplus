@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    path: Assets/NotTetrin/Scenes/Title.unity
+    guid: b2e98d1cab5527a49b342db4645c5d0c
+  - enabled: 1
+    path: Assets/NotTetrin/Scenes/StackMode.unity
+    guid: 45664208ade2ec84bbb2b26024a9bdbf
+  - enabled: 1
+    path: Assets/NotTetrin/Scenes/Matching.unity
+    guid: c60b772d71643ba43bba5ac20754316e
+  - enabled: 1
+    path: Assets/NotTetrin/Scenes/NetworkBattle.unity
+    guid: e052d6021424f7c42bc6b497215f8428
   m_configObjects: {}
