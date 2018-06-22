@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using NotTetrin.SceneManagement;
 
 namespace NotTetrin.Title {
-    public class StackModeButton : MonoBehaviour {
+    public class MarathonModeButton : MonoBehaviour {
         [SerializeField]
         private InputField nameField;
 
@@ -16,7 +16,7 @@ namespace NotTetrin.Title {
             }
             PlayerPrefs.SetString(@"player_name", nameField.text);
 
-            SceneTransit.Instance.LoadScene(@"StackMode", TitleManager.TransitionDuration);
+            SceneTransit.Instance.LoadScene(@"MarathonMode", TitleManager.TransitionDuration);
         }
     }
 }
