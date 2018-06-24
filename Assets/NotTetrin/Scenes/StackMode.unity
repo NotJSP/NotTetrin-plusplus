@@ -2538,3 +2538,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textField: {fileID: 1609639603}
+  highScore: {fileID: 759410317}

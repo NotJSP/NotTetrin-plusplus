@@ -13,6 +13,8 @@ namespace NotTetrin.Ingame {
 
         [SerializeField]
         private Text textField;
+        [SerializeField]
+        private HighScore highScore;
 
         private int currentRank = 0;
         private List<Ranker> rankers = new List<Ranker>();
@@ -20,11 +22,9 @@ namespace NotTetrin.Ingame {
         private StringBuilder builder;
 
         public void Fetch() {
-            var score = PlayerPrefs.HasKey(@"high_score") ? PlayerPrefs.GetInt(@"high_score") : 0;
-
             try {
                 builder = new StringBuilder();
-                fetchRank(score);
+                fetchRank(highScore.Value);
                 fetchRankers();
             } catch (Exception e) {
                 Debug.LogError(e.Message);

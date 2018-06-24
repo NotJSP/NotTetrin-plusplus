@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
 namespace NotTetrin.Game.Multi {
@@ -59,7 +60,7 @@ namespace NotTetrin.Game.Multi {
         public void CancelMatching() {
             matchingWindow.GetComponent<Animator>().Play(@"CloseWindow");
             if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
-            SceneTransit.Instance.LoadScene(@"Title", 0.4f);
+            SceneTransit.Instance.LoadScene(SceneName.Title, 0.4f);
         }
 
         private void updateOtherPlayerStatus() {
@@ -76,7 +77,7 @@ namespace NotTetrin.Game.Multi {
             PhotonNetwork.room.IsOpen = false;
             yield return new WaitForSeconds(2.0f);
 
-            SceneTransit.Instance.LoadScene(@"NetworkBattle", 0.4f);
+            SceneTransit.Instance.LoadScene(SceneName.NetworkBattle, 0.4f);
         }
 
         public void OnPhotonPlayerConnected(PhotonPlayer player) {
@@ -97,7 +98,7 @@ namespace NotTetrin.Game.Multi {
             Debug.Log("OnJoinedLobby");
 
             if (string.IsNullOrEmpty(PhotonNetwork.playerName)) {
-                PhotonNetwork.playerName = PlayerPrefs.GetString(@"player_name") + NameIdSeparator + PhotonNetwork.AuthValues.UserId;
+                PhotonNetwork.playerName = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName) + NameIdSeparator + PhotonNetwork.AuthValues.UserId;
             }
 
             statusLabel.text = @"あなた: " + parseNickName(PhotonNetwork.playerName);

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using NotTetrin.Constants;
 
 using Stopwatch = System.Diagnostics.Stopwatch;
 
@@ -29,13 +30,13 @@ namespace NotTetrin.Ingame {
         public event EventHandler ValueChanged;
         public int Value {
             get {
-                if (PlayerPrefs.HasKey(@"high_score")) {
-                    return PlayerPrefs.GetInt(@"high_score");
+                if (PlayerPrefs.HasKey(PlayerPrefsKey.HighScore)) {
+                    return PlayerPrefs.GetInt(PlayerPrefsKey.HighScore);
                 }
                 return 0;
             }
             private set {
-                PlayerPrefs.SetInt(@"high_score", value);
+                PlayerPrefs.SetInt(PlayerPrefsKey.HighScore, value);
                 updateText();
                 ValueChanged?.Invoke(this, EventArgs.Empty);
             }

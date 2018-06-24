@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
 using Random = UnityEngine.Random;
@@ -43,7 +44,7 @@ namespace NotTetrin.Ingame.Multi {
         private void Update() {
             if (Input.GetButtonDown(@"Escape")) {
                 if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
-                SceneTransit.Instance.LoadScene(@"Title", 0.4f);
+                SceneTransit.Instance.LoadScene(SceneName.Title, 0.4f);
             }
         }
 
