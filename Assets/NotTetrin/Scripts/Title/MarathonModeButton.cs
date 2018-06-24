@@ -7,7 +7,7 @@ using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
 namespace NotTetrin.Title {
-    public class StackModeButton : MonoBehaviour {
+    public class MarathonModeButton : MonoBehaviour {
         [SerializeField]
         private InputField nameField;
         [SerializeField]
@@ -21,7 +21,7 @@ namespace NotTetrin.Title {
             PlayerPrefs.SetString(PlayerPrefsKey.PlayerName, nameField.text);
 
             toggler.ToggleAll();
-            SceneTransit.Instance.LoadScene(SceneName.StackMode, TitleManager.TransitionDuration);
+            SceneTransit.Instance.LoadScene(SceneName.MarathonMode, TitleManager.TransitionDuration);
         }
     }
 }
