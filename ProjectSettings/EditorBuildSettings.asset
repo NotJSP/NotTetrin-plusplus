@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/NotTetrin/Scenes/StackMode.unity
     guid: 45664208ade2ec84bbb2b26024a9bdbf
   - enabled: 1
+    path: Assets/NotTetrin/Scenes/MarathonMode.unity
+    guid: 04cf2364d7600754e8c9621346d06b02
+  - enabled: 1
     path: Assets/NotTetrin/Scenes/Matching.unity
     guid: c60b772d71643ba43bba5ac20754316e
   - enabled: 1
