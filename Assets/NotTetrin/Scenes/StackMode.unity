@@ -1143,10 +1143,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 1871769974436170, guid: db9246d85ee1a7e44a88689f9dcd5044, type: 2}
-      propertyPath: m_Name
-      value: MinoResolver
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db9246d85ee1a7e44a88689f9dcd5044, type: 2}
   m_IsPrefabParent: 0
@@ -2542,3 +2538,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textField: {fileID: 1609639603}
+  highScore: {fileID: 759410317}

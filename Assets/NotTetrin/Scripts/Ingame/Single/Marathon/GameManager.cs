@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
 using Random = UnityEngine.Random;
@@ -48,7 +49,7 @@ namespace NotTetrin.Ingame.Single.Marethon
         {
             if (Input.GetButtonDown(@"Escape"))
             {
-                SceneTransit.Instance.LoadScene(@"Title", 0.4f);
+                SceneTransit.Instance.LoadScene(SceneName.Title, 0.4f);
             }
         }
 
@@ -95,7 +96,7 @@ namespace NotTetrin.Ingame.Single.Marethon
 
         private void saveRanking()
         {
-            var name = PlayerPrefs.GetString(@"name");
+            var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
             var score = highScore.Value;
             var ranker = new Ranker(name, score);
             ranking.Save(ranker);
