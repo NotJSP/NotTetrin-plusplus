@@ -16,9 +16,6 @@ namespace NotTetrin.Ingame.Multi {
         [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoManager minoManager;
 
-        public UnityEvent OnRoundStart;
-        public UnityEvent OnRoundEnd;
-
         private PhotonView photonView;
 
         public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
@@ -56,8 +53,7 @@ namespace NotTetrin.Ingame.Multi {
 
         private void gamestart() {
             reset();
-            OnRoundStart.Invoke();
-
+            director.Floor.SetActive(true);
             bgmManager.RandomPlay();
             sfxManager.Play(IngameSfxType.GameStart);
             minoManager.Next();
@@ -142,7 +138,7 @@ namespace NotTetrin.Ingame.Multi {
             Debug.Log($"you lose.");
 
             bgmManager.Stop();
-            OnRoundEnd.Invoke();
+            director.Floor.SetActive(false);
             sfxManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 

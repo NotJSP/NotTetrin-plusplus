@@ -18,10 +18,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
         [SerializeField] private HighScore highScore;
         [SerializeField] private Ranking ranking;
         [SerializeField] private GroupManager groupManager;
-
-        public UnityEvent OnRoundStart;
-        public UnityEvent OnRoundEnd;
-
+        
         private void Start() {
             minoManager.HitMino += onHitMino;
 
@@ -45,15 +42,14 @@ namespace NotTetrin.Ingame.Single.Marathon {
 
         private void gamestart() {
             reset();
-            OnRoundStart.Invoke();
-
+            director.Floor.SetActive(true);
             bgmManager.RandomPlay();
             sfxManager.Play(IngameSfxType.GameStart);
             minoManager.Next();
         }
 
         private void gameover() {
-            OnRoundEnd.Invoke();
+            director.Floor.SetActive(false);
             bgmManager.Stop();
             sfxManager.Play(IngameSfxType.GameOver);
 

@@ -1088,6 +1088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7286323559830884b8749ff2e0ffca6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  floor: {fileID: 1252370684}
   ceiling: {fileID: 994670300}
   holdMino: {fileID: 282731024}
   nextMino: {fileID: 1555931825}
@@ -1629,38 +1630,6 @@ MonoBehaviour:
   score: {fileID: 958155921}
   highScore: {fileID: 759410317}
   ranking: {fileID: 2121170700}
-  OnRoundStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1252370686}
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnRoundEnd:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1252370686}
-        m_MethodName: set_enabled
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!4 &1547014892
 Transform:
   m_ObjectHideFlags: 0
