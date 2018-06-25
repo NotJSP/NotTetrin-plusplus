@@ -8,21 +8,18 @@ using UnityEngine.Events;
 using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
-using Random = UnityEngine.Random;
-
 namespace NotTetrin.Ingame.Multi {
-    [RequireComponent(typeof(AudioSource), typeof(PhotonView))]
+    [RequireComponent(typeof(PhotonView))]
     public class GameManager : MonoBehaviour {
         [SerializeField] private Director director;
+        [SerializeField] private BGMManager bgmManager;
         [SerializeField] private IngameAudioManager audioManager;
         [SerializeField] private MinoManager minoManager;
-        [SerializeField] private AudioClip[] bgmClips;
 
         public UnityEvent OnRoundStart;
         public UnityEvent OnRoundEnd;
 
         private PhotonView photonView;
-        private AudioSource bgmAudioSource;
 
         public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
 
@@ -33,7 +30,6 @@ namespace NotTetrin.Ingame.Multi {
 
         private void Awake() {
             photonView = GetComponent<PhotonView>();
-            bgmAudioSource = GetComponent<AudioSource>();
         }
 
         private void Start() {
@@ -62,10 +58,7 @@ namespace NotTetrin.Ingame.Multi {
             reset();
             OnRoundStart.Invoke();
 
-            var clipIndex = Random.Range(0, bgmClips.Length - 1);
-            bgmAudioSource.clip = bgmClips[clipIndex];
-            bgmAudioSource.Play();
-
+            bgmManager.RandomPlay();
             audioManager.Play(IngameSfxType.GameStart);
             minoManager.Next();
         }
@@ -136,7 +129,7 @@ namespace NotTetrin.Ingame.Multi {
             if (accepted) { return; }
             Debug.Log($"you win.");
 
-            bgmAudioSource.Stop();
+            bgmManager.Stop();
             audioManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 
@@ -148,7 +141,7 @@ namespace NotTetrin.Ingame.Multi {
             if (accepted) { return; }
             Debug.Log($"you lose.");
 
-            bgmAudioSource.Stop();
+            bgmManager.Stop();
             OnRoundEnd.Invoke();
             audioManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);

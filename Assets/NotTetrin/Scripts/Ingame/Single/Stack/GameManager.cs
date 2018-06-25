@@ -8,27 +8,18 @@ using UnityEngine.Events;
 using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
-using Random = UnityEngine.Random;
-
 namespace NotTetrin.Ingame.Single.Stack {
     public class GameManager : MonoBehaviour {
         [SerializeField] private Director director;
+        [SerializeField] private BGMManager bgmManager;
         [SerializeField] private IngameAudioManager audioManager;
         [SerializeField] private MinoManager minoManager;
         [SerializeField] private Score score;
         [SerializeField] private HighScore highScore;
         [SerializeField] private Ranking ranking;
 
-        [SerializeField] private AudioClip[] bgmClips;
-
         public UnityEvent OnRoundStart;
         public UnityEvent OnRoundEnd;
-
-        private AudioSource bgmAudioSource;
-
-        private void Awake() {
-            bgmAudioSource = GetComponent<AudioSource>();
-        }
 
         private void Start() {
             minoManager.HitMino += onHitMino;
@@ -55,17 +46,14 @@ namespace NotTetrin.Ingame.Single.Stack {
             reset();
             OnRoundStart.Invoke();
 
-            var clipIndex = Random.Range(0, bgmClips.Length - 1);
-            bgmAudioSource.clip = bgmClips[clipIndex];
-            bgmAudioSource.Play();
-
+            bgmManager.RandomPlay();
             audioManager.Play(IngameSfxType.GameStart);
             minoManager.Next();
         }
 
         private void gameover() {
             OnRoundEnd.Invoke();
-            bgmAudioSource.Stop();
+            bgmManager.Stop();
             audioManager.Play(IngameSfxType.GameOver);
 
             var updated = highScore.UpdateValue();
