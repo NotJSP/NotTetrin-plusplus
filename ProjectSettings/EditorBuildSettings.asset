@@ -7,7 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/NotTetrin/Scenes/Title.unity
-    guid: b2e98d1cab5527a49b342db4645c5d0c
+    guid: 1a3cc9f20d82e8047a721a4ca1f00205
   - enabled: 1
     path: Assets/NotTetrin/Scenes/StackMode.unity
     guid: 45664208ade2ec84bbb2b26024a9bdbf
