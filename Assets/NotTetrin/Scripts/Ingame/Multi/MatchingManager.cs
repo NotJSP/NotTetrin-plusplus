@@ -47,9 +47,7 @@ namespace NotTetrin.Game.Multi {
         }
 
         private IEnumerator requestJoinRandomRoom() {
-            while (!PhotonNetwork.connectedAndReady) {
-                yield return new WaitForEndOfFrame();
-            };
+            yield return new WaitUntil(() => PhotonNetwork.connectedAndReady);
             PhotonNetwork.JoinRandomRoom();
         }
 
