@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-namespace NotTetrin.Marathon.Extensions {
-    static class GameObjectExtension {
+namespace NotTetrin {
+    public static class GameObjectExtension {
         public static Vector3 size(this GameObject obj) {
             var renderer = obj.GetComponent<Renderer>();
             if (renderer) {

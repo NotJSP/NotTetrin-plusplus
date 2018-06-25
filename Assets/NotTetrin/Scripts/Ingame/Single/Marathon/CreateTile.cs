@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NotTetrin.Marathon.Extensions;
 
 namespace NotTetrin.Ingame.Single.Marathon {
     public class CreateTile : MonoBehaviour {
