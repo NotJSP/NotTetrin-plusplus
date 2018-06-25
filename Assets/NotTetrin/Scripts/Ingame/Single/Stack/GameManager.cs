@@ -52,6 +52,7 @@ namespace NotTetrin.Ingame.Single.Stack {
             bgmManager.Stop();
             sfxManager.Play(IngameSfxType.GameOver);
 
+            // TODO: 本番は常にセーブ
             var updated = highScore.UpdateValue();
             if (updated) {
                 saveRanking();
@@ -61,14 +62,14 @@ namespace NotTetrin.Ingame.Single.Stack {
         }
 
         private void loadRanking() {
-            ranking.Fetch();
+            ranking.Fetch(RankingType.StackMode);
         }
 
         private void saveRanking() {
             var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
             var score = highScore.Value;
             var ranker = new Ranker(name, score);
-            ranking.Save(ranker);
+            ranking.Save(RankingType.StackMode, ranker);
         }
 
         private void onHitMino(object sender, EventArgs args) {

@@ -16,30 +16,50 @@ namespace NotTetrin.Ingame {
         [SerializeField]
         private HighScore highScore;
 
-        private int currentRank = 0;
+        private int? currentRank;
         private List<Ranker> rankers = new List<Ranker>();
 
         private StringBuilder builder;
 
-        public void Fetch() {
+        private string getClassName(RankingType type) {
+            switch (type) {
+                case RankingType.StackMode:
+                    return @"StackRanking";
+                case RankingType.MarathonMode:
+                    // TODO: 本来「MarathonRanking」を使用する予定だが、現在のランキングの都合上そのまま使用している（NCMB側でクラス名が変更できない、コピーもできない)
+                    return @"Ranking";
+                    // return @"MarathonRanking";
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        public void Fetch(RankingType type) {
+            textField.text = @"ランキング取得中...";
             try {
-                builder = new StringBuilder();
-                fetchRank(highScore.Value);
-                fetchRankers();
+                StartCoroutine(fetchAll(type));
             } catch (Exception e) {
                 Debug.LogError(e.Message);
                 textField.text = @"ランキングの取得に失敗";
             }
         }
 
-        private void fetchRank(int score) {
-            var query = new NCMBQuery<NCMBObject>(@"Ranking");
+        private IEnumerator fetchAll(RankingType type) {
+            builder = new StringBuilder();
+            fetchRank(type, highScore.Value);
+            yield return new WaitUntil(() => currentRank.HasValue);
+            fetchRankers(type);
+        }
+
+        private void fetchRank(RankingType type, int score) {
+            var className = getClassName(type);
+            var query = new NCMBQuery<NCMBObject>(className);
             query.WhereGreaterThan(@"score", score);
             query.CountAsync((count, e) => {
                 if (e != null) {
                     Debug.LogError(e.Message);
                 } else {
-                    this.currentRank = count + 1;
+                    currentRank = count + 1;
                 }
                 builder.AppendLine($"あなたの順位: { currentRank } 位");
                 builder.AppendLine(@"========================");
@@ -47,8 +67,9 @@ namespace NotTetrin.Ingame {
             });
         }
 
-        private void fetchRankers() {
-            var query = new NCMBQuery<NCMBObject>(@"Ranking");
+        private void fetchRankers(RankingType type) {
+            var className = getClassName(type);
+            var query = new NCMBQuery<NCMBObject>(className);
             query.OrderByDescending(@"score");
             query.Limit = FetchCount;
             query.FindAsync((objList, e) => {
@@ -61,7 +82,7 @@ namespace NotTetrin.Ingame {
                         var score = Convert.ToInt32(obj["score"]);
                         list.Add(new Ranker(name, score));
                     }
-                    this.rankers = list;
+                    rankers = list;
                 }
 
                 for (int i = 0; i < rankers.Count; i++) {
@@ -78,9 +99,10 @@ namespace NotTetrin.Ingame {
             });
         }
 
-        public bool Save(Ranker ranker) {
+        public bool Save(RankingType type, Ranker ranker) {
             try {
-                var ncmbObj = new NCMBObject(@"Ranking");
+                var className = getClassName(type);
+                var ncmbObj = new NCMBObject(className);
                 ncmbObj[@"name"] = ranker.Name;
                 ncmbObj[@"score"] = ranker.Score;
 

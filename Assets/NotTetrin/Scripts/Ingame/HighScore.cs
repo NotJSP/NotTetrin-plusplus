@@ -3,12 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using NotTetrin.Constants;
 
 using Stopwatch = System.Diagnostics.Stopwatch;
 
 namespace NotTetrin.Ingame {
-    public class HighScore : MonoBehaviour {
+    public abstract class HighScore : MonoBehaviour {
         [SerializeField]
         private Text text;
         [SerializeField]
@@ -27,18 +26,17 @@ namespace NotTetrin.Ingame {
         private Stopwatch animationStopwatch = new Stopwatch();
         private bool IsAnimating => animationStopwatch.IsRunning;
 
-        public event EventHandler ValueChanged;
+        protected abstract string playerPrefsKey { get; }
         public int Value {
             get {
-                if (PlayerPrefs.HasKey(PlayerPrefsKey.HighScore)) {
-                    return PlayerPrefs.GetInt(PlayerPrefsKey.HighScore);
+                if (PlayerPrefs.HasKey(playerPrefsKey)) {
+                    return PlayerPrefs.GetInt(playerPrefsKey);
                 }
                 return 0;
             }
-            private set {
-                PlayerPrefs.SetInt(PlayerPrefsKey.HighScore, value);
+            protected set {
+                PlayerPrefs.SetInt(playerPrefsKey, value);
                 updateText();
-                ValueChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -71,7 +69,7 @@ namespace NotTetrin.Ingame {
             return false;
         }
 
-        private void updateText() {
+        protected void updateText() {
             text.text = string.Format("{0:0000000}", Value);
         }
     }
