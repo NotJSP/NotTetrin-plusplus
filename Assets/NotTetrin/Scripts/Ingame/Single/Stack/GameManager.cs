@@ -12,7 +12,7 @@ namespace NotTetrin.Ingame.Single.Stack {
     public class GameManager : MonoBehaviour {
         [SerializeField] private Director director;
         [SerializeField] private BGMManager bgmManager;
-        [SerializeField] private IngameAudioManager audioManager;
+        [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoManager minoManager;
         [SerializeField] private Score score;
         [SerializeField] private HighScore highScore;
@@ -37,7 +37,7 @@ namespace NotTetrin.Ingame.Single.Stack {
 
         private void reset() {
             CancelInvoke("gamestart");
-            audioManager.Stop(IngameSfxType.GameOver);
+            sfxManager.Stop(IngameSfxType.GameOver);
             score.Reset();
             minoManager.Reset();
         }
@@ -47,14 +47,14 @@ namespace NotTetrin.Ingame.Single.Stack {
             OnRoundStart.Invoke();
 
             bgmManager.RandomPlay();
-            audioManager.Play(IngameSfxType.GameStart);
+            sfxManager.Play(IngameSfxType.GameStart);
             minoManager.Next();
         }
 
         private void gameover() {
             OnRoundEnd.Invoke();
             bgmManager.Stop();
-            audioManager.Play(IngameSfxType.GameOver);
+            sfxManager.Play(IngameSfxType.GameOver);
 
             var updated = highScore.UpdateValue();
             if (updated) {

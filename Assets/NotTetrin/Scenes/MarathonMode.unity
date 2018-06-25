@@ -429,7 +429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   instantiator: {fileID: 360989858}
-  audioManager: {fileID: 319021930}
+  sfxManager: {fileID: 319021930}
   resolver: {fileID: 941073983}
   frame: {fileID: 874861485}
 --- !u!95 &282731026
@@ -1275,10 +1275,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 1871769974436170, guid: db9246d85ee1a7e44a88689f9dcd5044, type: 2}
-      propertyPath: m_Name
-      value: MinoResolver
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db9246d85ee1a7e44a88689f9dcd5044, type: 2}
   m_IsPrefabParent: 0
@@ -1461,6 +1457,10 @@ Prefab:
     - target: {fileID: 4922986864753134, guid: 7bd3ccf1d73f0c543aaea825854c0e2c, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1057073292302634, guid: 7bd3ccf1d73f0c543aaea825854c0e2c, type: 2}
+      propertyPath: m_Name
+      value: BgmManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7bd3ccf1d73f0c543aaea825854c0e2c, type: 2}
@@ -1769,7 +1769,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   director: {fileID: 927754451}
   bgmManager: {fileID: 1514759362}
-  audioManager: {fileID: 319021930}
+  sfxManager: {fileID: 319021930}
   minoManager: {fileID: 1777563732}
   score: {fileID: 958155921}
   highScore: {fileID: 759410317}
@@ -2309,7 +2309,7 @@ MonoBehaviour:
   instantiator: {fileID: 360989858}
   director: {fileID: 927754451}
   spawner: {fileID: 1563286283}
-  audioManager: {fileID: 319021930}
+  sfxManager: {fileID: 319021930}
   minoRigidbody: {fileID: 50390762355908870, guid: 8931317d26297a845868b4e4e2928b09,
     type: 2}
 --- !u!4 &1777563733
@@ -2363,6 +2363,10 @@ Prefab:
     - target: {fileID: 4273419470849014, guid: b8e2d8226d987784abe1fdeb276e0dc2, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1973401351927238, guid: b8e2d8226d987784abe1fdeb276e0dc2, type: 2}
+      propertyPath: m_Name
+      value: SfxManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8e2d8226d987784abe1fdeb276e0dc2, type: 2}

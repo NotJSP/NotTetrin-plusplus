@@ -7,7 +7,7 @@ namespace NotTetrin.Ingame {
         [SerializeField] private Instantiator instantiator;
         [SerializeField] private Director director;
         [SerializeField] private MinoSpawner spawner;
-        [SerializeField] private IngameAudioManager audioManager;
+        [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private Rigidbody2D minoRigidbody;
 
         private int currentIndex;
@@ -70,7 +70,7 @@ namespace NotTetrin.Ingame {
 
         private void change(GameObject mino) {
             mino.AddComponent<Rigidbody2D>().Copy(minoRigidbody);
-            var controller = mino.AddComponent<MinoController>().Initialize(audioManager);
+            var controller = mino.AddComponent<MinoController>().Initialize(sfxManager);
             controller.Hit += onHitMino;
 
             minos.Add(mino);

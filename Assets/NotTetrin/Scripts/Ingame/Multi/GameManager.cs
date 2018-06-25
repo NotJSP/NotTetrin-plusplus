@@ -13,7 +13,7 @@ namespace NotTetrin.Ingame.Multi {
     public class GameManager : MonoBehaviour {
         [SerializeField] private Director director;
         [SerializeField] private BGMManager bgmManager;
-        [SerializeField] private IngameAudioManager audioManager;
+        [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoManager minoManager;
 
         public UnityEvent OnRoundStart;
@@ -46,7 +46,7 @@ namespace NotTetrin.Ingame.Multi {
 
         private void reset() {
             accepted = false;
-            audioManager.Stop(IngameSfxType.GameOver);
+            sfxManager.Stop(IngameSfxType.GameOver);
             minoManager.Reset();
         }
 
@@ -59,7 +59,7 @@ namespace NotTetrin.Ingame.Multi {
             OnRoundStart.Invoke();
 
             bgmManager.RandomPlay();
-            audioManager.Play(IngameSfxType.GameStart);
+            sfxManager.Play(IngameSfxType.GameStart);
             minoManager.Next();
         }
 
@@ -130,7 +130,7 @@ namespace NotTetrin.Ingame.Multi {
             Debug.Log($"you win.");
 
             bgmManager.Stop();
-            audioManager.Play(IngameSfxType.GameOver);
+            sfxManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 
             accepted = true;
@@ -143,7 +143,7 @@ namespace NotTetrin.Ingame.Multi {
 
             bgmManager.Stop();
             OnRoundEnd.Invoke();
-            audioManager.Play(IngameSfxType.GameOver);
+            sfxManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 
             accepted = true;

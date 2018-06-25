@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4273419470849014}
   - component: {fileID: 114790870592153036}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: SfxManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
