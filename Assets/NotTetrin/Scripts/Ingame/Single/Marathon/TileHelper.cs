@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace NotTetrin.Ingame.Single.Marethon
-{
+namespace NotTetrin.Ingame.Single.Marathon {
     public class TileHelper {
         public Rect Rect { get; private set; }
         public int DivNumX { get; private set; }

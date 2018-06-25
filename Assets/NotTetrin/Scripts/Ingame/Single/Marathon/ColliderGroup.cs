@@ -1,14 +1,10 @@
 ﻿using System.Linq;
 
-
-namespace NotTetrin.Ingame.Single.Marethon
-{
-    public class ColliderGroup
-    {
+namespace NotTetrin.Ingame.Single.Marathon {
+    public class ColliderGroup {
         public ColliderHelper[] Children { get; private set; }
 
-        public ColliderGroup(ColliderHelper[] colliders)
-        {
+        public ColliderGroup(ColliderHelper[] colliders) {
             this.Children = colliders;
         }
 

@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using NotTetrin.Marathon.Extensions;
 
-namespace NotTetrin.Ingame.Single.Marethon
-{
+namespace NotTetrin.Ingame.Single.Marathon {
     public class CreateTile : MonoBehaviour {
         [Header(@"Objects")]
         public GameObject Prefab;

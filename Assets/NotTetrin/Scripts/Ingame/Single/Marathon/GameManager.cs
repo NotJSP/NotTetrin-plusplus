@@ -10,10 +10,8 @@ using NotTetrin.SceneManagement;
 
 using Random = UnityEngine.Random;
 
-namespace NotTetrin.Ingame.Single.Marethon
-{
-    public class GameManager : MonoBehaviour
-    {
+namespace NotTetrin.Ingame.Single.Marathon {
+    public class GameManager : MonoBehaviour {
         [SerializeField] private Director director;
         [SerializeField] private IngameAudioManager audioManager;
         [SerializeField] private MinoManager minoManager;
@@ -23,46 +21,38 @@ namespace NotTetrin.Ingame.Single.Marethon
         [SerializeField] private GroupManager groupManager;
 
         [SerializeField] private AudioClip[] bgmClips;
-        
 
         public UnityEvent OnRoundStart;
         public UnityEvent OnRoundEnd;
 
         private AudioSource bgmAudioSource;
 
-        private void Awake()
-        {
+        private void Awake() {
             bgmAudioSource = GetComponent<AudioSource>();
-            
         }
 
-        private void Start()
-        {
+        private void Start() {
             minoManager.HitMino += onHitMino;
 
             ranking.gameObject.SetActive(true);
             loadRanking();
             gamestart();
-         }
+        }
 
-        private void Update()
-        {
-            if (Input.GetButtonDown(@"Escape"))
-            {
+        private void Update() {
+            if (Input.GetButtonDown(@"Escape")) {
                 SceneTransit.Instance.LoadScene(SceneName.Title, 0.4f);
             }
         }
 
-        private void reset()
-        {
+        private void reset() {
             CancelInvoke("gamestart");
             audioManager.Stop(IngameSfxType.GameOver);
             score.Reset();
             minoManager.Reset();
         }
 
-        private void gamestart()
-        {
+        private void gamestart() {
             reset();
             OnRoundStart.Invoke();
 
@@ -74,44 +64,36 @@ namespace NotTetrin.Ingame.Single.Marethon
             minoManager.Next();
         }
 
-        private void gameover()
-        {
+        private void gameover() {
             OnRoundEnd.Invoke();
             bgmAudioSource.Stop();
             audioManager.Play(IngameSfxType.GameOver);
 
             var updated = highScore.UpdateValue();
-            if (updated)
-            {
+            if (updated) {
                 saveRanking();
             }
             Invoke("loadRanking", 3.0f);
             Invoke("gamestart", 9.0f);
         }
 
-        private void loadRanking()
-        {
+        private void loadRanking() {
             ranking.Fetch();
         }
 
-        private void saveRanking()
-        {
+        private void saveRanking() {
             var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
             var score = highScore.Value;
             var ranker = new Ranker(name, score);
             ranking.Save(ranker);
         }
 
-        private void onHitMino(object sender, EventArgs args)
-        {
+        private void onHitMino(object sender, EventArgs args) {
             // 天井に当たったらゲームオーバー
-            if (director.Ceiling.IsHit)
-            {
+            if (director.Ceiling.IsHit) {
                 minoManager.Release();
                 gameover();
-            }
-            else
-            {
+            } else {
                 score.Increase(200);
                 groupManager.DeleteMino();
                 minoManager.Next();
