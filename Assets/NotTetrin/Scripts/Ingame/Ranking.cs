@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using NCMB;
+using NotTetrin.Constants;
 
 namespace NotTetrin.Ingame {
     public class Ranking : MonoBehaviour {
@@ -106,11 +107,12 @@ namespace NotTetrin.Ingame {
                 ncmbObj[@"name"] = ranker.Name;
                 ncmbObj[@"score"] = ranker.Score;
 
-                if (PlayerPrefs.HasKey(@"object_id")) {
-                    ncmbObj.ObjectId = PlayerPrefs.GetString(@"object_id");
+                var key = PlayerPrefsKey.ObjectId[type];
+                if (PlayerPrefs.HasKey(key)) {
+                    ncmbObj.ObjectId = PlayerPrefs.GetString(key);
                     ncmbObj.SaveAsync();
                 } else {
-                    ncmbObj.SaveAsync(e => PlayerPrefs.SetString(@"object_id", ncmbObj.ObjectId));
+                    ncmbObj.SaveAsync(e => PlayerPrefs.SetString(key, ncmbObj.ObjectId));
                 }
             } catch (Exception e) {
                 Debug.LogError(e.Message);

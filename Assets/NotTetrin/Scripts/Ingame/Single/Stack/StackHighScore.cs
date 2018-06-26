@@ -2,6 +2,6 @@
 
 namespace NotTetrin.Ingame.Single.Stack {
     public class StackHighScore : HighScore {
-        protected override string playerPrefsKey => PlayerPrefsKey.StackHighScore;
+        protected override string playerPrefsKey => PlayerPrefsKey.HighScore[RankingType.StackMode];
     }
 }
