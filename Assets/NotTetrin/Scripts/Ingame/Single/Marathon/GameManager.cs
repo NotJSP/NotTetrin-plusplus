@@ -8,110 +8,77 @@ using UnityEngine.Events;
 using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
-using Random = UnityEngine.Random;
-
-namespace NotTetrin.Ingame.Single.Marethon
-{
-    public class GameManager : MonoBehaviour
-    {
+namespace NotTetrin.Ingame.Single.Marathon {
+    public class GameManager : MonoBehaviour {
         [SerializeField] private Director director;
-        [SerializeField] private IngameAudioManager audioManager;
+        [SerializeField] private BGMManager bgmManager;
+        [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoManager minoManager;
         [SerializeField] private Score score;
         [SerializeField] private HighScore highScore;
         [SerializeField] private Ranking ranking;
         [SerializeField] private GroupManager groupManager;
-
-        [SerializeField] private AudioClip[] bgmClips;
         
-
-        public UnityEvent OnRoundStart;
-        public UnityEvent OnRoundEnd;
-
-        private AudioSource bgmAudioSource;
-
-        private void Awake()
-        {
-            bgmAudioSource = GetComponent<AudioSource>();
-            
-        }
-
-        private void Start()
-        {
+        private void Start() {
             minoManager.HitMino += onHitMino;
 
             ranking.gameObject.SetActive(true);
             loadRanking();
             gamestart();
-         }
+        }
 
-        private void Update()
-        {
-            if (Input.GetButtonDown(@"Escape"))
-            {
+        private void Update() {
+            if (Input.GetButtonDown(@"Escape")) {
                 SceneTransit.Instance.LoadScene(SceneName.Title, 0.4f);
             }
         }
 
-        private void reset()
-        {
+        private void reset() {
             CancelInvoke("gamestart");
-            audioManager.Stop(IngameSfxType.GameOver);
+            sfxManager.Stop(IngameSfxType.GameOver);
             score.Reset();
             minoManager.Reset();
         }
 
-        private void gamestart()
-        {
+        private void gamestart() {
             reset();
-            OnRoundStart.Invoke();
-
-            var clipIndex = Random.Range(0, bgmClips.Length - 1);
-            bgmAudioSource.clip = bgmClips[clipIndex];
-            bgmAudioSource.Play();
-
-            audioManager.Play(IngameSfxType.GameStart);
+            director.Floor.SetActive(true);
+            bgmManager.RandomPlay();
+            sfxManager.Play(IngameSfxType.GameStart);
             minoManager.Next();
         }
 
-        private void gameover()
-        {
-            OnRoundEnd.Invoke();
-            bgmAudioSource.Stop();
-            audioManager.Play(IngameSfxType.GameOver);
+        private void gameover() {
+            director.Floor.SetActive(false);
+            bgmManager.Stop();
+            sfxManager.Play(IngameSfxType.GameOver);
 
+            // TODO: 本番は常にセーブ
             var updated = highScore.UpdateValue();
-            if (updated)
-            {
+            if (updated) {
                 saveRanking();
             }
             Invoke("loadRanking", 3.0f);
             Invoke("gamestart", 9.0f);
         }
 
-        private void loadRanking()
-        {
-            ranking.Fetch();
+        private void loadRanking() {
+            ranking.Fetch(RankingType.MarathonMode);
         }
 
-        private void saveRanking()
-        {
+        private void saveRanking() {
             var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
             var score = highScore.Value;
             var ranker = new Ranker(name, score);
-            ranking.Save(ranker);
+            ranking.Save(RankingType.MarathonMode, ranker);
         }
 
-        private void onHitMino(object sender, EventArgs args)
-        {
+        private void onHitMino(object sender, EventArgs args) {
             // 天井に当たったらゲームオーバー
-            if (director.Ceiling.IsHit)
-            {
+            if (director.Ceiling.IsHit) {
                 minoManager.Release();
                 gameover();
-            }
-            else
-            {
+            } else {
                 score.Increase(200);
                 groupManager.DeleteMino();
                 minoManager.Next();

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace NotTetrin.Ingame {
     public class HoldMino : MonoBehaviour {
         [SerializeField] private Instantiator instantiator;
-        [SerializeField] private IngameAudioManager audioManager;
+        [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoResolver resolver;
         [SerializeField] private Transform frame;
 
@@ -36,7 +36,7 @@ namespace NotTetrin.Ingame {
             Value = index;
 
             animator.Play(@"HoldAnimation", 0, 0.0f);
-            audioManager.Play(IngameSfxType.MinoHold);
+            sfxManager.Play(IngameSfxType.MinoHold);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace NotTetrin.Ingame {
-    public class IngameAudioManager : AudioManager<IngameSfxType> {
+    public class IngameSfxManager : AudioManager<IngameSfxType> {
         [Header(@"Game")]
         [SerializeField] private AudioClip gameStartClip;
         [SerializeField] private AudioClip gameOverClip;

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace NotTetrin.Ingame {
     [RequireComponent(typeof(Rigidbody2D))]
     public class MinoController : MonoBehaviour {
-        private IngameAudioManager audioManager;
+        private IngameSfxManager sfxManager;
         private ParticleSystem dropEffect;
         private new Rigidbody2D rigidbody;
 
@@ -33,8 +33,8 @@ namespace NotTetrin.Ingame {
             rigidbody = GetComponent<Rigidbody2D>();
         }
 
-        public MinoController Initialize(IngameAudioManager audioManager) {
-            this.audioManager = audioManager;
+        public MinoController Initialize(IngameSfxManager audioManager) {
+            this.sfxManager = audioManager;
             return this;
         }
 
@@ -49,7 +49,7 @@ namespace NotTetrin.Ingame {
 
             var horizontal = Input.GetAxis(@"Horizontal");
             if (prevHorizontal <= 0 && horizontal > 0 || prevHorizontal >= 0 && horizontal < 0) {
-                audioManager.Play(IngameSfxType.MinoMove);
+                sfxManager.Play(IngameSfxType.MinoMove);
             }
             if (horizontal < 0) {
                 velocity.x -= 0.1f;
@@ -70,7 +70,7 @@ namespace NotTetrin.Ingame {
             }
 
             if (Input.GetButtonDown(@"Rotate Left") || Input.GetButtonDown(@"Rotate Right")) {
-                audioManager.Play(IngameSfxType.MinoTurn);
+                sfxManager.Play(IngameSfxType.MinoTurn);
             }
             if (Input.GetButton(@"Rotate Left")) {
                 torque += 2.0f;
@@ -93,7 +93,7 @@ namespace NotTetrin.Ingame {
             if (other.collider.CompareTag(@"Wall")) { return; }
 
             hit = true;
-            audioManager.Play(IngameSfxType.MinoHit);
+            sfxManager.Play(IngameSfxType.MinoHit);
 
             dropEffect.Stop();
             Destroy(dropEffect.gameObject, 1.0f);

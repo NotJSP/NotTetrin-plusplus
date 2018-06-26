@@ -8,28 +8,16 @@ using UnityEngine.Events;
 using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
-using Random = UnityEngine.Random;
-
 namespace NotTetrin.Ingame.Single.Stack {
     public class GameManager : MonoBehaviour {
         [SerializeField] private Director director;
-        [SerializeField] private IngameAudioManager audioManager;
+        [SerializeField] private BGMManager bgmManager;
+        [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoManager minoManager;
         [SerializeField] private Score score;
         [SerializeField] private HighScore highScore;
         [SerializeField] private Ranking ranking;
-
-        [SerializeField] private AudioClip[] bgmClips;
-
-        public UnityEvent OnRoundStart;
-        public UnityEvent OnRoundEnd;
-
-        private AudioSource bgmAudioSource;
-
-        private void Awake() {
-            bgmAudioSource = GetComponent<AudioSource>();
-        }
-
+        
         private void Start() {
             minoManager.HitMino += onHitMino;
 
@@ -46,28 +34,25 @@ namespace NotTetrin.Ingame.Single.Stack {
 
         private void reset() {
             CancelInvoke("gamestart");
-            audioManager.Stop(IngameSfxType.GameOver);
+            sfxManager.Stop(IngameSfxType.GameOver);
             score.Reset();
             minoManager.Reset();
         }
 
         private void gamestart() {
             reset();
-            OnRoundStart.Invoke();
-
-            var clipIndex = Random.Range(0, bgmClips.Length - 1);
-            bgmAudioSource.clip = bgmClips[clipIndex];
-            bgmAudioSource.Play();
-
-            audioManager.Play(IngameSfxType.GameStart);
+            director.Floor.SetActive(true);
+            bgmManager.RandomPlay();
+            sfxManager.Play(IngameSfxType.GameStart);
             minoManager.Next();
         }
 
         private void gameover() {
-            OnRoundEnd.Invoke();
-            bgmAudioSource.Stop();
-            audioManager.Play(IngameSfxType.GameOver);
+            director.Floor.SetActive(false);
+            bgmManager.Stop();
+            sfxManager.Play(IngameSfxType.GameOver);
 
+            // TODO: 本番は常にセーブ
             var updated = highScore.UpdateValue();
             if (updated) {
                 saveRanking();
@@ -77,14 +62,14 @@ namespace NotTetrin.Ingame.Single.Stack {
         }
 
         private void loadRanking() {
-            ranking.Fetch();
+            ranking.Fetch(RankingType.StackMode);
         }
 
         private void saveRanking() {
             var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
             var score = highScore.Value;
             var ranker = new Ranker(name, score);
-            ranking.Save(ranker);
+            ranking.Save(RankingType.StackMode, ranker);
         }
 
         private void onHitMino(object sender, EventArgs args) {

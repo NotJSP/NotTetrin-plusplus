@@ -8,32 +8,22 @@ using UnityEngine.Events;
 using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
-using Random = UnityEngine.Random;
-
 namespace NotTetrin.Ingame.Multi {
-    [RequireComponent(typeof(AudioSource), typeof(PhotonView))]
+    [RequireComponent(typeof(PhotonView))]
     public class GameManager : MonoBehaviour {
         [SerializeField] private Director director;
-        [SerializeField] private IngameAudioManager audioManager;
+        [SerializeField] private BGMManager bgmManager;
+        [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoManager minoManager;
-        [SerializeField] private AudioClip[] bgmClips;
-
-        public UnityEvent OnRoundStart;
-        public UnityEvent OnRoundEnd;
 
         private PhotonView photonView;
-        private AudioSource bgmAudioSource;
+        private double gameOverTime = 0.0;
+        private bool accepted = false;
 
         public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
 
-        private double gameOverTime = 0.0;
-        private bool accepted = false;
-        private bool hitMino = false;
-        private bool hitOpponent = false;
-
         private void Awake() {
             photonView = GetComponent<PhotonView>();
-            bgmAudioSource = GetComponent<AudioSource>();
         }
 
         private void Start() {
@@ -50,7 +40,7 @@ namespace NotTetrin.Ingame.Multi {
 
         private void reset() {
             accepted = false;
-            audioManager.Stop(IngameSfxType.GameOver);
+            sfxManager.Stop(IngameSfxType.GameOver);
             minoManager.Reset();
         }
 
@@ -60,13 +50,9 @@ namespace NotTetrin.Ingame.Multi {
 
         private void gamestart() {
             reset();
-            OnRoundStart.Invoke();
-
-            var clipIndex = Random.Range(0, bgmClips.Length - 1);
-            bgmAudioSource.clip = bgmClips[clipIndex];
-            bgmAudioSource.Play();
-
-            audioManager.Play(IngameSfxType.GameStart);
+            director.Floor.SetActive(true);
+            bgmManager.RandomPlay();
+            sfxManager.Play(IngameSfxType.GameStart);
             minoManager.Next();
         }
 
@@ -81,36 +67,13 @@ namespace NotTetrin.Ingame.Multi {
                 minoManager.Release();
                 gameover();
             } else {
-                /* ターン制 /
-                photonView.RPC(@"OnOpponentHit", PhotonTargets.Others);
-                if (hitOpponent) {
-                    minoManager.Next();
-                    hitOpponent = false;
-                } else {
-                    minoManager.Release();
-                    hitMino = true;
-                }
-                /*/
                 minoManager.Next();
-                //*/
             }
         }
 
         public void OnPhotonPlayerDisconnected(PhotonPlayer player) {
             Debug.Log($"disconnected opponent.");
         }
-
-        /* ターン制 /
-        [PunRPC]
-        private void OnOpponentHit() {
-            if (hitMino) {
-                minoManager.Next();
-                hitMino = false;
-            } else {
-                hitOpponent = true;
-            }
-        }
-        //*/
 
         [PunRPC]
         private void OnReadyOpponent() {
@@ -136,8 +99,8 @@ namespace NotTetrin.Ingame.Multi {
             if (accepted) { return; }
             Debug.Log($"you win.");
 
-            bgmAudioSource.Stop();
-            audioManager.Play(IngameSfxType.GameOver);
+            bgmManager.Stop();
+            sfxManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 
             accepted = true;
@@ -148,9 +111,9 @@ namespace NotTetrin.Ingame.Multi {
             if (accepted) { return; }
             Debug.Log($"you lose.");
 
-            bgmAudioSource.Stop();
-            OnRoundEnd.Invoke();
-            audioManager.Play(IngameSfxType.GameOver);
+            bgmManager.Stop();
+            director.Floor.SetActive(false);
+            sfxManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 
             accepted = true;
