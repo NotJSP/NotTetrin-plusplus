@@ -10,21 +10,25 @@ namespace NotTetrin.Ingame {
         [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private Rigidbody2D minoRigidbody;
 
-        private int currentIndex;
-        private bool useHold = false;
-
         public event EventHandler HitMino;
 
         private List<GameObject> minos = new List<GameObject>();
+        private int currentIndex;
+        private bool useHold = false;
+        private bool controlable = true;
+
         public GameObject CurrentMino => minos.Count != 0 ? minos[minos.Count - 1] : null;
 
         private void Update() {
+            if (!controlable) { return; }
+
             if (!useHold && Input.GetButtonDown(@"Hold")) {
                 hold();
             }
         }
 
         public void Reset() {
+            controlable = true;
             spawner.Clear();
 
             director.HoldMino.Clear();
@@ -59,16 +63,20 @@ namespace NotTetrin.Ingame {
         }
 
         public void Release() {
+            controlable = false;
             var controller = CurrentMino.GetComponent<MinoController>();
             Destroy(controller);
         }
 
         public void Destroy() {
+            controlable = false;
             instantiator.Destroy(CurrentMino);
             minos.RemoveAt(minos.Count - 1);
         }
 
         private void change(GameObject mino) {
+            controlable = true;
+
             mino.AddComponent<Rigidbody2D>().Copy(minoRigidbody);
             var controller = mino.AddComponent<MinoController>().Initialize(sfxManager);
             controller.Hit += onHitMino;
