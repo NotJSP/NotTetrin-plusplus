@@ -17,13 +17,10 @@ namespace NotTetrin.Ingame.Multi {
         [SerializeField] private MinoManager minoManager;
 
         private PhotonView photonView;
-
-        public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
-
         private double gameOverTime = 0.0;
         private bool accepted = false;
-        private bool hitMino = false;
-        private bool hitOpponent = false;
+
+        public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
 
         private void Awake() {
             photonView = GetComponent<PhotonView>();
@@ -70,36 +67,13 @@ namespace NotTetrin.Ingame.Multi {
                 minoManager.Release();
                 gameover();
             } else {
-                /* ターン制 /
-                photonView.RPC(@"OnOpponentHit", PhotonTargets.Others);
-                if (hitOpponent) {
-                    minoManager.Next();
-                    hitOpponent = false;
-                } else {
-                    minoManager.Release();
-                    hitMino = true;
-                }
-                /*/
                 minoManager.Next();
-                //*/
             }
         }
 
         public void OnPhotonPlayerDisconnected(PhotonPlayer player) {
             Debug.Log($"disconnected opponent.");
         }
-
-        /* ターン制 /
-        [PunRPC]
-        private void OnOpponentHit() {
-            if (hitMino) {
-                minoManager.Next();
-                hitMino = false;
-            } else {
-                hitOpponent = true;
-            }
-        }
-        //*/
 
         [PunRPC]
         private void OnReadyOpponent() {
