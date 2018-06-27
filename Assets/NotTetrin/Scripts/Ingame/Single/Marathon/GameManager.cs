@@ -58,7 +58,6 @@ namespace NotTetrin.Ingame.Single.Marathon {
             if (updated) {
                 saveRanking();
             }
-            Invoke("loadRanking", 3.0f);
             Invoke("gamestart", 9.0f);
         }
 

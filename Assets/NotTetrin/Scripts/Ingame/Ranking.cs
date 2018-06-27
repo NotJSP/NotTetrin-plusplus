@@ -10,6 +10,9 @@ using NotTetrin.Constants;
 
 namespace NotTetrin.Ingame {
     public class Ranking : MonoBehaviour {
+        private Coroutine fetchCoroutine = null;
+        private Coroutine saveCoroutine = null;
+
         private static readonly int FetchCount = 10;
 
         [SerializeField]
@@ -17,8 +20,8 @@ namespace NotTetrin.Ingame {
         [SerializeField]
         private HighScore highScore;
 
-        private int? currentRank;
-        private List<Ranker> rankers = new List<Ranker>();
+        private ASyncValue<int, NCMBException> currentRank = new ASyncValue<int, NCMBException>();
+        private ASyncValue<List<Ranker>, NCMBException> topRankers = new ASyncValue<List<Ranker>, NCMBException>();
 
         private StringBuilder builder;
 
@@ -36,20 +39,39 @@ namespace NotTetrin.Ingame {
         }
 
         public void Fetch(RankingType type) {
+            if (fetchCoroutine != null) { return; }
+
             textField.text = @"ランキング取得中...";
             try {
-                StartCoroutine(fetchAll(type));
+                fetchCoroutine = StartCoroutine(fetchAll(type));
             } catch (Exception e) {
-                Debug.LogError(e.Message);
+                Debug.LogError(e);
                 textField.text = @"ランキングの取得に失敗";
+            } finally {
+                fetchCoroutine = null;
             }
         }
 
         private IEnumerator fetchAll(RankingType type) {
             builder = new StringBuilder();
-            fetchRank(type, highScore.Value);
-            yield return new WaitUntil(() => currentRank.HasValue);
-            fetchRankers(type);
+
+            while (true) { 
+                currentRank.Reset();
+                fetchRank(type, highScore.Value);
+                yield return new WaitUntil(currentRank.TakeOrFailure);
+
+                if (!currentRank.Failure) { break; }
+                yield return new WaitForSeconds(3.0f);
+            }
+
+            while (true) { 
+                topRankers.Reset();
+                fetchRankers(type);
+                yield return new WaitUntil(topRankers.TakeOrFailure);
+
+                if (!topRankers.Failure) { break; }
+                yield return new WaitForSeconds(3.0f);
+            }
         }
 
         private void fetchRank(RankingType type, int score) {
@@ -58,11 +80,14 @@ namespace NotTetrin.Ingame {
             query.WhereGreaterThan(@"score", score);
             query.CountAsync((count, e) => {
                 if (e != null) {
-                    Debug.LogError(e.Message);
-                } else {
-                    currentRank = count + 1;
+                    Debug.LogError(e);
+                    currentRank.Exception = e;
+                    return;
                 }
-                builder.AppendLine($"あなたの順位: { currentRank } 位");
+
+                currentRank.Value = count + 1;
+
+                builder.AppendLine($"あなたの順位: { currentRank.Value } 位");
                 builder.AppendLine(@"========================");
                 textField.text = builder.ToString();
             });
@@ -73,18 +98,20 @@ namespace NotTetrin.Ingame {
             var query = new NCMBQuery<NCMBObject>(className);
             query.OrderByDescending(@"score");
             query.Limit = FetchCount;
-            query.FindAsync((objList, e) => {
+            query.FindAsync((list, e) => {
                 if (e != null) {
-                    Debug.LogError(e.Message);
-                } else {
-                    var list = new List<Ranker>();
-                    foreach (var obj in objList) {
-                        var name = Convert.ToString(obj["name"]);
-                        var score = Convert.ToInt32(obj["score"]);
-                        list.Add(new Ranker(name, score));
-                    }
-                    rankers = list;
+                    Debug.LogError(e);
+                    topRankers.Exception = e;
+                    return;
                 }
+
+                var rankers = new List<Ranker>();
+                foreach (var obj in list) {
+                    var name = Convert.ToString(obj["name"]);
+                    var score = Convert.ToInt32(obj["score"]);
+                    rankers.Add(new Ranker(name, score));
+                }
+                topRankers.Value = rankers;
 
                 for (int i = 0; i < rankers.Count; i++) {
                     var str = rankers[i].ToString();
@@ -101,25 +128,56 @@ namespace NotTetrin.Ingame {
         }
 
         public bool Save(RankingType type, Ranker ranker) {
-            try {
-                var className = getClassName(type);
-                var ncmbObj = new NCMBObject(className);
-                ncmbObj[@"name"] = ranker.Name;
-                ncmbObj[@"score"] = ranker.Score;
+            if (string.IsNullOrWhiteSpace(ranker.Name)) {
+                throw new ArgumentException(@"空の名前でランキングに登録する事はできません。");
+            }
 
-                var key = PlayerPrefsKey.ObjectId[type];
-                if (PlayerPrefs.HasKey(key)) {
-                    ncmbObj.ObjectId = PlayerPrefs.GetString(key);
-                    ncmbObj.SaveAsync();
-                } else {
-                    ncmbObj.SaveAsync(e => PlayerPrefs.SetString(key, ncmbObj.ObjectId));
-                }
+            if (saveCoroutine != null) {
+                StopCoroutine(saveCoroutine);
+            }
+
+            try {
+                saveCoroutine = StartCoroutine(saveRank(type, ranker));
             } catch (Exception e) {
                 Debug.LogError(e.Message);
                 return false;
+            } finally {
+                saveCoroutine = null;
             }
 
             return true;
+        }
+
+        private IEnumerator saveRank(RankingType type, Ranker ranker) {
+            var className = getClassName(type);
+            var ncmbObj = new NCMBObject(className);
+            ncmbObj[@"name"] = ranker.Name;
+            ncmbObj[@"score"] = ranker.Score;
+
+            var key = PlayerPrefsKey.ObjectId[type];
+            if (PlayerPrefs.HasKey(key)) {
+                ncmbObj.ObjectId = PlayerPrefs.GetString(key);
+            }
+
+            var watcher = new ASyncValue<bool, NCMBException>();
+
+            while (true) {
+                ncmbObj.SaveAsync(e => {
+                    if (e != null) {
+                        Debug.LogError(e);
+                        watcher.Exception = e;
+                        return;
+                    }
+                    watcher.Value = true;
+                    PlayerPrefs.SetString(key, ncmbObj.ObjectId);
+                });
+                yield return new WaitUntil(watcher.TakeOrFailure);
+
+                if (!watcher.Failure) { break; }
+                yield return new WaitForSeconds(3.0f);
+            }
+
+            Fetch(type);
         }
     }
 }
