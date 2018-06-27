@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using NotTetrin.Constants;
 
 using Stopwatch = System.Diagnostics.Stopwatch;
 
 namespace NotTetrin.Ingame {
-    public abstract class HighScore : MonoBehaviour {
+    public class HighScore : MonoBehaviour {
+        public RankingType RankingType;
+
         [SerializeField]
         private Text text;
         [SerializeField]
@@ -26,7 +29,8 @@ namespace NotTetrin.Ingame {
         private Stopwatch animationStopwatch = new Stopwatch();
         private bool IsAnimating => animationStopwatch.IsRunning;
 
-        protected abstract string playerPrefsKey { get; }
+        private string playerPrefsKey => PlayerPrefsKey.HighScore[RankingType];
+
         public int Value {
             get {
                 if (PlayerPrefs.HasKey(playerPrefsKey)) {
