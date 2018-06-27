@@ -17,6 +17,8 @@ namespace NotTetrin.Ingame.Single.Marathon {
 
         public bool IsEntered => group.EnteredAll;
 
+        private ParticleSystem MinoDeleteEffect;
+
         private void Awake() {
             renderer = GetComponent<Renderer>();
 
@@ -24,6 +26,9 @@ namespace NotTetrin.Ingame.Single.Marathon {
             var colliders = GetComponent<CreateTile>().children
                 .Select(o => o.GetComponent<ColliderHelper>());
             group = new ColliderGroup(colliders);
+
+            MinoDeleteEffect = this.GetComponentInChildren<ParticleSystem>();
+            MinoDeleteEffect.Stop();
         }
 
         public void Update() {
@@ -37,6 +42,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
 
             foreach (var mino in minos) {
                 Debug.Log(mino + "削除");
+                MinoDeleteEffect.Play();
                 mino.transform.Translate(10000, 10000, 10000);  // OnTriggerExit2Dを呼び出すため範囲外へ移動
                 Destroy(mino, 1.0f);    // 即消しだと判定が残るから時間差攻撃
             }
