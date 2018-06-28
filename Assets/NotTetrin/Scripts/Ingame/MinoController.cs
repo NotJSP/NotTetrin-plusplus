@@ -26,7 +26,7 @@ namespace NotTetrin.Ingame {
         );
         public int SoftdropFrames { get; private set; } = 0;
         private static int SoftdropPeekFrame = 60;
-        private static float SoftdropPeekAccelaration = 6.7f;
+        private static float SoftdropPeekAccelaration = 6.58f;
 
         public event EventHandler Hit;
 
@@ -54,12 +54,11 @@ namespace NotTetrin.Ingame {
                 sfxManager.Play(IngameSfxType.MinoMove);
             }
             if (horizontal < 0) {
-                velocity.x -= 0.125f;
+                velocity.x -= 0.122f;
             }
             if (horizontal > 0) {
-                velocity.x += 0.125f;
+                velocity.x += 0.122f;
             }
-            Debug.Log(velocity);
             velocity.x = Mathf.Clamp(velocity.x, -LimitHorizontalVelocity, LimitHorizontalVelocity);
             prevHorizontal = horizontal;
 
@@ -77,10 +76,10 @@ namespace NotTetrin.Ingame {
                 sfxManager.Play(IngameSfxType.MinoTurn);
             }
             if (Input.GetButton(@"Rotate Left")) {
-                torque += 2.1f;
+                torque += 2.08f;
             }
             if (Input.GetButton(@"Rotate Right")) {
-                torque -= 2.1f;
+                torque -= 2.08f;
             }
 
             velocity.y -= fallAccelaration;
