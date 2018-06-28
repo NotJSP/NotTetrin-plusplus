@@ -8,5 +8,6 @@ namespace NotTetrin.Ingame {
         MinoTurn,
         MinoHit,
         MinoHold,
+        MinoDelete,
     }
 }

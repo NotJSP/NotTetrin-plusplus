@@ -894,6 +894,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: {fileID: 1429037204}
+  sfxManager: {fileID: 319021930}
   groups: []
 --- !u!4 &764596590
 Transform:
@@ -1882,6 +1883,11 @@ Prefab:
       propertyPath: m_Name
       value: SfxManager
       objectReference: {fileID: 0}
+    - target: {fileID: 114790870592153036, guid: b8e2d8226d987784abe1fdeb276e0dc2,
+        type: 2}
+      propertyPath: minoDeleteClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d01a5baf866fbf84b82ae47f41c89bca, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8e2d8226d987784abe1fdeb276e0dc2, type: 2}
   m_IsPrefabParent: 0
