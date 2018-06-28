@@ -5,8 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace NotTetrin.Ingame.Single.Marathon {
-    [DefaultExecutionOrder(1)]
-    [RequireComponent(typeof(Renderer), typeof(CreateTile))]
+    /**
+     * タイルを作ってグルーピングするクラス
+     * TileCreatorコンポーネントのCreateOnAwakeをオフにすること!!!
+     */
+    [RequireComponent(typeof(Renderer), typeof(TileCreator))]
     public class CreateTileAndGrouping : MonoBehaviour {
         [SerializeField]
         private DensityIndicator indicator;
@@ -22,9 +25,12 @@ namespace NotTetrin.Ingame.Single.Marathon {
         private void Awake() {
             renderer = GetComponent<Renderer>();
 
-            // 作ったタイルの子供達のColliderHelperを取得して配列にする
-            var colliders = GetComponent<CreateTile>().children
-                .Select(o => o.GetComponent<ColliderHelper>());
+            // タイル生成
+            var creator = GetComponent<TileCreator>();
+            creator.Create();
+
+            // 作ったタイルの子供達のColliderHelperを取得
+            var colliders = creator.Children.Select(o => o.GetComponent<ColliderHelper>());
             group = new ColliderGroup(colliders);
 
             MinoDeleteEffect = this.GetComponentInChildren<ParticleSystem>();
