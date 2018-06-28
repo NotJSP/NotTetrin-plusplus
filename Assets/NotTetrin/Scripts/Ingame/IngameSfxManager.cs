@@ -13,6 +13,7 @@ namespace NotTetrin.Ingame {
         [SerializeField] private AudioClip minoTurnClip;
         [SerializeField] private AudioClip minoHitClip;
         [SerializeField] private AudioClip minoHoldClip;
+        [SerializeField] private AudioClip minoDeleteClip;
 
         private void Awake() {
             SetClip(IngameSfxType.GameStart, gameStartClip, new AudioParameter{ Volume = 1.0f });
@@ -21,6 +22,7 @@ namespace NotTetrin.Ingame {
             SetClip(IngameSfxType.MinoTurn, minoTurnClip, new AudioParameter{ Volume = 0.8f });
             SetClip(IngameSfxType.MinoHit, minoHitClip, new AudioParameter{ Volume = 0.9f });
             SetClip(IngameSfxType.MinoHold, minoHoldClip, new AudioParameter{ Volume = 1.0f, Pitch = 1.2f });
+            SetClip(IngameSfxType.MinoDelete, minoDeleteClip, new AudioParameter { Volume = 2.0f });
         }
     }
 }

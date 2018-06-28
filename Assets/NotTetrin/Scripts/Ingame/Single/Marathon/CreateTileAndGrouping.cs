@@ -8,8 +8,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
     [DefaultExecutionOrder(1)]
     [RequireComponent(typeof(Renderer), typeof(CreateTile))]
     public class CreateTileAndGrouping : MonoBehaviour {
-        [SerializeField]
-        private DensityIndicator indicator;
+        [SerializeField] private DensityIndicator indicator;
 
         private new Renderer renderer;
         private List<GameObject> minos = new List<GameObject>();
@@ -39,10 +38,9 @@ namespace NotTetrin.Ingame.Single.Marathon {
 
         public void DeleteMino() {
             Debug.Log("ミノ削除");
-
+            MinoDeleteEffect.Play();
             foreach (var mino in minos) {
                 Debug.Log(mino + "削除");
-                MinoDeleteEffect.Play();
                 mino.transform.Translate(10000, 10000, 10000);  // OnTriggerExit2Dを呼び出すため範囲外へ移動
                 Destroy(mino, 1.0f);    // 即消しだと判定が残るから時間差攻撃
             }

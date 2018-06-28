@@ -6,8 +6,8 @@ using UnityEngine;
 
 namespace NotTetrin.Ingame.Single.Marathon {
     public class GroupManager : MonoBehaviour {
-        [SerializeField]
-        private Score score;
+        [SerializeField] private Score score;
+        [SerializeField] private IngameSfxManager sfxManager;
 
         public CreateTileAndGrouping[] groups;
 
@@ -27,6 +27,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
             Debug.Log(eraseGroups.Count());
             foreach (var group in eraseGroups) {
                 group.DeleteMino();
+                sfxManager.Play(IngameSfxType.MinoDelete);
             }
         }
     }
