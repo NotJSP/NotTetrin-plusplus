@@ -688,6 +688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 1999161398672582, guid: 5c9b07743fd77e9448594d14c1d5ffcf, type: 2}
   Field: {fileID: 499531510}
+  CreateOnAwake: 1
   DivideNumX: 1
   DivideNumY: 20
 --- !u!212 &499531513

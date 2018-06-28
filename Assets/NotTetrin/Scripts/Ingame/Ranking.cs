@@ -41,7 +41,6 @@ namespace NotTetrin.Ingame {
         public void Fetch(RankingType type) {
             if (fetchCoroutine != null) { return; }
 
-            textField.text = @"ランキング取得中...";
             try {
                 fetchCoroutine = StartCoroutine(fetchAll(type));
             } catch (Exception e) {
@@ -88,7 +87,7 @@ namespace NotTetrin.Ingame {
                 currentRank.Value = count + 1;
 
                 builder.AppendLine($"あなたの順位: { currentRank.Value } 位");
-                builder.AppendLine(@"========================");
+                builder.AppendLine(@"============================");
                 textField.text = builder.ToString();
             });
         }

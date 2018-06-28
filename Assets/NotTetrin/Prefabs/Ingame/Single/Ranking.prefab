@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1483440570921122
 GameObject:
   m_ObjectHideFlags: 0
@@ -80,7 +80,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 8e2bd1a24a7b27246bdbd2e380594d55, type: 3}
-    m_FontSize: 22
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
@@ -91,7 +91,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1.5
-  m_Text: 
+  m_Text: "\u30E9\u30F3\u30AD\u30F3\u30B0\u53D6\u5F97\u4E2D\u2026\n============================"
 --- !u!114 &114484268584859494
 MonoBehaviour:
   m_ObjectHideFlags: 1
