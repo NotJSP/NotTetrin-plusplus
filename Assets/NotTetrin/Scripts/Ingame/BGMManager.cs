@@ -3,30 +3,40 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using NotTetrin.Utility;
 
 namespace NotTetrin.Ingame {
     [RequireComponent(typeof(AudioSource))]
     public class BGMManager : MonoBehaviour {
-        [SerializeField]
-        private AudioClip[] clips;
+        public AudioClip[] Clips;
 
         private AudioSource audioSource;
+        private List<AudioClip> shuffleClips;
 
         private void Awake() {
             audioSource = GetComponent<AudioSource>();
+            shuffleClips = new List<AudioClip>(Clips.Length);
         }
 
-        public void Stop() {
-            audioSource.Stop();
+        public void Add(AudioClip clip) {
+            shuffleClips.Add(clip);
+        }
+
+        public void Remove(AudioClip clip) {
+            shuffleClips.Remove(clip);
         }
 
         public void RandomPlay() {
             // クリップがない場合、無音
-            if (clips.Length == 0) { return; }
+            if (shuffleClips.Count == 0) { return; }
 
-            var index = Random.Range(0, clips.Length - 1);
-            audioSource.clip = clips[index];
+            var clip = shuffleClips.Shuffle().ElementAt(0);
+            audioSource.clip = clip;
             audioSource.Play();
+        }
+
+        public void Stop() {
+            audioSource.Stop();
         }
     }
 }

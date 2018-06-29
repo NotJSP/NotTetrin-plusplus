@@ -9,6 +9,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
      * タイルを作ってグルーピングするクラス
      * TileCreatorコンポーネントのCreateOnAwakeをオフにすること!!!
      */
+    [DefaultExecutionOrder(1)]
     [RequireComponent(typeof(Renderer), typeof(TileCreator))]
     public class CreateTileAndGrouping : MonoBehaviour {
         [SerializeField] private DensityIndicator indicator;
