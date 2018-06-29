@@ -57,3 +57,4 @@ MonoBehaviour:
   minoTurnClip: {fileID: 8300000, guid: 6a0d13896c31ab44792661657309b8d3, type: 3}
   minoHitClip: {fileID: 8300000, guid: 3c064b9424eff604b867da50814016b2, type: 3}
   minoHoldClip: {fileID: 8300000, guid: fda883631f8d32445a4ce65aa0274d48, type: 3}
+  minoDeleteClip: {fileID: 8300000, guid: d01a5baf866fbf84b82ae47f41c89bca, type: 3}

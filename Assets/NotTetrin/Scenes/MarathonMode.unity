@@ -314,7 +314,7 @@ Prefab:
         type: 2}
       propertyPath: highScore
       value: 
-      objectReference: {fileID: 1429037203}
+      objectReference: {fileID: 273689928}
     - target: {fileID: 1243652389232998, guid: de379231964704e42b048d203e9994ef, type: 2}
       propertyPath: m_IsActive
       value: 1
@@ -489,28 +489,20 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1790838992650876, guid: 70fab460ea74e644bb6b4c4ddf0a64e7, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224477954761150280, guid: 70fab460ea74e644bb6b4c4ddf0a64e7,
+    - target: {fileID: 114521721552532416, guid: 70fab460ea74e644bb6b4c4ddf0a64e7,
         type: 2}
-      propertyPath: m_AnchorMin.y
+      propertyPath: RankingType
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224477954761150280, guid: 70fab460ea74e644bb6b4c4ddf0a64e7,
-        type: 2}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224477954761150280, guid: 70fab460ea74e644bb6b4c4ddf0a64e7,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 70fab460ea74e644bb6b4c4ddf0a64e7, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &273689928 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114521721552532416, guid: 70fab460ea74e644bb6b4c4ddf0a64e7,
+    type: 2}
+  m_PrefabInternal: {fileID: 273689927}
+  m_Script: {fileID: 11500000, guid: 2bc8ba9085a60c04cb256bf152a09573, type: 3}
 --- !u!1 &282731022
 GameObject:
   m_ObjectHideFlags: 0
@@ -1726,18 +1718,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelText: {fileID: 740673390}
-  minoManager: {fileID: 0}
+  minoManager: {fileID: 1777563732}
 --- !u!224 &1429037202 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224938576149592786, guid: 70fab460ea74e644bb6b4c4ddf0a64e7,
     type: 2}
   m_PrefabInternal: {fileID: 273689927}
---- !u!114 &1429037203 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114418356280525648, guid: 70fab460ea74e644bb6b4c4ddf0a64e7,
-    type: 2}
-  m_PrefabInternal: {fileID: 273689927}
-  m_Script: {fileID: 11500000, guid: 2bc8ba9085a60c04cb256bf152a09573, type: 3}
 --- !u!114 &1429037204 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114595192090399856, guid: 70fab460ea74e644bb6b4c4ddf0a64e7,
@@ -1795,7 +1781,7 @@ MonoBehaviour:
   sfxManager: {fileID: 319021930}
   minoManager: {fileID: 1777563732}
   score: {fileID: 1429037204}
-  highScore: {fileID: 1429037203}
+  highScore: {fileID: 273689928}
   ranking: {fileID: 126280533}
   groupManager: {fileID: 764596589}
   levelManager: {fileID: 519333243}
@@ -2222,15 +2208,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 1973401351927238, guid: b8e2d8226d987784abe1fdeb276e0dc2, type: 2}
-      propertyPath: m_Name
-      value: SfxManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 114790870592153036, guid: b8e2d8226d987784abe1fdeb276e0dc2,
-        type: 2}
-      propertyPath: minoDeleteClip
-      value: 
-      objectReference: {fileID: 8300000, guid: d01a5baf866fbf84b82ae47f41c89bca, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b8e2d8226d987784abe1fdeb276e0dc2, type: 2}
   m_IsPrefabParent: 0
