@@ -20,8 +20,6 @@ namespace NotTetrin.Ingame.Single.Stack {
         
         private void Start() {
             minoManager.HitMino += onHitMino;
-
-            ranking.gameObject.SetActive(true);
             loadRanking();
             gamestart();
         }

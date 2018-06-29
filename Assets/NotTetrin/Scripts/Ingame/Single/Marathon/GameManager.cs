@@ -22,8 +22,6 @@ namespace NotTetrin.Ingame.Single.Marathon {
 
         private void Start() {
             minoManager.HitMino += onHitMino;
-
-            ranking.gameObject.SetActive(true);
             loadRanking();
             gamestart();
         }
