@@ -18,7 +18,8 @@ namespace NotTetrin.Ingame.Single.Marathon {
         [SerializeField] private HighScore highScore;
         [SerializeField] private Ranking ranking;
         [SerializeField] private GroupManager groupManager;
-        
+        [SerializeField] private LevelManager levelManager;
+
         private void Start() {
             minoManager.HitMino += onHitMino;
 
@@ -38,6 +39,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
             sfxManager.Stop(IngameSfxType.GameOver);
             score.Reset();
             minoManager.Reset();
+            levelManager.Reset();
         }
 
         private void gamestart() {
@@ -52,7 +54,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
             director.Floor.SetActive(false);
             bgmManager.Stop();
             sfxManager.Play(IngameSfxType.GameOver);
-
+            
             // TODO: 本番は常にセーブ
             var updated = highScore.UpdateValue();
             if (updated) {
@@ -78,7 +80,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
                 minoManager.Release();
                 gameover();
             } else {
-                score.Increase(200);
+                score.Increase(75 * levelManager.getLevel());
                 groupManager.DeleteMino();
                 minoManager.Next();
             }
