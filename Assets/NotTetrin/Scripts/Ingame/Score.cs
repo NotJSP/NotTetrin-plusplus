@@ -39,7 +39,7 @@ namespace NotTetrin.Ingame {
         public void Increase(int amount) {
             Value += amount;
 
-            if (amount >= 100) {
+            if (amount >= 75) {
                 addScoreObject.GetComponentsInChildren<Text>()[1].text = $"{amount}";
                 animator.Play(@"ScoreIncrement", 0, 0.0f);
             }

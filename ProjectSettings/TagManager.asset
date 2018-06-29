@@ -8,6 +8,7 @@ TagManager:
   - Ceiling
   - Mino
   - GroupField
+  - Level
   layers:
   - Default
   - TransparentFX
