@@ -8,6 +8,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
     public class GroupManager : MonoBehaviour {
         [SerializeField] private Score score;
         [SerializeField] private IngameSfxManager sfxManager;
+        [SerializeField] private LevelManager levelManager;
 
         public CreateTileAndGrouping[] groups;
 
@@ -23,11 +24,13 @@ namespace NotTetrin.Ingame.Single.Marathon {
             var baseScore = 500.0;
             var amount = baseScore * Math.Pow(lines, 2) - baseScore * 0.15 * Math.Pow(lines, 2);
             score.Increase((int)amount);
+            sfxManager.Play(IngameSfxType.MinoDelete);
 
             Debug.Log(eraseGroups.Count());
+            
             foreach (var group in eraseGroups) {
                 group.DeleteMino();
-                sfxManager.Play(IngameSfxType.MinoDelete);
+                levelManager.DeleteCountUp(); //一列消去ごとにカウントする
             }
         }
     }

@@ -17,7 +17,7 @@ namespace NotTetrin.Ingame {
 
         private float prevHorizontal;
 
-        private float fallSpeed = 1.5f;
+        private float fallSpeed;
         private float fallAccelaration = 0.0f;
 
         private static AnimationCurve SoftdropAccelarationCurve = new AnimationCurve(
@@ -35,7 +35,8 @@ namespace NotTetrin.Ingame {
             rigidbody = GetComponent<Rigidbody2D>();
         }
 
-        public MinoController Initialize(IngameSfxManager audioManager) {
+        public MinoController Initialize(IngameSfxManager audioManager, float fallSpeed) {
+            this.fallSpeed = fallSpeed;
             this.sfxManager = audioManager;
             return this;
         }

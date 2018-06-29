@@ -16,6 +16,8 @@ namespace NotTetrin.Ingame {
         private int currentIndex;
         private bool useHold = false;
         private bool controlable = true;
+        private float fallSpeed = 1.5f;
+        private float defaultfallSpeed = 1.5f;
 
         public GameObject CurrentMino => minos.Count != 0 ? minos[minos.Count - 1] : null;
 
@@ -78,7 +80,7 @@ namespace NotTetrin.Ingame {
             controlable = true;
 
             mino.AddComponent<Rigidbody2D>().Copy(minoRigidbody);
-            var controller = mino.AddComponent<MinoController>().Initialize(sfxManager);
+            var controller = mino.AddComponent<MinoController>().Initialize(sfxManager, fallSpeed);
             controller.Hit += onHitMino;
 
             minos.Add(mino);
@@ -86,6 +88,13 @@ namespace NotTetrin.Ingame {
 
         private void onHitMino(object sender, EventArgs args) {
             HitMino.Invoke(sender, args);
+        }
+
+        public void fallSpeedUp() {
+            fallSpeed = fallSpeed + 0.05f;
+        }
+        public void defaultFallSpeed() {
+            fallSpeed = defaultfallSpeed;
         }
     }
 }
