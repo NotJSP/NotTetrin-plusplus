@@ -6,22 +6,19 @@ using UnityEngine.UI;
 
 namespace NotTetrin.Ingame {
     public class Score : MonoBehaviour {
-        [SerializeField]
-        private Text text;
-        [SerializeField]
-        private GameObject addScoreObject;
+        [SerializeField] private Text text;
+        [SerializeField] private IncrementScore incrementScore;
 
         private Animator animator;
-
-        private int score;
+        private int value;
 
         public event EventHandler ValueChanged;
         public int Value {
             get {
-                return score;
+                return value;
             }
             private set {
-                score = value;
+                this.value = value;
                 updateText();
                 ValueChanged?.Invoke(this, EventArgs.Empty);
             }
@@ -40,13 +37,13 @@ namespace NotTetrin.Ingame {
             Value += amount;
 
             if (amount >= 75) {
-                addScoreObject.GetComponentsInChildren<Text>()[1].text = $"{amount}";
+                incrementScore.Add(amount);
                 animator.Play(@"ScoreIncrement", 0, 0.0f);
             }
         }
 
         private void updateText() {
-            text.text = string.Format("{0:0000000}", score);
+            text.text = string.Format("{0:0000000}", value);
         }
     }
 }
