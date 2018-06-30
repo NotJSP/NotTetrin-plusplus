@@ -28,7 +28,10 @@ namespace NotTetrin.Ingame {
 
         public void RandomPlay() {
             // クリップがない場合、無音
-            if (shuffleClips.Count == 0) { return; }
+            if (shuffleClips.Count == 0) {
+                audioSource.Stop();
+                return;
+            }
 
             var clip = shuffleClips.Shuffle().ElementAt(0);
             audioSource.clip = clip;
