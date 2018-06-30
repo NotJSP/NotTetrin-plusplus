@@ -32,7 +32,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
             deletecount++;
             if(deletecount % 3 == 0) { //三列消すごとにレベルを1あげる。
                 Value++;
-                minoManager.fallSpeedUp();
+                minoManager.fallSpeedUp(level);
                 updateText();
             }
         }

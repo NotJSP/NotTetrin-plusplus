@@ -81,6 +81,7 @@ namespace NotTetrin.Ingame {
 
             mino.AddComponent<Rigidbody2D>().Copy(minoRigidbody);
             var controller = mino.AddComponent<MinoController>().Initialize(sfxManager, fallSpeed);
+            Debug.Log(fallSpeed);
             controller.Hit += onHitMino;
 
             minos.Add(mino);
@@ -90,8 +91,13 @@ namespace NotTetrin.Ingame {
             HitMino.Invoke(sender, args);
         }
 
-        public void fallSpeedUp() {
-            fallSpeed = fallSpeed + 0.05f;
+        public void fallSpeedUp(int level) {
+            if(level < 6) {
+                fallSpeed = fallSpeed + (0.01f * level);
+            }
+            else {
+                fallSpeed = fallSpeed + 0.05f;
+            }
         }
         public void defaultFallSpeed() {
             fallSpeed = defaultfallSpeed;

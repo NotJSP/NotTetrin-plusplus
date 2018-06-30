@@ -942,7 +942,7 @@ MonoBehaviour:
   Field: {fileID: 499531510}
   CreateOnAwake: 1
   DivideNumX: 1
-  DivideNumY: 20
+  DivideNumY: 22
 --- !u!212 &499531513
 SpriteRenderer:
   m_ObjectHideFlags: 0
