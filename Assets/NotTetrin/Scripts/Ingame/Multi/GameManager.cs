@@ -10,7 +10,7 @@ using NotTetrin.SceneManagement;
 
 namespace NotTetrin.Ingame.Multi {
     [RequireComponent(typeof(PhotonView))]
-    public class GameManager : MonoBehaviour {
+    public class GameManager : SceneBase {
         [SerializeField] private Director director;
         [SerializeField] private BGMManager bgmManager;
         [SerializeField] private IngameSfxManager sfxManager;
@@ -22,11 +22,13 @@ namespace NotTetrin.Ingame.Multi {
 
         public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
 
-        private void Awake() {
+        protected override void Awake() {
+            base.Awake();
             photonView = GetComponent<PhotonView>();
         }
 
-        private void Start() {
+        protected override void OnSceneReady(object sender, EventArgs args) {
+            base.OnSceneReady(sender, args);
             minoManager.HitMino += onHitMino;
             ready();
         }
@@ -34,7 +36,7 @@ namespace NotTetrin.Ingame.Multi {
         private void Update() {
             if (Input.GetButtonDown(@"Escape")) {
                 if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
-                SceneTransit.Instance.LoadScene(SceneName.Title, 0.4f);
+                SceneController.Instance.LoadScene(SceneName.Title, 1.0f);
             }
         }
 

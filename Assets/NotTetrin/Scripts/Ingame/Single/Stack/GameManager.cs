@@ -9,7 +9,7 @@ using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 
 namespace NotTetrin.Ingame.Single.Stack {
-    public class GameManager : MonoBehaviour {
+    public class GameManager : SceneBase {
         [SerializeField] private Director director;
         [SerializeField] private BGMManager bgmManager;
         [SerializeField] private IngameSfxManager sfxManager;
@@ -17,8 +17,9 @@ namespace NotTetrin.Ingame.Single.Stack {
         [SerializeField] private Score score;
         [SerializeField] private HighScore highScore;
         [SerializeField] private Ranking ranking;
-        
-        private void Start() {
+
+        protected override void OnSceneReady(object sender, EventArgs args) {
+            base.OnSceneReady(sender, args);
             minoManager.HitMino += onHitMino;
             loadRanking();
             gamestart();
@@ -26,7 +27,7 @@ namespace NotTetrin.Ingame.Single.Stack {
 
         private void Update() {
             if (Input.GetButtonDown(@"Escape")) {
-                SceneTransit.Instance.LoadScene(SceneName.Title, 0.4f);
+                SceneController.Instance.LoadScene(SceneName.Title, 1.0f);
             }
         }
 

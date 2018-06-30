@@ -21,7 +21,7 @@ namespace NotTetrin.Title {
             PlayerPrefs.SetString(PlayerPrefsKey.PlayerName, nameField.text);
 
             toggler.ToggleAll();
-            SceneTransit.Instance.LoadScene(SceneName.MarathonMode, TitleManager.TransitionDuration);
+            SceneController.Instance.LoadScene(SceneName.MarathonMode, TitleManager.TransitionDuration);
         }
     }
 }
