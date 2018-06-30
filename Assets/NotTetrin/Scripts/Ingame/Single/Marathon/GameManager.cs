@@ -78,7 +78,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
                 minoManager.Release();
                 gameover();
             } else {
-                score.Increase(75 * levelManager.getLevel());
+                score.Increase(200 + (50 * levelManager.getLevel()));
                 groupManager.DeleteMino();
                 minoManager.Next();
             }
