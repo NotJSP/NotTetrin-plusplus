@@ -76,6 +76,7 @@ GameObject:
   - component: {fileID: 114791634050811744}
   - component: {fileID: 114739767474024758}
   - component: {fileID: 114160596754671902}
+  - component: {fileID: 114900680242344456}
   m_Layer: 5
   m_Name: SettingGroup
   m_TagString: Untagged
@@ -110,11 +111,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1484698568058468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2e4efefafef37844856eb93812e7791, type: 3}
+  m_Script: {fileID: 11500000, guid: 6350c566bd5abc9499575d6899904031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Header: {fileID: 114727950123371858}
-  Container: {fileID: 224784541567032356}
+  _header: {fileID: 114727950123371858}
+  _container: {fileID: 224784541567032356}
 --- !u!114 &114593108395638180
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -129,10 +130,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 16
     m_Right: 16
-    m_Top: 8
-    m_Bottom: 8
+    m_Top: 16
+    m_Bottom: 16
   m_ChildAlignment: 0
-  m_Spacing: 4
+  m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -183,8 +184,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -223,7 +224,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "BGM\u8A2D\u5B9A"
+  m_Text: "\u30BF\u30A4\u30C8\u30EB"
 --- !u!114 &114739767474024758
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -272,6 +273,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HorizontalFit: 0
   m_VerticalFit: 2
+--- !u!114 &114900680242344456
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1484698568058468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1573420865, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 3, y: -3}
+  m_UseGraphicAlpha: 1
 --- !u!222 &222570145719858162
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -342,8 +357,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 195.5, y: 0}
-  m_SizeDelta: {x: 391, y: 0}
+  m_AnchoredPosition: {x: 147.5, y: 0}
+  m_SizeDelta: {x: 295, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!224 &224919493714130754
 RectTransform:
@@ -362,6 +377,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 195.5, y: 0}
-  m_SizeDelta: {x: 391, y: 0}
+  m_AnchoredPosition: {x: 155.5, y: 0}
+  m_SizeDelta: {x: 295, y: 0}
   m_Pivot: {x: 0.5, y: 1}

@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UI;
-using NotTetrin.Ingame.UI;
 
-namespace NotTetrin.Ingame {
+namespace NotTetrin.Setting {
     [DefaultExecutionOrder(1)]
     public class Settings : MonoBehaviour {
         [Header(@"Properties")]
@@ -16,13 +14,8 @@ namespace NotTetrin.Ingame {
         [SerializeField] private AnimationCurve transitionCurve;
         [SerializeField] private float transitionTime;
 
-        [Header(@"Prefabs")]
-        [SerializeField] private SettingGroup groupPrefab;
-        [SerializeField] private Toggle togglePrefab;
-        [SerializeField] private Button buttonPrefab;
-
-        [Header(@"References")]
-        [SerializeField] private BGMManager bgmManager;
+        [Space(1.0f)]
+        [SerializeField] private SettingEntry[] entries;
 
         private new RectTransform transform;
         private Coroutine coroutine;
@@ -30,11 +23,14 @@ namespace NotTetrin.Ingame {
 
         private void Awake() {
             transform = GetComponent<RectTransform>();
-            LoadAndCreateBgmSettings();
+
+            foreach (var entry in entries) {
+                entry.Create(container);
+            }
         }
 
         private void Update() {
-            if (Input.GetKeyDown(KeyCode.S)) {
+            if (Input.GetKeyDown(KeyCode.F1)) {
                 Toggle();
             }
         }
@@ -95,44 +91,6 @@ namespace NotTetrin.Ingame {
 
                 if (duration > transitionTime) { break; }
                 yield return new WaitForEndOfFrame();
-            }
-        }
-        
-        private void LoadAndCreateBgmSettings() {
-            var group = Instantiate(groupPrefab, container);
-            group.SetHeader(@"BGM設定");
-
-            foreach (var clip in bgmManager.Clips) {
-                var key = $"bgm_{clip.name}";
-                var enabled = PlayerPrefs.HasKey(key) ? PlayerPrefs.GetInt(key) == 1 : true;
-                PlayerPrefs.SetInt(key, enabled ? 1 : 0);
-
-                if (enabled) {
-                    bgmManager.Add(clip);
-                }
-
-                var toggle = Instantiate(togglePrefab, group.Container);
-                toggle.isOn = enabled;
-                toggle.onValueChanged.AddListener(c => OnValueChanged(clip, c));
-                var toggleLabel = toggle.GetComponentInChildren<Text>();
-                toggleLabel.text = clip.name;
-            }
-
-            var button = Instantiate(buttonPrefab, group.Container);
-            button.onClick.AddListener(() => bgmManager.RandomPlay());
-            var buttonLabel = button.GetComponentInChildren<Text>();
-            buttonLabel.text = @"ランダム再生";
-        }
-
-        private void OnValueChanged(AudioClip clip, bool enabled) {
-            var key = $"bgm_{clip.name}";
-
-            if (enabled) {
-                bgmManager.Add(clip);
-                PlayerPrefs.SetInt(key, 1);
-            } else {
-                bgmManager.Remove(clip);
-                PlayerPrefs.SetInt(key, 0);
             }
         }
     }
