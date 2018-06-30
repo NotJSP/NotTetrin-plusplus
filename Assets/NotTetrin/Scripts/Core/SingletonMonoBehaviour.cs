@@ -19,5 +19,13 @@ namespace NotTetrin {
                 return instance;
             }
         }
+
+        protected virtual void Awake() {
+            if (instance != null && instance != this) {
+                Destroy(gameObject);
+                return;
+            }
+            DontDestroyOnLoad(gameObject);
+        }
     }
 }
