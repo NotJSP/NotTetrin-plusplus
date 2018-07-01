@@ -10,13 +10,15 @@ namespace NotTetrin.SceneManagement {
         [SerializeField] private LoadingScreen screen;
 
         public event EventHandler SceneReady;
+        private Coroutine coroutine;
 
         private void Start() {
             SceneReady?.Invoke(this, EventArgs.Empty);
         }
 
         public void LoadScene(string scene, float interval) {
-            StartCoroutine(transitScene(scene, interval));
+            if (coroutine != null) { return; }
+            coroutine = StartCoroutine(transitScene(scene, interval));
         }
 
         private IEnumerator transitScene(string scene, float interval) {
@@ -27,15 +29,17 @@ namespace NotTetrin.SceneManagement {
             // フェードイン
             canvas.enabled = true;
             screen.FadeIn(interval);
-            yield return new WaitWhile(() => screen.isFading);
-
             // ロードアニメーション
             screen.Play(operation);
+            yield return new WaitWhile(() => screen.isFading);
             yield return new WaitWhile(() => operation.progress < 0.9f);
 
             // シーンをアクティブ化
             operation.allowSceneActivation = true;
             yield return new WaitUntil(() => operation.isDone);
+
+            // シーン準備完了
+            SceneReady?.Invoke(this, EventArgs.Empty);
 
             // フェードアウト
             screen.FadeOut(interval);
@@ -43,8 +47,8 @@ namespace NotTetrin.SceneManagement {
             screen.Stop();
             canvas.enabled = false;
 
-            // シーン準備完了
-            SceneReady?.Invoke(this, EventArgs.Empty);
+            // コルーチンの削除
+            coroutine = null;
         }
     }
 }
