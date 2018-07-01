@@ -24,7 +24,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
         }
 
         public void Create() {
-            var rect = (Field == null) ? gameObject.rect() : Field.rect();
+            var rect = Field.rect();
             var size = Prefab.size();
             var helper = new TileHelper().Calculate(rect, size, DivideNumX, DivideNumY);
 
