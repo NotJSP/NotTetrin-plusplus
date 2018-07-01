@@ -29,7 +29,7 @@ namespace NotTetrin.Ingame.Single.Marathon {
 
         private void Update() {
             if (Input.GetButtonDown(@"Escape")) {
-                SceneController.Instance.LoadScene(SceneName.Title, 1.0f);
+                SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
             }
         }
 

@@ -58,7 +58,7 @@ namespace NotTetrin.Game.Multi {
         public void CancelMatching() {
             matchingWindow.GetComponent<Animator>().Play(@"CloseWindow");
             if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
-            SceneController.Instance.LoadScene(SceneName.Title, 1.0f);
+            SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
         }
 
         private void updateOtherPlayerStatus() {

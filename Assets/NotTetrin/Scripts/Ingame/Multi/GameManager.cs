@@ -36,7 +36,7 @@ namespace NotTetrin.Ingame.Multi {
         private void Update() {
             if (Input.GetButtonDown(@"Escape")) {
                 if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
-                SceneController.Instance.LoadScene(SceneName.Title, 1.0f);
+                SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
             }
         }
 

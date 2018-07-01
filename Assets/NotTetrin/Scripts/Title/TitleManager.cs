@@ -8,7 +8,7 @@ namespace NotTetrin.Title {
     public class TitleManager : MonoBehaviour {
         [SerializeField] private InputField nameField;
 
-        public static readonly float TransitionDuration = 1.0f;
+        public static readonly float TransitionDuration = 0.7f;
 
         private void Awake() {
             // TODO: 本番では保存しない
