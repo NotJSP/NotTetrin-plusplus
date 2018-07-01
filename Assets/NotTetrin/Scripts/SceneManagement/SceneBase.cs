@@ -11,8 +11,10 @@ namespace NotTetrin.SceneManagement {
             SceneController.Instance.SceneReady += OnSceneReady;
         }
 
-        protected virtual void OnSceneReady(object sender, EventArgs args) {
+        protected virtual void OnDestroy() {
             SceneController.Instance.SceneReady -= OnSceneReady;
         }
+
+        protected virtual void OnSceneReady(object sender, EventArgs args) { }
     }
 }
