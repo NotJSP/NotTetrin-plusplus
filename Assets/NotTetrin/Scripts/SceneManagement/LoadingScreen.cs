@@ -52,8 +52,6 @@ namespace NotTetrin.SceneManagement {
         public void Stop() {
             this.operation = null;
             slider.value = 0.0f;
-
-            StopAllCoroutines();
         }
 
         public void Update() {
