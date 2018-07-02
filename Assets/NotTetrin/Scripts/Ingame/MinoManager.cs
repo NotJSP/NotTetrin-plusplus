@@ -95,9 +95,6 @@ namespace NotTetrin.Ingame {
             if(level < 6) {
                 fallSpeed = fallSpeed + (0.01f * level);
             }
-            else {
-                fallSpeed = fallSpeed + 0.05f;
-            }
         }
         public void defaultFallSpeed() {
             fallSpeed = defaultfallSpeed;
