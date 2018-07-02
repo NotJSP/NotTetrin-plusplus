@@ -11,10 +11,7 @@ using UnityEngine.SceneManagement;
 namespace NotTetrin.SceneManagement {
     [RequireComponent(typeof(CanvasGroup), typeof(FadeImage))]
     public class LoadingScreen : MonoBehaviour {
-        [SerializeField] private Image panel;
         [SerializeField] private Slider slider;
-
-        private static GameObject singleton;
 
         private CanvasGroup canvas;
         private FadeImage image;
