@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NotTetrin.Utility.Audio;
 
 namespace NotTetrin.Ingame {
     public class IngameSfxManager : AudioManager<IngameSfxType> {
