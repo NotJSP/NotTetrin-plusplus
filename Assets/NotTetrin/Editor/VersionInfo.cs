@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using UnityEditor.Callbacks;
+using UnityEditor.Build;
+using UnityEditor.Build.Reporting;
+using UnityEngine;
 
-public class VersionInfo : MonoBehaviour {
-    [PostProcessBuild]
-    public static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject) {
+public class VersionInfo : IPreprocessBuildWithReport {
+    public int callbackOrder => 0;
+
+    public void OnPreprocessBuild(BuildReport report) {
         var appVersion = PlayerSettings.bundleVersion;
         var versions = appVersion.Split('#');
         var version = versions[0];
