@@ -1418,7 +1418,6 @@ MonoBehaviour:
   sfxManager: {fileID: 319021930}
   minoRigidbody: {fileID: 50390762355908870, guid: 8931317d26297a845868b4e4e2928b09,
     type: 2}
-  CurrentMino: {fileID: 0}
 --- !u!4 &1777563733
 Transform:
   m_ObjectHideFlags: 0
