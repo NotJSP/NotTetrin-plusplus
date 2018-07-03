@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using NotTetrin.Utility;
 
 namespace NotTetrin.Ingame {
     public class MinoManager : MonoBehaviour {
@@ -92,8 +93,9 @@ namespace NotTetrin.Ingame {
         }
 
         public void fallSpeedUp(int level) {
-                fallSpeed = fallSpeed + (0.01f * level);
+            fallSpeed = fallSpeed + (0.01f * level);
         }
+
         public void defaultFallSpeed() {
             fallSpeed = defaultfallSpeed;
         }

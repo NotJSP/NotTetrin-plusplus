@@ -6,5 +6,6 @@ namespace NotTetrin.Ingame {
         public GameObject Instantiate(GameObject original, Vector3 position, Quaternion rotation) => Instantiate(original, position, rotation, 0);
 
         public abstract void Destroy(GameObject obj);
+        public abstract void Destroy(GameObject obj, float t);
     }
 }
