@@ -12,7 +12,7 @@ namespace NotTetrin.Ingame.Marathon {
         [SerializeField] private IngameSfxManager sfxManager;
 
         public CreateTileAndGrouping[] groups;
-        public event EventHandler<int> MinoDeleted;
+        public event EventHandler<int> LineDeleted;
 
         private void Awake() {
             var field = director.CollidersField;
@@ -33,7 +33,7 @@ namespace NotTetrin.Ingame.Marathon {
                 group.DeleteMino();
             }
 
-            MinoDeleted?.Invoke(this, lines);
+            LineDeleted?.Invoke(this, lines);
             sfxManager.Play(IngameSfxType.MinoDelete);
         }
     }

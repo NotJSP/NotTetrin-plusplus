@@ -12,9 +12,7 @@ namespace NotTetrin.Ingame {
         private List<GameObject> objects = new List<GameObject>();
 
         private int[] indices;
-
-        [HideInInspector]
-        public List<int> NextIndices { get; private set; } = new List<int>();
+        public List<int> Indices { get; private set; } = new List<int>();
 
         private void Awake() {
             indices = new int[resolver.Length];
@@ -24,20 +22,24 @@ namespace NotTetrin.Ingame {
         }
 
         public void Clear() {
-            NextIndices.Clear();
+            Indices.Clear();
         }
 
-        public int Next() {
-            if (NextIndices.Count < resolver.Length) {
-                enqueue();
+        public int Pop() {
+            if (Indices.Count < resolver.Length) {
+                enqueueGroup();
             }
 
-            var index = NextIndices[0];
-            NextIndices.RemoveAt(0);
+            var index = Indices[0];
+            Indices.RemoveAt(0);
 
             updateView();
 
             return index;
+        }
+
+        private void enqueueGroup() {
+            Indices.AddRange(indices.Shuffle());
         }
 
         private void updateView() {
@@ -47,7 +49,7 @@ namespace NotTetrin.Ingame {
             objects.Clear();
 
             for (int i = 0; i < frames.Length; i++) {
-                var index = NextIndices[i];
+                var index = Indices[i];
                 var obj = instantiator.Instantiate(resolver.Get(index), frames[i].position, Quaternion.identity);
                 if (i > 0) {
                     obj.transform.localScale *= 0.6f;
@@ -57,10 +59,6 @@ namespace NotTetrin.Ingame {
 
                 objects.Add(obj);
             }
-        }
-
-        private void enqueue() {
-            NextIndices.AddRange(indices.Shuffle());
         }
     }
 }

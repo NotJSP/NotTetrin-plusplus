@@ -2,7 +2,7 @@
 
 namespace NotTetrin.Utility {
     public static class ComponentExtension {
-        public static Rigidbody2D Copy(this Rigidbody2D dst, Rigidbody2D src) {
+        public static Rigidbody2D CopyOf(this Rigidbody2D dst, Rigidbody2D src) {
             dst.bodyType = src.bodyType;
             dst.sharedMaterial = src.sharedMaterial;
             dst.simulated = src.simulated;

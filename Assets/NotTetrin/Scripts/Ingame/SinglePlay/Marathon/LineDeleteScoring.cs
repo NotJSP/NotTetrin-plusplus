@@ -12,7 +12,7 @@ namespace NotTetrin.Ingame.SinglePlay.Marathon {
         [SerializeField] private Score score;
 
         private void Awake() {
-            groupManager.MinoDeleted += onMinoDeleted;
+            groupManager.LineDeleted += onMinoDeleted;
         }
 
         private void onMinoDeleted(object sender, int lines) {

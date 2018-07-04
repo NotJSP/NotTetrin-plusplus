@@ -41,6 +41,7 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
 
         private void connectToPhoton() {
             if (PhotonNetwork.connectionStateDetailed == ClientState.PeerCreated) {
+                statusLabel.text = @"接続中...";
                 Debug.Log("Connecting to Server...");
                 PhotonNetwork.ConnectUsingSettings("1.0");
             }

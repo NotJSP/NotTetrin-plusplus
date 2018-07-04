@@ -24,7 +24,7 @@ namespace NotTetrin.Ingame.Marathon {
         }
 
         private void Awake() {
-            groupManager.MinoDeleted += onMinoDeleted;
+            groupManager.LineDeleted += onMinoDeleted;
             deletecount = 0;
             Value = 1;
             updateText();
@@ -48,7 +48,6 @@ namespace NotTetrin.Ingame.Marathon {
         public void Reset() {
             deletecount = 0;
             level = 1;
-            minoManager.defaultFallSpeed();
             updateText();
         }
 

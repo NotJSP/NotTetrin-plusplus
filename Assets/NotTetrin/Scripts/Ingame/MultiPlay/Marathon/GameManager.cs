@@ -17,6 +17,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         [SerializeField] private GroupManager groupManager;
         [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoManager minoManager;
+        [SerializeField] private GarbageMinoManager garbageMinoManager;
 
         private PhotonView photonView;
         private double gameOverTime = 0.0;
@@ -27,6 +28,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         protected override void Awake() {
             base.Awake();
             photonView = GetComponent<PhotonView>();
+            groupManager.LineDeleted += onDeleteLine;
         }
 
         protected override void OnSceneReady(object sender, EventArgs args) {
@@ -46,6 +48,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             accepted = false;
             sfxManager.Stop(IngameSfxType.GameOver);
             minoManager.Reset();
+            garbageMinoManager.Clear();
         }
 
         private void ready() {
@@ -65,6 +68,14 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             photonView.RPC(@"OnGameoverOpponent", PhotonTargets.Others, gameOverTime);
         }
 
+        private void next() {
+            minoManager.Next();
+        }
+
+        private void onDeleteLine(object sender, int lines) {
+            photonView.RPC(@"OnDeleteLineOpponent", PhotonTargets.Others, lines);
+        }
+
         private void onHitMino(object sender, EventArgs args) {
             // 天井に当たったらゲームオーバー
             if (director.Ceiling.IsHit) {
@@ -72,8 +83,15 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
                 gameover();
             } else {
                 groupManager.DeleteMino();
-                minoManager.Next();
+                StartCoroutine(fallGarbageAndNext());
             }
+        }
+
+        private IEnumerator fallGarbageAndNext() {
+            if (garbageMinoManager.Fall()) {
+                yield return new WaitWhile(() => garbageMinoManager.IsFalling);
+            }
+            next();
         }
 
         public void OnPhotonPlayerDisconnected(PhotonPlayer player) {
@@ -122,6 +140,11 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             Invoke("ready", 9.0f);
 
             accepted = true;
+        }
+
+        [PunRPC]
+        private void OnDeleteLineOpponent(int lines) {
+            garbageMinoManager.Add(lines);
         }
     }
 }
