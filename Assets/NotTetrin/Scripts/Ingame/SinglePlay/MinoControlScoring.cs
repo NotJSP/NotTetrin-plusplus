@@ -18,7 +18,7 @@ namespace NotTetrin.Ingame.SinglePlay {
             if (controller == null) { return; }
 
             var velocity = rigidbody.velocity;
-            if (controller.SoftdropFrames % ScoreIncrementDuration == 1) {
+            if (controller.DropFrames % ScoreIncrementDuration == 1) {
                 velocity.x = 0.0f;
                 var amount = (int)(velocity.magnitude - 1.0f);
                 score.Increase(amount);

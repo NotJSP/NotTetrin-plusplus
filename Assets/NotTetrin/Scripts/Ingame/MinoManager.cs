@@ -80,7 +80,7 @@ namespace NotTetrin.Ingame {
         private void change(GameObject mino) {
             controlable = true;
 
-            mino.AddComponent<Rigidbody2D>().Copy(minoRigidbody);
+            mino.AddComponent<Rigidbody2D>().CopyOf(minoRigidbody);
             var controller = mino.AddComponent<MinoController>().Initialize(sfxManager, fallSpeed);
             Debug.Log(fallSpeed);
             controller.Hit += onHitMino;

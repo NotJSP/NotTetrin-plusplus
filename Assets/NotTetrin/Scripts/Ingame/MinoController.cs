@@ -11,24 +11,23 @@ namespace NotTetrin.Ingame {
         private new Rigidbody2D rigidbody;
 
         private bool hit = false;
+        public event EventHandler Hit;
 
+        private float prevHorizontal;
         private static float LimitHorizontalVelocity = 4.2f;
         private static float LimitAngularVelocity = 180.0f;
 
-        private float prevHorizontal;
-
         private float fallSpeed;
-        private float fallAccelaration = 0.0f;
+        private float fallAccelaration;
+        public int DropFrames { get; private set; }
 
-        private static AnimationCurve SoftdropAccelarationCurve = new AnimationCurve(
+        private static float SoftdropPeekAccelaration = 6.58f;
+        private static float HarddropPeekAccelaration = SoftdropPeekAccelaration * 1.5f;
+        private static AnimationCurve DropAccelarationCurve = new AnimationCurve(
             new Keyframe(0, 0, 1.617043f, 1.617043f, 0, 0.1401876f),
             new Keyframe(1, 1, 0.7356746f, 0.7356746f, 0.3873379f, 0)
         );
-        public int SoftdropFrames { get; private set; } = 0;
-        private static int SoftdropPeekFrame = 60;
-        private static float SoftdropPeekAccelaration = 6.58f;
-
-        public event EventHandler Hit;
+        private static int DropPeekFrames = 60;
 
         public void Awake() {
             dropEffect = GetComponentInChildren<ParticleSystem>();
@@ -46,7 +45,6 @@ namespace NotTetrin.Ingame {
         }
 
         public void Update() {
-            var rigidbody = GetComponent<Rigidbody2D>();
             var velocity = new Vector2(rigidbody.velocity.x, -fallSpeed);
             var torque = 0.0f;
 
@@ -64,12 +62,13 @@ namespace NotTetrin.Ingame {
             prevHorizontal = horizontal;
 
             var vertical = Input.GetAxis(@"Vertical");
-            if (vertical < 0) {
-                SoftdropFrames++;
-                var frames = Mathf.Clamp(SoftdropFrames, 0, SoftdropPeekFrame);
-                fallAccelaration = SoftdropPeekAccelaration * SoftdropAccelarationCurve.Evaluate((float)frames / SoftdropPeekFrame);
+            if (vertical != 0) {
+                DropFrames++;
+                var frames = Mathf.Clamp(DropFrames, 0, DropPeekFrames);
+                var peekAccelaration = (vertical < 0) ? SoftdropPeekAccelaration : HarddropPeekAccelaration;
+                fallAccelaration = peekAccelaration * DropAccelarationCurve.Evaluate((float)frames / DropPeekFrames);
             } else {
-                SoftdropFrames = 0;
+                DropFrames = 0;
                 fallAccelaration *= 0.86f;
             }
 
