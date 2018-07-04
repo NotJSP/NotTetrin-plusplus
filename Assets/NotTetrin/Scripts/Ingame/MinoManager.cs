@@ -11,58 +11,52 @@ namespace NotTetrin.Ingame {
         [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private Rigidbody2D minoRigidbody;
 
-        public event EventHandler HitMino;
-
         private List<GameObject> minos = new List<GameObject>();
         private int currentIndex;
-        private bool useHold = false;
         private bool controlable = true;
         private float fallSpeed = 1.5f;
         private float defaultfallSpeed = 1.5f;
+
+        public event EventHandler HitMino;
+
+        private NextMino nextMino => director.NextMino;
+        private HoldMino holdMino => director.HoldMino;
 
         public GameObject CurrentMino => minos.Count != 0 ? minos[minos.Count - 1] : null;
 
         private void Update() {
             if (!controlable) { return; }
 
-            if (!useHold && Input.GetButtonDown(@"Hold")) {
+            if (Input.GetButtonDown(@"Hold")) {
                 hold();
             }
         }
 
         public void Reset() {
+            fallSpeed = defaultfallSpeed;
             controlable = true;
-            spawner.Clear();
 
-            director.HoldMino.Clear();
-            useHold = false;
+            nextMino.Clear();
+            holdMino.Clear();
 
             minos.ForEach(instantiator.Destroy);
             minos.Clear();
         }
 
         public void Next() {
-            var obj = spawner.Next();
-            change(obj);
-
-            useHold = false;
+            var index = nextMino.Pop();
+            set(index);
+            holdMino.Free();
         }
 
         private void hold() {
-            int? value = director.HoldMino.Value;
-            director.HoldMino.Hold(spawner.LastIndex);
+            var holdIndex = holdMino.Value;
+            if (!holdMino.Push(currentIndex)) { return; }
 
             Destroy();
 
-            if (value == null) {
-                var obj = spawner.Next();
-                change(obj);
-            } else {
-                var obj = spawner.Spawn(value.Value);
-                change(obj);
-            }
-
-            useHold = true;
+            var index = holdIndex.HasValue ? holdIndex.Value : nextMino.Pop();
+            set(index);
         }
 
         public void Release() {
@@ -77,15 +71,17 @@ namespace NotTetrin.Ingame {
             minos.RemoveAt(minos.Count - 1);
         }
 
-        private void change(GameObject mino) {
+        private void set(int index) {
+            currentIndex = index;
             controlable = true;
 
-            mino.AddComponent<Rigidbody2D>().CopyOf(minoRigidbody);
-            var controller = mino.AddComponent<MinoController>().Initialize(sfxManager, fallSpeed);
-            Debug.Log(fallSpeed);
+            var obj = spawner.Spawn(index);
+            obj.AddComponent<Rigidbody2D>().CopyOf(minoRigidbody);
+            var controller = obj.AddComponent<MinoController>().Initialize(sfxManager, fallSpeed);
             controller.Hit += onHitMino;
+            minos.Add(obj);
 
-            minos.Add(mino);
+            Debug.Log(fallSpeed);
         }
 
         private void onHitMino(object sender, EventArgs args) {
@@ -94,10 +90,6 @@ namespace NotTetrin.Ingame {
 
         public void fallSpeedUp(int level) {
             fallSpeed = fallSpeed + (0.01f * level);
-        }
-
-        public void defaultFallSpeed() {
-            fallSpeed = defaultfallSpeed;
         }
     }
 }

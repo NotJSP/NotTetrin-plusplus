@@ -671,7 +671,6 @@ MonoBehaviour:
   sfxManager: {fileID: 2116914407}
   minoRigidbody: {fileID: 50390762355908870, guid: 8931317d26297a845868b4e4e2928b09,
     type: 2}
-  CurrentMino: {fileID: 0}
 --- !u!4 &1243669291
 Transform:
   m_ObjectHideFlags: 0
@@ -787,6 +786,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1547014892}
   - component: {fileID: 1547014891}
+  - component: {fileID: 1547014893}
   - component: {fileID: 1547014894}
   m_Layer: 0
   m_Name: GameManager
@@ -811,6 +811,7 @@ MonoBehaviour:
   groupManager: {fileID: 131515299}
   sfxManager: {fileID: 2116914407}
   minoManager: {fileID: 1243669290}
+  garbageMinoManager: {fileID: 1547014893}
 --- !u!4 &1547014892
 Transform:
   m_ObjectHideFlags: 0
@@ -824,6 +825,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1547014893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1547014890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e00782e4c97444d82f579616b50693, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instantiator: {fileID: 1266729197}
+  resolver: {fileID: 1203814302}
+  spawner: {fileID: 1563286283}
+  minoRigidbody: {fileID: 50390762355908870, guid: 8931317d26297a845868b4e4e2928b09,
+    type: 2}
 --- !u!114 &1547014894
 MonoBehaviour:
   m_ObjectHideFlags: 0

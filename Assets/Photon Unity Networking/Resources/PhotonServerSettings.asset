@@ -47,4 +47,5 @@ MonoBehaviour:
   - OnOpponentHit
   - OnReadyOpponent
   - OnWinAccepted
+  - OnDeleteLineOpponent
   DisableAutoOpenWizard: 1
