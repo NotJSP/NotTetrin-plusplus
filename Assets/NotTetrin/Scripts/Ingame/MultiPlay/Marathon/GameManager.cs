@@ -29,6 +29,10 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             base.Awake();
             photonView = GetComponent<PhotonView>();
             groupManager.LineDeleted += onDeleteLine;
+
+            foreach (var clip in bgmManager.Clips) {
+                bgmManager.Add(clip);
+            }
         }
 
         protected override void OnSceneReady(object sender, EventArgs args) {

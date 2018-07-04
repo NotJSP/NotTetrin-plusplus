@@ -22,17 +22,17 @@ namespace NotTetrin.Ingame.SinglePlay.Marathon {
         [SerializeField] private GroupManager groupManager;
         [SerializeField] private LevelManager levelManager;
 
+        protected override void Awake() {
+            base.Awake();
+            var creator = director.CollidersField.GetComponent<TileCreator>();
+            creator.Create();
+        }
+
         protected override void OnSceneReady(object sender, EventArgs args) {
             base.OnSceneReady(sender, args);
             minoManager.HitMino += onHitMino;
             loadRanking();
             gamestart();
-        }
-
-        protected override void Awake() {
-            base.Awake();
-            var creator = director.CollidersField.GetComponent<TileCreator>();
-            creator.Create();
         }
 
         private void Update() {
