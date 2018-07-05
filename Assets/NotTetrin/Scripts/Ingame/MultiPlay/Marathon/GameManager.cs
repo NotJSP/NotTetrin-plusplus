@@ -23,12 +23,13 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         private PhotonView photonView;
         private double gameOverTime = 0.0;
-        private bool accepted = false;
+        private bool acceptedResult = false;
 
         public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
 
         protected override void Awake() {
             base.Awake();
+
             photonView = GetComponent<PhotonView>();
             groupManager.MinoDeleted += onMinoDeleted;
 
@@ -63,7 +64,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void reset() {
-            accepted = false;
+            acceptedResult = false;
             sfxManager.Stop(IngameSfxType.GameOver);
             minoManager.Reset();
             garbageMinoManager.Clear();
@@ -138,19 +139,19 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         [PunRPC]
         private void OnWinAccepted() {
-            if (accepted) { return; }
+            if (acceptedResult) { return; }
             Debug.Log($"you win.");
 
             bgmManager.Stop();
             sfxManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 
-            accepted = true;
+            acceptedResult = true;
         }
 
         [PunRPC]
         private void OnLoseAccepted() {
-            if (accepted) { return; }
+            if (acceptedResult) { return; }
             Debug.Log($"you lose.");
 
             bgmManager.Stop();
@@ -158,7 +159,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             sfxManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 
-            accepted = true;
+            acceptedResult = true;
         }
 
         [PunRPC]
