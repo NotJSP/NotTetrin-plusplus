@@ -12,7 +12,8 @@ namespace NotTetrin.Ingame.Title {
 
         private void Awake() {
             Application.targetFrameRate = 60;
-            // TODO: 本番では保存しない
+            // TODO: 本番用
+            // PlayerPrefs.DeleteAll();
             if (PlayerPrefs.HasKey(PlayerPrefsKey.PlayerName)) {
                 nameField.text = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
             }
