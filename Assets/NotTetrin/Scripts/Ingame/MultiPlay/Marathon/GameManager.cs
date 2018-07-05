@@ -18,17 +18,41 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoManager minoManager;
         [SerializeField] private GarbageMinoManager garbageMinoManager;
+        [SerializeField] private Text[] playerNameLabels;
+        [SerializeField] private Text[] youLabels;
 
         private PhotonView photonView;
         private double gameOverTime = 0.0;
-        private bool accepted = false;
+        private bool acceptedResult = false;
 
         public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
 
         protected override void Awake() {
             base.Awake();
+
             photonView = GetComponent<PhotonView>();
-            groupManager.LineDeleted += onDeleteLine;
+            groupManager.MinoDeleted += onMinoDeleted;
+
+            foreach (var clip in bgmManager.Clips) {
+                bgmManager.Add(clip);
+            }
+
+            var playerName = IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
+            var opponentName = IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
+            if (PlayerSide == PlayerSide.Left) {
+                playerNameLabels[0].text = playerName;
+                playerNameLabels[1].text = opponentName;
+                youLabels[0].enabled = true;
+            } else {
+                playerNameLabels[1].text = playerName;
+                playerNameLabels[0].text = opponentName;
+                youLabels[1].enabled = true;
+            }
+        }
+
+        private void Start() {
+            PhotonNetwork.sendRate = 30;
+            PhotonNetwork.sendRateOnSerialize = 30;
         }
 
         protected override void OnSceneReady(object sender, EventArgs args) {
@@ -45,7 +69,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void reset() {
-            accepted = false;
+            acceptedResult = false;
             sfxManager.Stop(IngameSfxType.GameOver);
             minoManager.Reset();
             garbageMinoManager.Clear();
@@ -72,14 +96,15 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             minoManager.Next();
         }
 
-        private void onDeleteLine(object sender, int lines) {
-            photonView.RPC(@"OnDeleteLineOpponent", PhotonTargets.Others, lines);
+        private void onMinoDeleted(object sender, DeleteMinoInfo info) {
+            photonView.RPC(@"OnDeleteMinoOpponent", PhotonTargets.Others, info.LineCount, info.ObjectCount);
         }
 
         private void onHitMino(object sender, EventArgs args) {
+            minoManager.Release();
+
             // 天井に当たったらゲームオーバー
             if (director.Ceiling.IsHit) {
-                minoManager.Release();
                 gameover();
             } else {
                 groupManager.DeleteMino();
@@ -119,19 +144,19 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         [PunRPC]
         private void OnWinAccepted() {
-            if (accepted) { return; }
+            if (acceptedResult) { return; }
             Debug.Log($"you win.");
 
             bgmManager.Stop();
             sfxManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 
-            accepted = true;
+            acceptedResult = true;
         }
 
         [PunRPC]
         private void OnLoseAccepted() {
-            if (accepted) { return; }
+            if (acceptedResult) { return; }
             Debug.Log($"you lose.");
 
             bgmManager.Stop();
@@ -139,12 +164,13 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             sfxManager.Play(IngameSfxType.GameOver);
             Invoke("ready", 9.0f);
 
-            accepted = true;
+            acceptedResult = true;
         }
 
         [PunRPC]
-        private void OnDeleteLineOpponent(int lines) {
-            garbageMinoManager.Add(lines);
+        private void OnDeleteMinoOpponent(int lineCount, int objectCount) {
+            var info = new DeleteMinoInfo(lineCount, objectCount);
+            garbageMinoManager.Add(info);
         }
     }
 }

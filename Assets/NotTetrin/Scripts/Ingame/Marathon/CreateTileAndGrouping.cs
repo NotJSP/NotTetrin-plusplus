@@ -21,6 +21,7 @@ namespace NotTetrin.Ingame.Marathon {
         private Instantiator instantiator;
 
         public bool IsEntered => group.EnteredAll;
+        public int EnteredObjectCount => minos.Count();
 
         private ParticleSystem MinoDeleteEffect;
 

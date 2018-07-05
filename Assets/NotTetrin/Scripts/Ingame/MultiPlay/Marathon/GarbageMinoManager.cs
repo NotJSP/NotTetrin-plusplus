@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using NotTetrin.Utility;
+using NotTetrin.Ingame.Marathon;
+
+using Random = UnityEngine.Random;
 
 namespace NotTetrin.Ingame.MultiPlay.Marathon {
     public class GarbageMinoManager : MonoBehaviour {
@@ -12,6 +16,10 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         [SerializeField] MinoResolver resolver;
         [SerializeField] MinoSpawner spawner;
         [SerializeField] Rigidbody2D minoRigidbody;
+
+        private static float OffsetRange = 0.9f;
+        private static float TorqueRange = 150.0f;
+        private static Vector2 ForceGarbage = new Vector2(0, -100.0f);
 
         private List<GameObject> garbages = new List<GameObject>();
         private int readyGarbageCount;
@@ -35,19 +43,24 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         private IEnumerator fallCoroutine(int count) {
             for (int i = 0; i < count; i++) {
                 var index = Random.Range(0, resolver.Length);
-                var obj = spawner.Spawn(index);
+                var offset = Random.Range(-OffsetRange, OffsetRange);
+                var obj = spawner.Spawn(index, offset);
                 var rigidbody = obj.AddComponent<Rigidbody2D>().CopyOf(minoRigidbody);
-                var torque = Random.Range(-180f, 180f);
+                var torque = Random.Range(-TorqueRange, TorqueRange);
                 rigidbody.AddTorque(torque);
+                rigidbody.AddForce(ForceGarbage);
                 garbages.Add(obj);
                 yield return new WaitForSeconds(0.5f);
             }
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(0.8f);
             IsFalling = false;
         }
 
-        public void Add(int lines) {
-            readyGarbageCount += lines;
+        public void Add(DeleteMinoInfo info) {
+            Debug.Log($"lines: {info.LineCount}, objects: {info.ObjectCount}");
+            var amount = info.LineCount + info.ObjectCount / 7;
+            Debug.Log(amount);
+            readyGarbageCount += amount;
         }
     }
 }

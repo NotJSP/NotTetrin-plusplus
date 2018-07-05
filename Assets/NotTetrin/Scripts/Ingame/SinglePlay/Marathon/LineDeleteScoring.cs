@@ -12,11 +12,12 @@ namespace NotTetrin.Ingame.SinglePlay.Marathon {
         [SerializeField] private Score score;
 
         private void Awake() {
-            groupManager.LineDeleted += onMinoDeleted;
+            groupManager.MinoDeleted += onMinoDeleted;
         }
 
-        private void onMinoDeleted(object sender, int lines) {
+        private void onMinoDeleted(object sender, DeleteMinoInfo info) {
             var baseScore = 500.0;
+            var lines = info.LineCount;
             var amount = baseScore * Math.Pow(lines, 2) - baseScore * 0.15 * Math.Pow(lines, 2);
             score.Increase((int)amount);
         }
