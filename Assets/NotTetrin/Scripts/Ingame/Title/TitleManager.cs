@@ -19,6 +19,9 @@ namespace NotTetrin.Ingame.Title {
         }
 
         private void Update() {
+            if (Input.GetButton(@"Escape")) {
+                Application.Quit();
+            }
             if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.D)) {
                 PlayerPrefs.DeleteAll();
                 Debug.Log(@"ローカルデータを削除しました。");
