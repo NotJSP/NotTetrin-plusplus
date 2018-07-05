@@ -841,6 +841,9 @@ MonoBehaviour:
   spawner: {fileID: 1563286283}
   minoRigidbody: {fileID: 50390762355908870, guid: 8931317d26297a845868b4e4e2928b09,
     type: 2}
+  offsetRange: 0.9
+  torqueRange: 180
+  force: {x: 0, y: -3}
 --- !u!114 &1547014894
 MonoBehaviour:
   m_ObjectHideFlags: 0
