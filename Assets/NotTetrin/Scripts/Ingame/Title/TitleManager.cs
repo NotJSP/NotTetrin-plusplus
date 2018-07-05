@@ -11,6 +11,7 @@ namespace NotTetrin.Ingame.Title {
         public static readonly float TransitionDuration = 0.7f;
 
         private void Awake() {
+            Application.targetFrameRate = 60;
             // TODO: 本番では保存しない
             if (PlayerPrefs.HasKey(PlayerPrefsKey.PlayerName)) {
                 nameField.text = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
