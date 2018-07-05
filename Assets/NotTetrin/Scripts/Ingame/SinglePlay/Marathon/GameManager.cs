@@ -82,9 +82,10 @@ namespace NotTetrin.Ingame.SinglePlay.Marathon {
         }
 
         private void onHitMino(object sender, EventArgs args) {
+            minoManager.Release();
+
             // 天井に当たったらゲームオーバー
             if (director.Ceiling.IsHit) {
-                minoManager.Release();
                 gameover();
             } else {
                 score.Increase(200 + (50 * levelManager.getLevel()));
