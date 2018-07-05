@@ -54,8 +54,11 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             IsFalling = false;
         }
 
-        public void Add(int lines) {
-            readyGarbageCount += lines;
+        public void Add(DeleteMinoInfo info) {
+            Debug.Log($"lines: {info.LineCount}, objects: {info.ObjectCount}");
+            var amount = info.LineCount + info.ObjectCount / 7;
+            Debug.Log(amount);
+            readyGarbageCount += amount;
         }
     }
 }

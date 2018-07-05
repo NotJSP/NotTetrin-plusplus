@@ -24,14 +24,14 @@ namespace NotTetrin.Ingame.Marathon {
         }
 
         private void Awake() {
-            groupManager.LineDeleted += onMinoDeleted;
+            groupManager.MinoDeleted += onMinoDeleted;
             deletecount = 0;
             Value = 1;
             updateText();
         }
 
-        private void onMinoDeleted(object sender, int lines) {
-            for (int i = 0; i < lines; i++) {
+        private void onMinoDeleted(object sender, DeleteMinoInfo info) {
+            for (int i = 0; i < info.LineCount; i++) {
                 DeleteCountUp();
             }
         }

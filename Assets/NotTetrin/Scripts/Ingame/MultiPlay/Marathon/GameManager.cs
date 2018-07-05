@@ -28,7 +28,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         protected override void Awake() {
             base.Awake();
             photonView = GetComponent<PhotonView>();
-            groupManager.LineDeleted += onDeleteLine;
+            groupManager.MinoDeleted += onMinoDeleted;
 
             foreach (var clip in bgmManager.Clips) {
                 bgmManager.Add(clip);
@@ -76,8 +76,8 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             minoManager.Next();
         }
 
-        private void onDeleteLine(object sender, int lines) {
-            photonView.RPC(@"OnDeleteLineOpponent", PhotonTargets.Others, lines);
+        private void onMinoDeleted(object sender, DeleteMinoInfo info) {
+            photonView.RPC(@"OnDeleteMinoOpponent", PhotonTargets.Others, info.LineCount, info.ObjectCount);
         }
 
         private void onHitMino(object sender, EventArgs args) {
@@ -148,8 +148,9 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         [PunRPC]
-        private void OnDeleteLineOpponent(int lines) {
-            garbageMinoManager.Add(lines);
+        private void OnDeleteMinoOpponent(int lineCount, int objectCount) {
+            var info = new DeleteMinoInfo(lineCount, objectCount);
+            garbageMinoManager.Add(info);
         }
     }
 }
