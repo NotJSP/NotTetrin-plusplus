@@ -1,23 +1,25 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using NotTetrin.Utility;
+using NotTetrin.Ingame.Marathon;
+
+using Random = UnityEngine.Random;
 
 namespace NotTetrin.Ingame.MultiPlay.Marathon {
     public class GarbageMinoManager : MonoBehaviour {
-        [Header(@"References")]
         [SerializeField] Instantiator instantiator;
         [SerializeField] MinoResolver resolver;
         [SerializeField] MinoSpawner spawner;
         [SerializeField] Rigidbody2D minoRigidbody;
 
-        [Header(@"Properties")]
-        [SerializeField] float offsetRange;
-        [SerializeField] float torqueRange;
-        [SerializeField] Vector2 force;
+        private static float OffsetRange = 0.9f;
+        private static float TorqueRange = 150.0f;
+        private static Vector2 ForceGarbage = new Vector2(0, -100.0f);
 
         private List<GameObject> garbages = new List<GameObject>();
         private int readyGarbageCount;
@@ -41,16 +43,16 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         private IEnumerator fallCoroutine(int count) {
             for (int i = 0; i < count; i++) {
                 var index = Random.Range(0, resolver.Length);
-                var offset = Random.Range(-offsetRange, offsetRange);
+                var offset = Random.Range(-OffsetRange, OffsetRange);
                 var obj = spawner.Spawn(index, offset);
                 var rigidbody = obj.AddComponent<Rigidbody2D>().CopyOf(minoRigidbody);
-                var torque = Random.Range(-torqueRange, torqueRange);
+                var torque = Random.Range(-TorqueRange, TorqueRange);
                 rigidbody.AddTorque(torque);
-                rigidbody.AddForce(force);
+                rigidbody.AddForce(ForceGarbage);
                 garbages.Add(obj);
-                yield return new WaitForSeconds(0.7f);
+                yield return new WaitForSeconds(0.5f);
             }
-            yield return new WaitForSeconds(0.35f);
+            yield return new WaitForSeconds(0.8f);
             IsFalling = false;
         }
 
