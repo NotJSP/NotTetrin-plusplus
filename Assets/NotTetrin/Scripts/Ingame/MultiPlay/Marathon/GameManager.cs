@@ -50,6 +50,11 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             }
         }
 
+        private void Start() {
+            PhotonNetwork.sendRate = 30;
+            PhotonNetwork.sendRateOnSerialize = 30;
+        }
+
         protected override void OnSceneReady(object sender, EventArgs args) {
             base.OnSceneReady(sender, args);
             minoManager.HitMino += onHitMino;
