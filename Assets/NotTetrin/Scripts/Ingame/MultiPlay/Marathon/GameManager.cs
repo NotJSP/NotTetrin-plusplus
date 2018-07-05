@@ -18,6 +18,8 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         [SerializeField] private IngameSfxManager sfxManager;
         [SerializeField] private MinoManager minoManager;
         [SerializeField] private GarbageMinoManager garbageMinoManager;
+        [SerializeField] private Text[] playerNameLabels;
+        [SerializeField] private Text[] youLabels;
 
         private PhotonView photonView;
         private double gameOverTime = 0.0;
@@ -32,6 +34,18 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
             foreach (var clip in bgmManager.Clips) {
                 bgmManager.Add(clip);
+            }
+
+            var playerName = IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
+            var opponentName = IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
+            if (PlayerSide == PlayerSide.Left) {
+                playerNameLabels[0].text = playerName;
+                playerNameLabels[1].text = opponentName;
+                youLabels[0].enabled = true;
+            } else {
+                playerNameLabels[1].text = playerName;
+                playerNameLabels[0].text = opponentName;
+                youLabels[1].enabled = true;
             }
         }
 

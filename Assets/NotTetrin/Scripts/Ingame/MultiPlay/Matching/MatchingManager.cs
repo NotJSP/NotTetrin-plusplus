@@ -9,8 +9,6 @@ using NotTetrin.SceneManagement;
 
 namespace NotTetrin.Ingame.MultiPlay.Matching {
     public class MatchingManager : MonoBehaviour {
-        private static readonly char NameIdSeparator = '_';
-
         [SerializeField]
         private GameObject matchingWindow;
         [SerializeField]
@@ -22,15 +20,7 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
 
         private bool quit = false;
         
-        private string parseNickName(string rawName) {
-            var at_pos = rawName.LastIndexOf(NameIdSeparator);
-            if (at_pos == -1) {
-                return rawName;
-            }
-            return rawName.Substring(0, at_pos);
-        }
-
-        private string playerName => parseNickName(PhotonNetwork.player.NickName);
+        private string playerName => IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
 
         private void Awake() {
             PhotonNetwork.automaticallySyncScene = true;
@@ -75,11 +65,9 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         }
 
         private IEnumerator successMatching() {
-            StopAllCoroutines();
-
             Debug.Log(@"Found the other player. Will begin transit to network battle scene, Wait a moment...");
             messageLabel.text = @"対戦相手が見つかりました！";
-            statusLabel.text = @"あいて: " + parseNickName(PhotonNetwork.otherPlayers[0].NickName);
+            statusLabel.text = @"あいて: " + IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
             cancelButton.interactable = false;
             PhotonNetwork.room.IsOpen = false;
             yield return new WaitForSeconds(2.0f);
@@ -106,7 +94,9 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
             Debug.Log("OnJoinedLobby");
 
             if (string.IsNullOrEmpty(PhotonNetwork.playerName)) {
-                PhotonNetwork.playerName = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName) + NameIdSeparator + PhotonNetwork.AuthValues.UserId;
+                var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
+                var id = PhotonNetwork.AuthValues.UserId;
+                PhotonNetwork.playerName = IdentificationNameUtility.Create(name, id);
             }
 
             statusLabel.text = $"あなた: {playerName}";
