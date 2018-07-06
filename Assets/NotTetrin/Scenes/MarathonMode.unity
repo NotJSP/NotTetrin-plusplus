@@ -502,7 +502,6 @@ MonoBehaviour:
   director: {fileID: 927754451}
   instantiator: {fileID: 360989858}
   sfxManager: {fileID: 319021930}
-  groups: []
 --- !u!4 &764596590
 Transform:
   m_ObjectHideFlags: 0
@@ -622,7 +621,7 @@ MonoBehaviour:
   ceiling: {fileID: 2004020338}
   holdMino: {fileID: 2004020337}
   nextMino: {fileID: 2004020336}
-  collidersField: {fileID: 1545654233}
+  collidersField: {fileID: 1466602960}
 --- !u!4 &927754452
 Transform:
   m_ObjectHideFlags: 0
@@ -855,6 +854,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1466602960 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114767758115911668, guid: 78f8f9e04b2f3794b8ff340635450198,
+    type: 2}
+  m_PrefabInternal: {fileID: 1466602959}
+  m_Script: {fileID: 11500000, guid: b60b5e5f2cf43d641a738388d7e84b0d, type: 3}
 --- !u!1001 &1479132736
 Prefab:
   m_ObjectHideFlags: 0
@@ -996,11 +1001,6 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1062505850}
   m_Script: {fileID: 11500000, guid: 67dcd8c95116de647ae5a2b64aa928a8, type: 3}
---- !u!1 &1545654233 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1807476647688852, guid: 78f8f9e04b2f3794b8ff340635450198,
-    type: 2}
-  m_PrefabInternal: {fileID: 1466602959}
 --- !u!1 &1547014890
 GameObject:
   m_ObjectHideFlags: 0

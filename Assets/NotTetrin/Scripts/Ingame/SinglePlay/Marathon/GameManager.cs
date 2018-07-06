@@ -8,7 +8,7 @@ using UnityEngine.Events;
 using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 using NotTetrin.Ingame.Marathon;
-using NotTetrin.Utility.Physics2D;
+using NotTetrin.Utility.Tiling;
 
 namespace NotTetrin.Ingame.SinglePlay.Marathon {
     public class GameManager : SceneBase {
@@ -24,8 +24,7 @@ namespace NotTetrin.Ingame.SinglePlay.Marathon {
 
         protected override void Awake() {
             base.Awake();
-            var creator = director.CollidersField.GetComponent<TileCreator>();
-            creator.Create();
+            director.CollidersField.Create();
         }
 
         protected override void OnSceneReady(object sender, EventArgs args) {

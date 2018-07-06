@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using NotTetrin.Ingame.MultiPlay.Marathon;
+using NotTetrin.Ingame.Marathon;
 
 namespace NotTetrin.Ingame.MultiPlay {
     public class NetworkDirector : Director {
@@ -8,7 +9,7 @@ namespace NotTetrin.Ingame.MultiPlay {
         [SerializeField] private Ceiling[] ceilings;
         [SerializeField] private HoldMino[] holdMinos;
         [SerializeField] private NextMino[] nextMinos;
-        [SerializeField] private GameObject[] collidersFields;
+        [SerializeField] private CollidersField[] collidersFields;
 
         private int sideIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 0 : 1;
 
@@ -16,6 +17,6 @@ namespace NotTetrin.Ingame.MultiPlay {
         public override Ceiling Ceiling => ceilings[sideIndex];
         public override HoldMino HoldMino => holdMinos[sideIndex];
         public override NextMino NextMino => nextMinos[sideIndex];
-        public override GameObject CollidersField => collidersFields[sideIndex];
+        public override CollidersField CollidersField => collidersFields[sideIndex];
     }
 }

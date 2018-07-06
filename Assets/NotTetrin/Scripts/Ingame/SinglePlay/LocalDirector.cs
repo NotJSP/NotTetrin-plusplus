@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using NotTetrin.Ingame.Marathon;
 
 namespace NotTetrin.Ingame.SinglePlay {
     public class LocalDirector : Director {
@@ -6,12 +7,12 @@ namespace NotTetrin.Ingame.SinglePlay {
         [SerializeField] private Ceiling ceiling;
         [SerializeField] private HoldMino holdMino;
         [SerializeField] private NextMino nextMino;
-        [SerializeField] private GameObject collidersField;
+        [SerializeField] private CollidersField collidersField;
 
         public override GameObject Floor => floor;
         public override Ceiling Ceiling => ceiling;
         public override HoldMino HoldMino => holdMino;
         public override NextMino NextMino => nextMino;
-        public override GameObject CollidersField => collidersField;
+        public override CollidersField CollidersField => collidersField;
     }
 }

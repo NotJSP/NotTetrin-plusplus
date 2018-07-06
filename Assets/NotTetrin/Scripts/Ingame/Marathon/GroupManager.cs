@@ -3,7 +3,6 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NotTetrin.Utility.Physics2D;
 
 namespace NotTetrin.Ingame.Marathon {
     public class GroupManager : MonoBehaviour {
@@ -11,14 +10,12 @@ namespace NotTetrin.Ingame.Marathon {
         [SerializeField] private Instantiator instantiator;
         [SerializeField] private IngameSfxManager sfxManager;
 
-        public CreateTileAndGrouping[] groups;
+        private CollidersGroup[] groups;
         public event EventHandler<DeleteMinoInfo> MinoDeleted;
 
         private void Awake() {
-            var field = director.CollidersField;
-            field.GetComponent<TileCreator>().Create();
-
-            groups = field.GetComponentsInChildren<CreateTileAndGrouping>();
+            var objects = director.CollidersField.Create();
+            groups = objects.Select(o => o.GetComponent<CollidersGroup>()).ToArray();
             foreach (var group in groups) {
                 group.Initialize(instantiator);
             }

@@ -143,7 +143,6 @@ MonoBehaviour:
   director: {fileID: 278848802}
   instantiator: {fileID: 1266729197}
   sfxManager: {fileID: 2116914407}
-  groups: []
 --- !u!4 &131515300
 Transform:
   m_ObjectHideFlags: 0
@@ -589,11 +588,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &430811818 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1807476647688852, guid: 78f8f9e04b2f3794b8ff340635450198,
+--- !u!114 &430811818 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114767758115911668, guid: 78f8f9e04b2f3794b8ff340635450198,
     type: 2}
   m_PrefabInternal: {fileID: 430811817}
+  m_Script: {fileID: 11500000, guid: b60b5e5f2cf43d641a738388d7e84b0d, type: 3}
 --- !u!1 &531289601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1017,11 +1017,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &1444366595 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1807476647688852, guid: 78f8f9e04b2f3794b8ff340635450198,
+--- !u!114 &1444366595 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114767758115911668, guid: 78f8f9e04b2f3794b8ff340635450198,
     type: 2}
   m_PrefabInternal: {fileID: 1444366594}
+  m_Script: {fileID: 11500000, guid: b60b5e5f2cf43d641a738388d7e84b0d, type: 3}
 --- !u!1 &1547014890
 GameObject:
   m_ObjectHideFlags: 0

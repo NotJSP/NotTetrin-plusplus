@@ -4,15 +4,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using NotTetrin.Utility.Physics2D;
+using NotTetrin.Utility.Tiling;
 
 namespace NotTetrin.Ingame.Marathon {
-    /**
-     * タイルを作ってグルーピングするクラス
-     * TileCreatorコンポーネントのCreateOnAwakeをオフにすること!!!
-     */
-    [DefaultExecutionOrder(1)]
     [RequireComponent(typeof(Renderer), typeof(TileCreator))]
-    public class CreateTileAndGrouping : MonoBehaviour {
+    public class CollidersGroup : MonoBehaviour {
         [SerializeField] private DensityIndicator indicator;
 
         private new Renderer renderer;
@@ -22,21 +18,17 @@ namespace NotTetrin.Ingame.Marathon {
 
         public bool IsEntered => group.EnteredAll;
         public int EnteredObjectCount => minos.Count();
-
         private ParticleSystem MinoDeleteEffect;
 
         private void Awake() {
             renderer = GetComponent<Renderer>();
 
             // タイル生成
-            var creator = GetComponent<TileCreator>();
-            creator.Create();
-
-            // 作ったタイルの子供達のColliderHelperを取得
-            var colliders = creator.Children.Select(o => o.GetComponent<ColliderHelper>());
+            var objects = GetComponent<TileCreator>().Create();
+            var colliders = objects.Select(o => o.GetComponent<ColliderHelper>());
             group = new ColliderGroup(colliders);
 
-            MinoDeleteEffect = this.GetComponentInChildren<ParticleSystem>();
+            MinoDeleteEffect = GetComponentInChildren<ParticleSystem>();
             MinoDeleteEffect.Stop();
         }
 
