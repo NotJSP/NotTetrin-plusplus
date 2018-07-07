@@ -296,7 +296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcf4e643959b99448baa3d7406283a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indicator: {fileID: 0}
+  indicatorPrefab: {fileID: 114808026879865094, guid: 01d0e109f84128049a29cc59119677b0,
+    type: 2}
 --- !u!198 &198033149808924982
 ParticleSystem:
   m_ObjectHideFlags: 1

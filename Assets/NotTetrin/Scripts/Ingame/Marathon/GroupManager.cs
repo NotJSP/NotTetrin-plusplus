@@ -6,19 +6,15 @@ using UnityEngine;
 
 namespace NotTetrin.Ingame.Marathon {
     public class GroupManager : MonoBehaviour {
-        [SerializeField] private Director director;
-        [SerializeField] private Instantiator instantiator;
-        [SerializeField] private IngameSfxManager sfxManager;
+        [SerializeField] MarathonDirector director;
+        [SerializeField] Instantiator instantiator;
+        [SerializeField] IngameSfxManager sfxManager;
 
-        private CollidersGroup[] groups;
+        private IEnumerable<CollidersGroup> groups;
         public event EventHandler<DeleteMinoInfo> MinoDeleted;
 
         private void Awake() {
-            var objects = director.CollidersField.Create();
-            groups = objects.Select(o => o.GetComponent<CollidersGroup>()).ToArray();
-            foreach (var group in groups) {
-                group.Initialize(instantiator);
-            }
+            this.groups = director.CollidersField.Create(instantiator, director.SideWall);
         }
 
         public void DeleteMino() {

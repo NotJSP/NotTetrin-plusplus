@@ -38,12 +38,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 812a010336fda2448bbd45538d0a377f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  settingGroup: {fileID: 114160596754671902, guid: 6d75aca1f35316140af2d42ddf55eafb,
+  SettingGroup: {fileID: 114160596754671902, guid: 6d75aca1f35316140af2d42ddf55eafb,
     type: 2}
-  label: {fileID: 114840911795409838, guid: a4a315a1576a24340996e70fc79a957c, type: 2}
-  button: {fileID: 114544214499734304, guid: cdb991dcff270954497f4f95c9a23032, type: 2}
-  toggle: {fileID: 114227189266431760, guid: 5aa17d8ebdc6bb844ad61f5750a7215a, type: 2}
-  inputField: {fileID: 114596266917172170, guid: 87aefac8d876279439ab7ffe45b3570a,
+  Label: {fileID: 114840911795409838, guid: a4a315a1576a24340996e70fc79a957c, type: 2}
+  Button: {fileID: 114544214499734304, guid: cdb991dcff270954497f4f95c9a23032, type: 2}
+  Toggle: {fileID: 114227189266431760, guid: 5aa17d8ebdc6bb844ad61f5750a7215a, type: 2}
+  InputField: {fileID: 114596266917172170, guid: 87aefac8d876279439ab7ffe45b3570a,
     type: 2}
 --- !u!224 &224966874448907842
 RectTransform:

@@ -12,14 +12,14 @@ using NotTetrin.Ingame.Marathon;
 namespace NotTetrin.Ingame.MultiPlay.Marathon {
     [RequireComponent(typeof(PhotonView))]
     public class GameManager : SceneBase {
-        [SerializeField] private Director director;
-        [SerializeField] private BGMManager bgmManager;
-        [SerializeField] private GroupManager groupManager;
-        [SerializeField] private IngameSfxManager sfxManager;
-        [SerializeField] private MinoManager minoManager;
-        [SerializeField] private GarbageMinoManager garbageMinoManager;
-        [SerializeField] private Text[] playerNameLabels;
-        [SerializeField] private Text[] youLabels;
+        [SerializeField] NetworkDirector director;
+        [SerializeField] BGMManager bgmManager;
+        [SerializeField] GroupManager groupManager;
+        [SerializeField] IngameSfxManager sfxManager;
+        [SerializeField] MinoManager minoManager;
+        [SerializeField] GarbageMinoManager garbageMinoManager;
+        [SerializeField] Text[] playerNameLabels;
+        [SerializeField] Text[] youLabels;
 
         private PhotonView photonView;
         private double gameOverTime = 0.0;
@@ -37,22 +37,15 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
                 bgmManager.Add(clip);
             }
 
-            var playerName = IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
-            var opponentName = IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
-            if (PlayerSide == PlayerSide.Left) {
-                playerNameLabels[0].text = playerName;
-                playerNameLabels[1].text = opponentName;
-                youLabels[0].enabled = true;
-            } else {
-                playerNameLabels[1].text = playerName;
-                playerNameLabels[0].text = opponentName;
-                youLabels[1].enabled = true;
-            }
+            director.PlayerNameLabel.text = IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
+            director.OpponentNameLabel.text = IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
+            director.PlayerYouLabel.enabled = true;
         }
 
         private void Start() {
             PhotonNetwork.sendRate = 30;
             PhotonNetwork.sendRateOnSerialize = 30;
+            StartCoroutine(updateAndSendPing());
         }
 
         protected override void OnSceneReady(object sender, EventArgs args) {
@@ -65,6 +58,15 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             if (Input.GetButtonDown(@"Escape")) {
                 if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
                 SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
+            }
+        }
+
+        private IEnumerator updateAndSendPing() {
+            while (true) {
+                var ping = PhotonNetwork.GetPing();
+                director.PlayerPingLabel.text = $"Ping: { ping }ms";
+                photonView.RPC(@"OnUpdateOpponentPing", PhotonTargets.Others, ping);
+                yield return new WaitForSeconds(2.0f);
             }
         }
 
@@ -171,6 +173,11 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         private void OnDeleteMinoOpponent(int lineCount, int objectCount) {
             var info = new DeleteMinoInfo(lineCount, objectCount);
             garbageMinoManager.Add(info);
+        }
+
+        [PunRPC]
+        private void OnUpdateOpponentPing(int ping) {
+            director.OpponentPingLabel.text = $"Ping: { ping }ms";
         }
     }
 }

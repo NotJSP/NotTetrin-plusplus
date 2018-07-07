@@ -1,22 +1,34 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using NotTetrin.Ingame.MultiPlay.Marathon;
 using NotTetrin.Ingame.Marathon;
 
 namespace NotTetrin.Ingame.MultiPlay {
     public class NetworkDirector : Director {
-        [SerializeField] private GameManager gameManager;
-        [SerializeField] private GameObject[] floors;
-        [SerializeField] private Ceiling[] ceilings;
-        [SerializeField] private HoldMino[] holdMinos;
-        [SerializeField] private NextMino[] nextMinos;
-        [SerializeField] private CollidersField[] collidersFields;
+        [SerializeField] GameManager gameManager;
 
-        private int sideIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 0 : 1;
+        [SerializeField] GameObject[] floors;
+        [SerializeField] Ceiling[] ceilings;
+        [SerializeField] HoldMino[] holdMinos;
+        [SerializeField] NextMino[] nextMinos;
 
-        public override GameObject Floor => floors[sideIndex];
-        public override Ceiling Ceiling => ceilings[sideIndex];
-        public override HoldMino HoldMino => holdMinos[sideIndex];
-        public override NextMino NextMino => nextMinos[sideIndex];
-        public override CollidersField CollidersField => collidersFields[sideIndex];
+        [SerializeField] Text[] pingLabels;
+        [SerializeField] Text[] youLabels;
+        [SerializeField] Text[] nameLabels;
+
+        private int playerIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 0 : 1;
+        private int opponentIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 1 : 0;
+
+        public override GameObject Floor => floors[playerIndex];
+        public override Ceiling Ceiling => ceilings[playerIndex];
+        public override HoldMino HoldMino => holdMinos[playerIndex];
+        public override NextMino NextMino => nextMinos[playerIndex];
+
+        public Text PlayerPingLabel => pingLabels[playerIndex];
+        public Text PlayerYouLabel => youLabels[playerIndex];
+        public Text PlayerNameLabel => nameLabels[playerIndex];
+        public Text OpponentPingLabel => pingLabels[opponentIndex];
+        public Text OpponentYouLabel => youLabels[playerIndex];
+        public Text OpponentNameLabel => nameLabels[opponentIndex];
     }
 }

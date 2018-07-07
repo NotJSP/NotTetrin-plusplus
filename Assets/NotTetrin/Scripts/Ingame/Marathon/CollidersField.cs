@@ -9,7 +9,13 @@ using NotTetrin.Utility.Tiling;
 namespace NotTetrin.Ingame.Marathon {
     [RequireComponent(typeof(TileCreator))]
     public class CollidersField : MonoBehaviour {
-        private TileCreator creator => GetComponent<TileCreator>();
-        public GameObject[] Create() => creator.Create();
+        public IEnumerable<CollidersGroup> Create(Instantiator instantiator, GameObject wall) {
+            var objects = GetComponent<TileCreator>().Create();
+            var groups = objects.Select(o => o.GetComponent<CollidersGroup>());
+            foreach (var group in groups) {
+                group.Initialize(instantiator, wall);
+            }
+            return groups;
+        }
     }
 }

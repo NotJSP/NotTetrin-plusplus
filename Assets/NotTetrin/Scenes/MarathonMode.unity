@@ -499,7 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcb98cc145f3c374f90c42038f7229b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  director: {fileID: 927754451}
+  director: {fileID: 927754453}
   instantiator: {fileID: 360989858}
   sfxManager: {fileID: 319021930}
 --- !u!4 &764596590
@@ -599,6 +599,7 @@ GameObject:
   m_Component:
   - component: {fileID: 927754452}
   - component: {fileID: 927754451}
+  - component: {fileID: 927754453}
   m_Layer: 0
   m_Name: Director
   m_TagString: Untagged
@@ -621,7 +622,6 @@ MonoBehaviour:
   ceiling: {fileID: 2004020338}
   holdMino: {fileID: 2004020337}
   nextMino: {fileID: 2004020336}
-  collidersField: {fileID: 1466602960}
 --- !u!4 &927754452
 Transform:
   m_ObjectHideFlags: 0
@@ -635,6 +635,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &927754453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 927754450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15c56a6e514064c49baf73760d87aff1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sideWall: {fileID: 1101157158}
+  collidersField: {fileID: 1466602960}
 --- !u!1001 &941073982
 Prefab:
   m_ObjectHideFlags: 0
@@ -729,6 +742,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7bd3ccf1d73f0c543aaea825854c0e2c, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1101157158 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1073031123237634, guid: a793d5f07d8c1f748acbf4e5dce69f7c,
+    type: 2}
+  m_PrefabInternal: {fileID: 2004020335}
 --- !u!1 &1331567507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,7 +1362,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.24705882, g: 0.3984562, b: 0.5176471, a: 1}
+  m_BackGroundColor: {r: 0.3019608, g: 0.4627451, b: 0.6, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
