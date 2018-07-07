@@ -296,6 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 223628005916484264}
+  canvasGroup: {fileID: 225349134570945168}
   screen: {fileID: 114020908963654456}
 --- !u!114 &114360541030094060
 MonoBehaviour:

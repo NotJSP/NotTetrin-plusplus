@@ -1,15 +1,18 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace NotTetrin.SceneManagement {
     public class SceneController : SingletonMonoBehaviour<SceneController> {
-        [SerializeField] private Canvas canvas;
-        [SerializeField] private LoadingScreen screen;
+        [SerializeField] Canvas canvas;
+        [SerializeField] CanvasGroup canvasGroup;
+        [SerializeField] LoadingScreen screen;
 
         public event EventHandler SceneReady;
+        private string lastSceneName;
         private Coroutine coroutine;
 
         private void Start() {
@@ -17,7 +20,13 @@ namespace NotTetrin.SceneManagement {
         }
 
         public void LoadScene(string scene, float interval) {
-            if (coroutine != null) { return; }
+            if (lastSceneName == scene) { return; }
+            StartCoroutine(waitAndTransitScene(scene, interval));
+            lastSceneName = scene;
+        }
+
+        private IEnumerator waitAndTransitScene(string scene, float interval) {
+            yield return new WaitUntil(() => coroutine == null);
             coroutine = StartCoroutine(transitScene(scene, interval));
         }
 
@@ -27,8 +36,10 @@ namespace NotTetrin.SceneManagement {
             operation.allowSceneActivation = false;
 
             // フェードイン
+            canvasGroup.blocksRaycasts = true;
             canvas.enabled = true;
             screen.FadeIn(interval);
+
             // ロードアニメーション
             screen.Play(operation);
             yield return new WaitWhile(() => screen.isFading);
@@ -44,8 +55,11 @@ namespace NotTetrin.SceneManagement {
             // フェードアウト
             screen.FadeOut(interval);
             yield return new WaitWhile(() => screen.isFading);
+
+            // 後処理
             screen.Stop();
             canvas.enabled = false;
+            canvasGroup.blocksRaycasts = false;
 
             // コルーチンの削除
             coroutine = null;
