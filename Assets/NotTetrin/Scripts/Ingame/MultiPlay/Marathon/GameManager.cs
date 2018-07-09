@@ -19,14 +19,14 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         [SerializeField] IngameSfxManager sfxManager;
         [SerializeField] MinoManager minoManager;
         [SerializeField] GarbageMinoManager garbageMinoManager;
-        [SerializeField] Text[] playerNameLabels;
-        [SerializeField] Text[] youLabels;
 
         [SerializeField] MessageWindow messageWindow;
 
         private PhotonView photonView;
         private double gameOverTime = 0.0;
+        private bool startedGame = false;
         private bool acceptedResult = false;
+        private bool quit = false;
 
         public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
 
@@ -46,8 +46,8 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void Start() {
-            PhotonNetwork.sendRate = 30;
-            PhotonNetwork.sendRateOnSerialize = 30;
+            PhotonNetwork.sendRate = 10;
+            PhotonNetwork.sendRateOnSerialize = 10;
             StartCoroutine(updateAndSendPing());
         }
 
@@ -59,6 +59,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         private void Update() {
             if (Input.GetButtonDown(@"Escape")) {
+                quit = true;
                 ExitGame();
             }
         }
@@ -85,12 +86,14 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void ready() {
-            // âûã}ë[íu
-            //photonView.RPC(@"OnReadyOpponent", PhotonTargets.Others);
-            gamestart();
+            startedGame = false;
+            photonView.RPC(@"OnReadyOpponent", PhotonTargets.Others);
         }
 
         private void gamestart() {
+            photonView.RPC(@"OnGamestartOpponent", PhotonTargets.Others);
+            startedGame = true;
+
             reset();
             director.Floor.SetActive(true);
             bgmManager.RandomPlay();
@@ -131,6 +134,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void OnDisconnectedFromPhoton() {
+            if (quit) { return; }
             messageWindow.Show("í êMÇ™êÿífÇ≥ÇÍÇ‹ÇµÇΩÅB");
             Invoke(@"ExitGame", 3.0f);
         }
@@ -143,7 +147,14 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         [PunRPC]
         private void OnReadyOpponent() {
-            //gamestart();
+            if (startedGame) { return; }
+            gamestart();
+        }
+
+        [PunRPC]
+        private void OnGamestartOpponent() {
+            if (startedGame) { return; }
+            gamestart();
         }
 
         [PunRPC]

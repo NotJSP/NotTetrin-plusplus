@@ -51,4 +51,5 @@ MonoBehaviour:
   - OnDeleteMinoOpponent
   - OnOpponentUpdatePing
   - OnUpdateOpponentPing
+  - OnGamestartOpponent
   DisableAutoOpenWizard: 1
