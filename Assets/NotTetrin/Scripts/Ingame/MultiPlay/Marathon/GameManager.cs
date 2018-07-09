@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using NotTetrin.UI;
 using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 using NotTetrin.Ingame.Marathon;
@@ -20,6 +21,8 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         [SerializeField] GarbageMinoManager garbageMinoManager;
         [SerializeField] Text[] playerNameLabels;
         [SerializeField] Text[] youLabels;
+
+        [SerializeField] MessageWindow messageWindow;
 
         private PhotonView photonView;
         private double gameOverTime = 0.0;
@@ -56,9 +59,13 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         private void Update() {
             if (Input.GetButtonDown(@"Escape")) {
-                if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
-                SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
+                ExitGame();
             }
+        }
+
+        public void ExitGame() {
+            if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
+            SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
         }
 
         private IEnumerator updateAndSendPing() {
@@ -78,7 +85,9 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void ready() {
-            photonView.RPC(@"OnReadyOpponent", PhotonTargets.Others);
+            // âûã}ë[íu
+            //photonView.RPC(@"OnReadyOpponent", PhotonTargets.Others);
+            gamestart();
         }
 
         private void gamestart() {
@@ -121,13 +130,20 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             next();
         }
 
-        public void OnPhotonPlayerDisconnected(PhotonPlayer player) {
+        private void OnDisconnectedFromPhoton() {
+            messageWindow.Show("í êMÇ™êÿífÇ≥ÇÍÇ‹ÇµÇΩÅB");
+            Invoke(@"ExitGame", 3.0f);
+        }
+
+        private void OnPhotonPlayerDisconnected(PhotonPlayer player) {
             Debug.Log($"disconnected opponent.");
+            messageWindow.Show("ëŒêÌëäéËÇ™êÿífÇ≥ÇÍÇ‹ÇµÇΩÅB");
+            Invoke(@"ExitGame", 3.0f);
         }
 
         [PunRPC]
         private void OnReadyOpponent() {
-            gamestart();
+            //gamestart();
         }
 
         [PunRPC]
