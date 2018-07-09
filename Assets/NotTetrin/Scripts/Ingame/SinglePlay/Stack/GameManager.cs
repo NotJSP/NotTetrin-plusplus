@@ -27,6 +27,9 @@ namespace NotTetrin.Ingame.SinglePlay.Stack {
             if (Input.GetButtonDown(@"Escape")) {
                 SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
             }
+            if (Input.GetKeyDown(KeyCode.F12)) {
+                gamestart();
+            }
         }
 
         private void reset() {

@@ -8,25 +8,19 @@ using UnityEngine.Events;
 using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 using NotTetrin.Ingame.Marathon;
-using NotTetrin.Utility.Physics2D;
+using NotTetrin.Utility.Tiling;
 
 namespace NotTetrin.Ingame.SinglePlay.Marathon {
     public class GameManager : SceneBase {
-        [SerializeField] private Director director;
-        [SerializeField] private BGMManager bgmManager;
-        [SerializeField] private IngameSfxManager sfxManager;
-        [SerializeField] private MinoManager minoManager;
-        [SerializeField] private Score score;
-        [SerializeField] private HighScore highScore;
-        [SerializeField] private Ranking ranking;
-        [SerializeField] private GroupManager groupManager;
-        [SerializeField] private LevelManager levelManager;
-
-        protected override void Awake() {
-            base.Awake();
-            var creator = director.CollidersField.GetComponent<TileCreator>();
-            creator.Create();
-        }
+        [SerializeField] Director director;
+        [SerializeField] BGMManager bgmManager;
+        [SerializeField] IngameSfxManager sfxManager;
+        [SerializeField] MinoManager minoManager;
+        [SerializeField] Score score;
+        [SerializeField] HighScore highScore;
+        [SerializeField] Ranking ranking;
+        [SerializeField] GroupManager groupManager;
+        [SerializeField] LevelManager levelManager;
 
         protected override void OnSceneReady(object sender, EventArgs args) {
             base.OnSceneReady(sender, args);
@@ -38,6 +32,9 @@ namespace NotTetrin.Ingame.SinglePlay.Marathon {
         private void Update() {
             if (Input.GetButtonDown(@"Escape")) {
                 SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
+            }
+            if (Input.GetKeyDown(KeyCode.F12)) {
+                gamestart();
             }
         }
 

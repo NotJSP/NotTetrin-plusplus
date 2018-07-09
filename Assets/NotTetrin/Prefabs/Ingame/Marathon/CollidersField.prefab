@@ -21,8 +21,9 @@ GameObject:
   - component: {fileID: 4229140773569474}
   - component: {fileID: 212483574269882754}
   - component: {fileID: 114000224343869572}
+  - component: {fileID: 114767758115911668}
   m_Layer: 0
-  m_Name: Colliders Field
+  m_Name: CollidersField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,9 +55,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 1999161398672582, guid: 5c9b07743fd77e9448594d14c1d5ffcf, type: 2}
   Field: {fileID: 1807476647688852}
-  CreateOnAwake: 0
   DivideNumX: 1
   DivideNumY: 22
+--- !u!114 &114767758115911668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1807476647688852}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60b5e5f2cf43d641a738388d7e84b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212483574269882754
 SpriteRenderer:
   m_ObjectHideFlags: 1

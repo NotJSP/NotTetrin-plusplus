@@ -3,50 +3,51 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using NotTetrin.Utility;
 using NotTetrin.Utility.Physics2D;
+using NotTetrin.Utility.Tiling;
 
 namespace NotTetrin.Ingame.Marathon {
-    /**
-     * タイルを作ってグルーピングするクラス
-     * TileCreatorコンポーネントのCreateOnAwakeをオフにすること!!!
-     */
-    [DefaultExecutionOrder(1)]
     [RequireComponent(typeof(Renderer), typeof(TileCreator))]
-    public class CreateTileAndGrouping : MonoBehaviour {
-        [SerializeField] private DensityIndicator indicator;
+    public class CollidersGroup : MonoBehaviour {
+        [SerializeField] DensityIndicator indicatorPrefab;
 
         private new Renderer renderer;
         private List<GameObject> minos = new List<GameObject>();
         private ColliderGroup group;
         private Instantiator instantiator;
+        private DensityIndicator indicator;
 
         public bool IsEntered => group.EnteredAll;
         public int EnteredObjectCount => minos.Count();
-
         private ParticleSystem MinoDeleteEffect;
 
         private void Awake() {
             renderer = GetComponent<Renderer>();
 
             // タイル生成
-            var creator = GetComponent<TileCreator>();
-            creator.Create();
-
-            // 作ったタイルの子供達のColliderHelperを取得
-            var colliders = creator.Children.Select(o => o.GetComponent<ColliderHelper>());
+            var objects = GetComponent<TileCreator>().Create();
+            var colliders = objects.Select(o => o.GetComponent<ColliderHelper>());
             group = new ColliderGroup(colliders);
 
-            MinoDeleteEffect = this.GetComponentInChildren<ParticleSystem>();
+            MinoDeleteEffect = GetComponentInChildren<ParticleSystem>();
             MinoDeleteEffect.Stop();
         }
 
-        public void Initialize(Instantiator instantiator) {
+        public void Initialize(Instantiator instantiator, GameObject wall) {
             this.instantiator = instantiator;
+
+            this.indicator = Instantiate(indicatorPrefab, transform, false);
+            var rate = gameObject.size().y / indicator.gameObject.size().y;
+            var scale = indicator.gameObject.transform.localScale;
+            scale.y *= rate;
+            indicator.gameObject.transform.localScale = scale;
+            indicator.Initialize(wall);
         }
 
         private void Update() {
-            // var density = (float)group.EnterCount / group.Children.Length;
-            // indicator.UpdateDensity(density);
+            var density = (float)group.EnterCount / group.Children.Count();
+            indicator.UpdateDensity(density);
             renderer.enabled = IsEntered;
         }
 

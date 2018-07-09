@@ -12,7 +12,7 @@ namespace NotTetrin.Setting {
         [SerializeField] BGMManager bgmManager;
 
         public override void Create(RectTransform container) {
-            var group = Instantiate(templates.settingGroup, container);
+            var group = Instantiate(templates.SettingGroup, container);
             group.title = @"BGM設定";
 
             foreach (var clip in bgmManager.Clips) {
@@ -24,14 +24,14 @@ namespace NotTetrin.Setting {
                     bgmManager.Add(clip);
                 }
 
-                var toggle = Instantiate(templates.toggle, group.container);
+                var toggle = Instantiate(templates.Toggle, group.container);
                 toggle.isOn = enabled;
                 toggle.onValueChanged.AddListener(c => onValueChanged(clip, c));
                 var toggleLabel = toggle.GetComponentInChildren<Text>();
                 toggleLabel.text = clip.name;
             }
 
-            var button = Instantiate(templates.button, group.container);
+            var button = Instantiate(templates.Button, group.container);
             button.onClick.AddListener(() => bgmManager.RandomPlay());
             var buttonLabel = button.GetComponentInChildren<Text>();
             buttonLabel.text = @"ランダム再生";

@@ -672,7 +672,6 @@ MonoBehaviour:
   ceiling: {fileID: 994670300}
   holdMino: {fileID: 282731024}
   nextMino: {fileID: 1555931825}
-  collidersField: {fileID: 0}
 --- !u!4 &927754452
 Transform:
   m_ObjectHideFlags: 0
@@ -1045,7 +1044,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.24705882, g: 0.3984562, b: 0.5176471, a: 1}
+  m_BackGroundColor: {r: 0.3, g: 0.46, b: 0.6, a: 1}
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0

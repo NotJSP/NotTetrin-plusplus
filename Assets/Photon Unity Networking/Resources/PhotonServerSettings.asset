@@ -49,4 +49,6 @@ MonoBehaviour:
   - OnWinAccepted
   - OnDeleteLineOpponent
   - OnDeleteMinoOpponent
+  - OnOpponentUpdatePing
+  - OnUpdateOpponentPing
   DisableAutoOpenWizard: 1

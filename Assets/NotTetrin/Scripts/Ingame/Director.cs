@@ -6,6 +6,5 @@ namespace NotTetrin.Ingame {
         public abstract Ceiling Ceiling { get; }
         public abstract HoldMino HoldMino { get; }
         public abstract NextMino NextMino { get; }
-        public abstract GameObject CollidersField { get; }
     }
 }

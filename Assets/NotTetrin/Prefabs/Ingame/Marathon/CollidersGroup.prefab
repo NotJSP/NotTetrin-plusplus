@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 114439531345358974}
   - component: {fileID: 114496841464089782}
   m_Layer: 0
-  m_Name: GroupField
+  m_Name: CollidersGroup
   m_TagString: GroupField
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -283,7 +283,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefab: {fileID: 1275739746290962, guid: d3e9aa5bce5950542bb34ef68cbf4821, type: 2}
   Field: {fileID: 1999161398672582}
-  CreateOnAwake: 0
   DivideNumX: 20
   DivideNumY: 3
 --- !u!114 &114496841464089782
@@ -297,7 +296,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dcf4e643959b99448baa3d7406283a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indicator: {fileID: 0}
+  indicatorPrefab: {fileID: 114808026879865094, guid: 01d0e109f84128049a29cc59119677b0,
+    type: 2}
 --- !u!198 &198033149808924982
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -27617,6 +27617,6 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.293215, y: -21.2527}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.64, y: 0.64}
   m_Pivot: {x: 0.5, y: 0.5}
