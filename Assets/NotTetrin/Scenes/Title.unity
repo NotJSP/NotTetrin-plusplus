@@ -618,7 +618,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6d46fa7cc3c03e439a6430bf3e696cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameField: {fileID: 723010416}
   toggler: {fileID: 800563996}
 --- !u!114 &631146421
 MonoBehaviour:
@@ -1060,7 +1059,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0fac4bcc416ef6438e5072f83900370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameField: {fileID: 723010416}
   toggler: {fileID: 800563996}
 --- !u!114 &1108949958
 MonoBehaviour:
@@ -1699,7 +1697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a95211034e268742aec447f2f5ccf2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameField: {fileID: 723010416}
   toggler: {fileID: 800563996}
 --- !u!114 &1757385373
 MonoBehaviour:
