@@ -93,11 +93,9 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         public void OnJoinedLobby() {
             Debug.Log("OnJoinedLobby");
 
-            if (string.IsNullOrEmpty(PhotonNetwork.playerName)) {
-                var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
-                var id = PhotonNetwork.AuthValues.UserId;
-                PhotonNetwork.playerName = IdentificationNameUtility.Create(name, id);
-            }
+            var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
+            var id = PhotonNetwork.AuthValues.UserId;
+            PhotonNetwork.playerName = IdentificationNameUtility.Create(name, id);
 
             statusLabel.text = $"あなた: {playerName}";
             StartMatching();
