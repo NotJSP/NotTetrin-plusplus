@@ -3,10 +3,13 @@ using UnityEngine.UI;
 
 namespace NotTetrin.UI { 
     public class SelectableToggler : MonoBehaviour {
-        [SerializeField]
-        private Selectable[] objects;
+        [SerializeField] CanvasGroup[] groups;
+        [SerializeField] Selectable[] objects;
 
         public void ToggleAll() {
+            foreach (var group in groups) {
+                group.interactable = !group.interactable;
+            }
             foreach (var obj in objects) {
                 obj.interactable = !obj.interactable;
             }
