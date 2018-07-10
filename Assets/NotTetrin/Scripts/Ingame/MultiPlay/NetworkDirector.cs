@@ -15,6 +15,7 @@ namespace NotTetrin.Ingame.MultiPlay {
         [SerializeField] Text[] pingLabels;
         [SerializeField] Text[] youLabels;
         [SerializeField] Text[] nameLabels;
+        [SerializeField] WinsCounter[] winsCounters;
 
         private int playerIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 0 : 1;
         private int opponentIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 1 : 0;
@@ -27,8 +28,10 @@ namespace NotTetrin.Ingame.MultiPlay {
         public Text PlayerPingLabel => pingLabels[playerIndex];
         public Text PlayerYouLabel => youLabels[playerIndex];
         public Text PlayerNameLabel => nameLabels[playerIndex];
+        public WinsCounter PlayerWinsCounter => winsCounters[playerIndex];
         public Text OpponentPingLabel => pingLabels[opponentIndex];
         public Text OpponentYouLabel => youLabels[playerIndex];
         public Text OpponentNameLabel => nameLabels[opponentIndex];
+        public WinsCounter OpponentWinsCounter => winsCounters[opponentIndex];
     }
 }

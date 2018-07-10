@@ -36,10 +36,6 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             photonView = GetComponent<PhotonView>();
             groupManager.MinoDeleted += onMinoDeleted;
 
-            foreach (var clip in bgmManager.Clips) {
-                bgmManager.Add(clip);
-            }
-
             director.PlayerNameLabel.text = IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
             director.OpponentNameLabel.text = IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
             director.PlayerYouLabel.enabled = true;
@@ -175,6 +171,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         private void OnWinAccepted() {
             if (acceptedResult) { return; }
             Debug.Log($"you win.");
+            director.PlayerWinsCounter.Increment();
 
             bgmManager.Stop();
             sfxManager.Play(IngameSfxType.GameOver);
@@ -187,6 +184,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         private void OnLoseAccepted() {
             if (acceptedResult) { return; }
             Debug.Log($"you lose.");
+            director.OpponentWinsCounter.Increment();
 
             bgmManager.Stop();
             director.Floor.SetActive(false);
