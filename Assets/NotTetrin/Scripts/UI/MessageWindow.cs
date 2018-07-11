@@ -17,14 +17,13 @@ namespace NotTetrin.UI {
         }
 
         public void Show(string message) {
-//            messageText.text = message;
-
+            messageText.text = message;
             enableObject();
-            animator.Play(@"WindowOpen");
+            animator.Play(@"OpenWindow", 0);
         }
 
         public void Hide() {
-            animator.Play(@"WindowClose");
+            animator.Play(@"CloseWindow", 0);
             var state = animator.GetCurrentAnimatorStateInfo(0);
             Invoke(@"disableObject", state.length);
         }

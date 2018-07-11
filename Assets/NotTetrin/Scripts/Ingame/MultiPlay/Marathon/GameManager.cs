@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
@@ -113,7 +113,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         private void onHitMino(object sender, EventArgs args) {
             minoManager.Release();
 
-            // “Vˆä‚É“–‚½‚Á‚½‚çƒQ[ƒ€ƒI[ƒo[
+            // å¤©äº•ã«å½“ãŸã£ãŸã‚‰ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼
             if (director.Ceiling.IsHit) {
                 gameover();
             } else {
@@ -131,13 +131,13 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         private void OnDisconnectedFromPhoton() {
             if (quit) { return; }
-            messageWindow.Show("’ÊM‚ªØ’f‚³‚ê‚Ü‚µ‚½B");
+            messageWindow.Show("é€šä¿¡ãŒåˆ‡æ–­ã•ã‚Œã¾ã—ãŸã€‚");
             Invoke(@"ExitGame", 3.0f);
         }
 
         private void OnPhotonPlayerDisconnected(PhotonPlayer player) {
             Debug.Log($"disconnected opponent.");
-            messageWindow.Show("‘Îí‘Šè‚ªØ’f‚³‚ê‚Ü‚µ‚½B");
+            messageWindow.Show("å¯¾æˆ¦ç›¸æ‰‹ãŒåˆ‡æ–­ã•ã‚Œã¾ã—ãŸã€‚");
             Invoke(@"ExitGame", 3.0f);
         }
 
