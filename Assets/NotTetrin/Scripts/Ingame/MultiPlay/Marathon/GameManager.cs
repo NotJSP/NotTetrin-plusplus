@@ -28,12 +28,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         private bool acceptedResult = false;
         private bool quit = false;
 
-        public float BackToMatchingSeconds {
-            get {
-                var min = 3.0f;
-                return min + Random.Range(0.0f, 2.0f);
-            }
-        }
+        private static readonly float BackToMatchingSeconds = 3.0f;
 
         protected override void Awake() {
             base.Awake();
@@ -122,6 +117,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void win() {
+            quit = true;
             messageWindow.Message = @"<size=48>あなたの<color=red>勝ち</color>!!</size>";
             messageWindow.Status = @"マッチングに戻ります";
             messageWindow.Show();
@@ -129,6 +125,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void lose() {
+            quit = true;
             messageWindow.Message = @"あなたの<color=blue>負け</color>..";
             messageWindow.Status = @"マッチングに戻ります";
             messageWindow.Show();

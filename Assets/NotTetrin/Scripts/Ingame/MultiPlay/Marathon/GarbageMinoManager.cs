@@ -13,6 +13,7 @@ using Random = UnityEngine.Random;
 namespace NotTetrin.Ingame.MultiPlay.Marathon {
     public class GarbageMinoManager : MonoBehaviour {
         [SerializeField] Instantiator instantiator;
+        [SerializeField] NetworkMarathonDirector director;
         [SerializeField] MinoResolver resolver;
         [SerializeField] MinoSpawner spawner;
         [SerializeField] Rigidbody2D minoRigidbody;
@@ -27,9 +28,19 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         public bool IsFalling { get; private set; }
 
+        private int ReadyGarbageCount {
+            get {
+                return readyGarbageCount;
+            }
+            set {
+                readyGarbageCount = value;
+                updateIndicator();
+            }
+        }
+
         public void Clear() {
             garbages.ForEach(instantiator.Destroy);
-            readyGarbageCount = 0;
+            ReadyGarbageCount = 0;
             elapsedTime = 0.0f;
         }
 
@@ -38,11 +49,12 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         public bool Fall() {
-            if (readyGarbageCount == 0) { return false; }
+            if (ReadyGarbageCount == 0) { return false; }
 
             IsFalling = true;
-            StartCoroutine(fallCoroutine(readyGarbageCount));
-            readyGarbageCount = 0;
+            StartCoroutine(fallCoroutine(ReadyGarbageCount));
+            ReadyGarbageCount = 0;
+            updateIndicator();
 
             return true;
         }
@@ -70,7 +82,11 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             var cf = 1.0f + 0.5f * (int)(elapsedTime / 60);
             var amount = (lineAmount + objectAmount) * cf;
             Debug.Log(amount);
-            readyGarbageCount += (int)amount;
+            ReadyGarbageCount += (int)amount;
+        }
+
+        private void updateIndicator() {
+            director.GarbageIndicator.Value = readyGarbageCount;
         }
     }
 }
