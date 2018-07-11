@@ -4,28 +4,21 @@ using UnityEngine;
 
 namespace NotTetrin.Ingame.MultiPlay {
     public class WinsCounter : MonoBehaviour {
-        [SerializeField] SpriteRenderer[] stars;
+        [SerializeField] WinsStar[] stars;
 
-        private Color disableColor = new Color(0.8f, 0.8f, 0.8f);
-        private Color enableColor = new Color(1.0f, 1.0f, 0.0f);
-
-        private int count;
-        public bool CountLimited => (count >= stars.Length);
-
-        private void Awake() {
-            updateStars();
-        }
+        [HideInInspector]
+        public int Count;
+        public bool CountLimited => (Count >= stars.Length);
 
         public void Increment() {
-            count++;
-            updateStars();
+            if (CountLimited) { return; }
+            StartCoroutine(enableStar(stars[Count]));
+            Count++;
         }
 
-        private void updateStars() {
-            for (int i = 0; i < stars.Length; i++) {
-                var color = (i < count) ? enableColor : disableColor;
-                stars[i].color = color;
-            }
+        private IEnumerator enableStar(WinsStar star) {
+            yield return new WaitForSeconds(2.0f);
+            star.Enable();
         }
     }
 }

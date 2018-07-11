@@ -26,10 +26,14 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
             PhotonNetwork.automaticallySyncScene = true;
             Debug.Log(PhotonNetwork.connectionStateDetailed);
 
-            if (PhotonNetwork.connectionStateDetailed == ClientState.PeerCreated) {
+            var state = PhotonNetwork.connectionStateDetailed;
+            if (state == ClientState.PeerCreated) {
                 connectToPhoton();
             }
-            // PhotonNetwork.logLevel = PhotonLogLevel.Full;
+            if (state == ClientState.ConnectingToMasterserver) {
+                joinLobby();
+            }
+            // PhotonNetwork.logLevel = PhostonLogLevel.Full;
         }
 
         private void Start() {
@@ -47,6 +51,10 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
             Debug.Log("Connecting to Server...");
             statusLabel.text = @"接続中";
             PhotonNetwork.ConnectUsingSettings("1.0");
+        }
+
+        private void joinLobby() {
+            PhotonNetwork.JoinLobby();
         }
 
         private IEnumerator requestJoinRandomRoom() {
@@ -145,7 +153,7 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
 
         public void OnConnectedToMaster() {
             Debug.Log("OnConnectedToMaster()");
-            PhotonNetwork.JoinLobby();
+            joinLobby();
         }
     }
 }
