@@ -23,11 +23,18 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         private List<GameObject> garbages = new List<GameObject>();
         private int readyGarbageCount;
+        private float elapsedTime;
+
         public bool IsFalling { get; private set; }
 
         public void Clear() {
             garbages.ForEach(instantiator.Destroy);
             readyGarbageCount = 0;
+            elapsedTime = 0.0f;
+        }
+
+        private void Update() {
+            elapsedTime += Time.deltaTime;
         }
 
         public bool Fall() {
@@ -58,9 +65,12 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         public void Add(DeleteMinoInfo info) {
             Debug.Log($"lines: {info.LineCount}, objects: {info.ObjectCount}");
-            var amount = info.LineCount + info.ObjectCount / 7;
+            var lineAmount = (float)info.LineCount;
+            var objectAmount = (float)info.ObjectCount / 6;
+            var cf = 1.0f + 0.5f * (int)(elapsedTime / 60);
+            var amount = (lineAmount + objectAmount) * cf;
             Debug.Log(amount);
-            readyGarbageCount += amount;
+            readyGarbageCount += (int)amount;
         }
     }
 }

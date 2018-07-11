@@ -94,22 +94,22 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void reset() {
-            startedGame = false;
             acceptedResult = false;
             minoManager.Reset();
             garbageMinoManager.Clear();
         }
 
         private void ready() {
-            reset();
-            director.Floor.SetActive(true);
+            startedGame = false;
             photonView.RPC(@"OnReadyOpponent", PhotonTargets.Others);
         }
 
         private void gamestart() {
-            startedGame = true;
             photonView.RPC(@"OnGamestartOpponent", PhotonTargets.Others);
 
+            reset();
+            startedGame = true;
+            director.Floor.SetActive(true);
             sfxManager.Stop(IngameSfxType.GameOver);
             sfxManager.Play(IngameSfxType.GameStart);
             bgmManager.RandomPlay();
@@ -180,12 +180,14 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         [PunRPC]
         private void OnReadyOpponent() {
+            Debug.Log("OnReadyOpponent");
             if (startedGame) { return; }
             gamestart();
         }
 
         [PunRPC]
         private void OnGamestartOpponent() {
+            Debug.Log("OnGamestartOpponent");
             if (startedGame) { return; }
             gamestart();
         }

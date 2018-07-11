@@ -30,7 +30,7 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
             if (state == ClientState.PeerCreated) {
                 connectToPhoton();
             }
-            if (state == ClientState.ConnectingToMasterserver) {
+            if (state == ClientState.ConnectedToMaster) {
                 joinLobby();
             }
             // PhotonNetwork.logLevel = PhostonLogLevel.Full;
