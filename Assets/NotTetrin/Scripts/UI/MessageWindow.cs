@@ -10,14 +10,33 @@ namespace NotTetrin.UI {
     [RequireComponent(typeof(Animator))]
     public class MessageWindow : MonoBehaviour {
         [SerializeField] Text messageText;
+        [SerializeField] Text statusText;
+
+        public string Message {
+            get {
+                return messageText.text;
+            }
+            set {
+                messageText.text = value;
+            }
+        }
+
+        public string Status {
+            get {
+                return statusText.text;
+            }
+            set {
+                statusText.text = value;
+            }
+        }
+
         private Animator animator;
 
         private void Awake() {
             animator = GetComponent<Animator>();
         }
 
-        public void Show(string message) {
-            messageText.text = message;
+        public void Show() {
             enableObject();
             animator.Play(@"OpenWindow", 0);
         }

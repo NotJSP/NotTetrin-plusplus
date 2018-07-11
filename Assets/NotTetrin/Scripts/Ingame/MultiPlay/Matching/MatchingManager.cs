@@ -24,7 +24,11 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
 
         private void Awake() {
             PhotonNetwork.automaticallySyncScene = true;
-            connectToPhoton();
+            Debug.Log(PhotonNetwork.connectionStateDetailed);
+
+            if (PhotonNetwork.connectionStateDetailed == ClientState.PeerCreated) {
+                connectToPhoton();
+            }
             // PhotonNetwork.logLevel = PhotonLogLevel.Full;
         }
 
@@ -33,12 +37,16 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
             matchingWindow.GetComponent<Animator>().Play(@"OpenWindow");
         }
 
-        private void connectToPhoton() {
-            if (PhotonNetwork.connectionStateDetailed == ClientState.PeerCreated) {
-                statusLabel.text = @"接続中";
-                Debug.Log("Connecting to Server...");
-                PhotonNetwork.ConnectUsingSettings("1.0");
+        private void Update() {
+            if (Input.GetButtonDown("Escape")) {
+                CancelMatching();
             }
+        }
+
+        private void connectToPhoton() {
+            Debug.Log("Connecting to Server...");
+            statusLabel.text = @"接続中";
+            PhotonNetwork.ConnectUsingSettings("1.0");
         }
 
         private IEnumerator requestJoinRandomRoom() {
@@ -53,8 +61,8 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         public void CancelMatching() {
             quit = true;
             matchingWindow.GetComponent<Animator>().Play(@"CloseWindow");
-            if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
 
+            PhotonNetwork.Disconnect();
             SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
         }
 

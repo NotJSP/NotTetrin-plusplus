@@ -10,6 +10,7 @@ namespace NotTetrin.Ingame.MultiPlay {
         private Color enableColor = new Color(1.0f, 1.0f, 0.0f);
 
         private int count;
+        public bool CountLimited => (count >= stars.Length);
 
         private void Awake() {
             updateStars();
