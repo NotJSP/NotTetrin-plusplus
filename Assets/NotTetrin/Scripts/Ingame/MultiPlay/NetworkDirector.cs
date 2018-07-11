@@ -5,8 +5,6 @@ using NotTetrin.Ingame.Marathon;
 
 namespace NotTetrin.Ingame.MultiPlay {
     public class NetworkDirector : Director {
-        [SerializeField] GameManager gameManager;
-
         [SerializeField] GameObject[] floors;
         [SerializeField] Ceiling[] ceilings;
         [SerializeField] HoldMino[] holdMinos;
@@ -17,21 +15,21 @@ namespace NotTetrin.Ingame.MultiPlay {
         [SerializeField] Text[] nameLabels;
         [SerializeField] WinsCounter[] winsCounters;
 
-        private int playerIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 0 : 1;
-        private int opponentIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 1 : 0;
+        public int PlayerIndex => (PhotonNetwork.player.ID - 1);
+        public int OpponentIndex => (1 - PlayerIndex);
 
-        public override GameObject Floor => floors[playerIndex];
-        public override Ceiling Ceiling => ceilings[playerIndex];
-        public override HoldMino HoldMino => holdMinos[playerIndex];
-        public override NextMino NextMino => nextMinos[playerIndex];
+        public override GameObject Floor => floors[PlayerIndex];
+        public override Ceiling Ceiling => ceilings[PlayerIndex];
+        public override HoldMino HoldMino => holdMinos[PlayerIndex];
+        public override NextMino NextMino => nextMinos[PlayerIndex];
 
-        public Text PlayerPingLabel => pingLabels[playerIndex];
-        public Text PlayerYouLabel => youLabels[playerIndex];
-        public Text PlayerNameLabel => nameLabels[playerIndex];
-        public WinsCounter PlayerWinsCounter => winsCounters[playerIndex];
-        public Text OpponentPingLabel => pingLabels[opponentIndex];
-        public Text OpponentYouLabel => youLabels[playerIndex];
-        public Text OpponentNameLabel => nameLabels[opponentIndex];
-        public WinsCounter OpponentWinsCounter => winsCounters[opponentIndex];
+        public Text PlayerPingLabel => pingLabels[PlayerIndex];
+        public Text PlayerYouLabel => youLabels[PlayerIndex];
+        public Text PlayerNameLabel => nameLabels[PlayerIndex];
+        public WinsCounter PlayerWinsCounter => winsCounters[PlayerIndex];
+        public Text OpponentPingLabel => pingLabels[OpponentIndex];
+        public Text OpponentYouLabel => youLabels[PlayerIndex];
+        public Text OpponentNameLabel => nameLabels[OpponentIndex];
+        public WinsCounter OpponentWinsCounter => winsCounters[OpponentIndex];
     }
 }

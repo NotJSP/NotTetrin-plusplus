@@ -28,8 +28,6 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         private bool acceptedResult = false;
         private bool quit = false;
 
-        public PlayerSide PlayerSide => (PhotonNetwork.player.ID == 1) ? PlayerSide.Left : PlayerSide.Right;
-
         protected override void Awake() {
             base.Awake();
 
@@ -55,12 +53,13 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         private void Update() {
             if (Input.GetButtonDown(@"Escape")) {
-                quit = true;
                 ExitGame();
             }
         }
 
         public void ExitGame() {
+            quit = true;
+            StopAllCoroutines();
             if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
             SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
         }
@@ -75,25 +74,25 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void reset() {
+            startedGame = false;
             acceptedResult = false;
-            sfxManager.Stop(IngameSfxType.GameOver);
             minoManager.Reset();
             garbageMinoManager.Clear();
         }
 
         private void ready() {
-            startedGame = false;
+            reset();
+            director.Floor.SetActive(true);
             photonView.RPC(@"OnReadyOpponent", PhotonTargets.Others);
         }
 
         private void gamestart() {
-            photonView.RPC(@"OnGamestartOpponent", PhotonTargets.Others);
             startedGame = true;
+            photonView.RPC(@"OnGamestartOpponent", PhotonTargets.Others);
 
-            reset();
-            director.Floor.SetActive(true);
-            bgmManager.RandomPlay();
+            sfxManager.Stop(IngameSfxType.GameOver);
             sfxManager.Play(IngameSfxType.GameStart);
+            bgmManager.RandomPlay();
             minoManager.Next();
         }
 
@@ -136,7 +135,6 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void OnPhotonPlayerDisconnected(PhotonPlayer player) {
-            Debug.Log($"disconnected opponent.");
             messageWindow.Show("対戦相手が切断されました。");
             Invoke(@"ExitGame", 3.0f);
         }
