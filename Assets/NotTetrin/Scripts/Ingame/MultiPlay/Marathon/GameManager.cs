@@ -8,8 +8,6 @@ using NotTetrin.Constants;
 using NotTetrin.SceneManagement;
 using NotTetrin.Ingame.Marathon;
 
-using Random = UnityEngine.Random;
-
 namespace NotTetrin.Ingame.MultiPlay.Marathon {
     [RequireComponent(typeof(PhotonView))]
     public class GameManager : SceneBase {
