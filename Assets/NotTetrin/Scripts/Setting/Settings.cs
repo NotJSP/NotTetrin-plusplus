@@ -5,24 +5,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using NotTetrin.UI;
 
 namespace NotTetrin.Setting {
+    [RequireComponent(typeof(SelectableToggler))]
     [DefaultExecutionOrder(1)]
     public class Settings : MonoBehaviour {
         [Header(@"Properties")]
-        [SerializeField] private RectTransform container;
-        [SerializeField] private AnimationCurve transitionCurve;
-        [SerializeField] private float transitionTime;
+        [SerializeField] RectTransform container;
+        [SerializeField] AnimationCurve transitionCurve;
+        [SerializeField] float transitionTime;
 
         [Space(1.0f)]
-        [SerializeField] private SettingEntry[] entries;
+        [SerializeField] SettingEntry[] entries;
 
         private new RectTransform transform;
+        private SelectableToggler toggler;
         private Coroutine coroutine;
         private bool active;
 
         private void Awake() {
-            transform = GetComponent<RectTransform>();
+            this.transform = GetComponent<RectTransform>();
+            this.toggler = GetComponent<SelectableToggler>();
 
             foreach (var entry in entries) {
                 entry.Create(container);
@@ -31,6 +35,8 @@ namespace NotTetrin.Setting {
 
         private void Update() {
             if (Input.GetKeyDown(KeyCode.F1)) {
+                GUI.FocusControl(@"");
+                toggler.ToggleAll();
                 Toggle();
             }
         }

@@ -24,8 +24,16 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
 
         private void Awake() {
             PhotonNetwork.automaticallySyncScene = true;
-            connectToPhoton();
-            // PhotonNetwork.logLevel = PhotonLogLevel.Full;
+            Debug.Log(PhotonNetwork.connectionStateDetailed);
+
+            var state = PhotonNetwork.connectionStateDetailed;
+            if (state == ClientState.PeerCreated) {
+                connectToPhoton();
+            }
+            if (state == ClientState.ConnectedToMaster) {
+                joinLobby();
+            }
+            // PhotonNetwork.logLevel = PhostonLogLevel.Full;
         }
 
         private void Start() {
@@ -33,12 +41,20 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
             matchingWindow.GetComponent<Animator>().Play(@"OpenWindow");
         }
 
-        private void connectToPhoton() {
-            if (PhotonNetwork.connectionStateDetailed == ClientState.PeerCreated) {
-                statusLabel.text = @"接続中";
-                Debug.Log("Connecting to Server...");
-                PhotonNetwork.ConnectUsingSettings("1.0");
+        private void Update() {
+            if (Input.GetButtonDown("Escape")) {
+                CancelMatching();
             }
+        }
+
+        private void connectToPhoton() {
+            Debug.Log("Connecting to Server...");
+            statusLabel.text = @"接続中";
+            PhotonNetwork.ConnectUsingSettings("1.0");
+        }
+
+        private void joinLobby() {
+            PhotonNetwork.JoinLobby();
         }
 
         private IEnumerator requestJoinRandomRoom() {
@@ -53,8 +69,8 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         public void CancelMatching() {
             quit = true;
             matchingWindow.GetComponent<Animator>().Play(@"CloseWindow");
-            if (PhotonNetwork.connected) { PhotonNetwork.Disconnect(); }
 
+            PhotonNetwork.Disconnect();
             SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
         }
 
@@ -93,11 +109,9 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         public void OnJoinedLobby() {
             Debug.Log("OnJoinedLobby");
 
-            if (string.IsNullOrEmpty(PhotonNetwork.playerName)) {
-                var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
-                var id = PhotonNetwork.AuthValues.UserId;
-                PhotonNetwork.playerName = IdentificationNameUtility.Create(name, id);
-            }
+            var name = PlayerPrefs.GetString(PlayerPrefsKey.PlayerName);
+            var id = PhotonNetwork.AuthValues.UserId;
+            PhotonNetwork.playerName = IdentificationNameUtility.Create(name, id);
 
             statusLabel.text = $"あなた: {playerName}";
             StartMatching();
@@ -139,7 +153,7 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
 
         public void OnConnectedToMaster() {
             Debug.Log("OnConnectedToMaster()");
-            PhotonNetwork.JoinLobby();
+            joinLobby();
         }
     }
 }

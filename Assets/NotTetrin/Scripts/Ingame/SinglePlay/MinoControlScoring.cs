@@ -1,12 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace NotTetrin.Ingame.SinglePlay { 
+namespace NotTetrin.Ingame.SinglePlay {
+    [RequireComponent(typeof(MinoManager))]
     public class MinoControlScoring : MonoBehaviour {
-        [SerializeField] private Score score;
-        [SerializeField] private MinoManager minoManager;
+        [SerializeField]
+        private Score score;
+        private MinoManager minoManager;
 
         private static int ScoreIncrementDuration = 5;
+
+        private void Awake() {
+            minoManager = GetComponent<MinoManager>();
+        }
 
         private void Update() {
             var mino = minoManager.CurrentMino;

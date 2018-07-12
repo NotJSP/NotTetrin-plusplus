@@ -2,16 +2,20 @@
 using NotTetrin.Ingame.Marathon;
 
 namespace NotTetrin.Ingame.MultiPlay.Marathon {
+    [RequireComponent(typeof(NetworkDirector))]
     public class NetworkMarathonDirector : MarathonDirector {
-        [SerializeField] GameManager gameManager;
-
         [SerializeField] GameObject[] sideWalls;
         [SerializeField] CollidersField[] collidersFields;
+        [SerializeField] GarbageIndicator[] garbageIndicators;
 
-        private int playerIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 0 : 1;
-        private int opponentIndex => (gameManager.PlayerSide == PlayerSide.Left) ? 1 : 0;
+        private NetworkDirector director;
 
-        public override GameObject SideWall => sideWalls[playerIndex];
-        public override CollidersField CollidersField => collidersFields[playerIndex];
+        public override GameObject SideWall => sideWalls[director.PlayerIndex];
+        public override CollidersField CollidersField => collidersFields[director.PlayerIndex];
+        public GarbageIndicator GarbageIndicator => garbageIndicators[director.PlayerIndex];
+
+        private void Awake() {
+            director = GetComponent<NetworkDirector>();
+        }
     }
 }

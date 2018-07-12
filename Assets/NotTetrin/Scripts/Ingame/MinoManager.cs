@@ -85,7 +85,7 @@ namespace NotTetrin.Ingame {
         }
 
         private void onHitMino(object sender, EventArgs args) {
-            HitMino.Invoke(sender, args);
+            HitMino?.Invoke(sender, args);
         }
 
         public void fallSpeedUp(int level) {

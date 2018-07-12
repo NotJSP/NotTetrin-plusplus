@@ -24,14 +24,14 @@ namespace NotTetrin.Ingame.Marathon {
 
         private void Awake() {
             renderer = GetComponent<Renderer>();
+            MinoDeleteEffect = GetComponentInChildren<ParticleSystem>();
+            MinoDeleteEffect.Stop();
+        }
 
-            // タイル生成
+        private void Start() {
             var objects = GetComponent<TileCreator>().Create();
             var colliders = objects.Select(o => o.GetComponent<ColliderHelper>());
             group = new ColliderGroup(colliders);
-
-            MinoDeleteEffect = GetComponentInChildren<ParticleSystem>();
-            MinoDeleteEffect.Stop();
         }
 
         public void Initialize(Instantiator instantiator, GameObject wall) {

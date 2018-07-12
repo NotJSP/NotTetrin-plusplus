@@ -13,8 +13,8 @@ namespace NotTetrin.Ingame.Marathon {
         private IEnumerable<CollidersGroup> groups;
         public event EventHandler<DeleteMinoInfo> MinoDeleted;
 
-        private void Awake() {
-            this.groups = director.CollidersField.Create(instantiator, director.SideWall);
+        private void Start() {
+            groups = director.CollidersField.Create(instantiator, director.SideWall);
         }
 
         public void DeleteMino() {
