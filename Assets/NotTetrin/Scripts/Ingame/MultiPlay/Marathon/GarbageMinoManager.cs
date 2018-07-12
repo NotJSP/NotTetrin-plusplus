@@ -78,8 +78,8 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         public void Add(DeleteMinoInfo info) {
             Debug.Log($"lines: {info.LineCount}, objects: {info.ObjectCount}");
             var lineAmount = (float)info.LineCount;
-            var objectAmount = (float)info.ObjectCount / 6;
-            var cf = 1.0f + 0.5f * (int)(elapsedTime / 60);
+            var objectAmount = (float)info.ObjectCount / 7;
+            var cf = 1.0f + 0.25f * (int)(elapsedTime / 60);
             var amount = (lineAmount + objectAmount) * cf;
             Debug.Log(amount);
             ReadyGarbageCount += (int)amount;
