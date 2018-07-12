@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,8 +17,9 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         private Button cancelButton;
 
         private bool quit = false;
-        
-        private string playerName => IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
+        private bool foundOpponent = false;
+
+        private string PlayerName => IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
 
         private void Awake() {
             PhotonNetwork.automaticallySyncScene = true;
@@ -58,29 +57,40 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         }
 
         private IEnumerator requestJoinRandomRoom() {
-            yield return new WaitUntil(() => PhotonNetwork.connectedAndReady);
+            yield return new WaitUntil(() => PhotonNetwork.insideLobby);
             PhotonNetwork.JoinRandomRoom();
         }
 
         public void StartMatching() {
+            Debug.Log(@"StartMatching");
+            statusLabel.text = $"あなた: {PlayerName}";
             StartCoroutine(requestJoinRandomRoom());
         }
 
         public void CancelMatching() {
             quit = true;
+            StopAllCoroutines();
             matchingWindow.GetComponent<Animator>().Play(@"CloseWindow");
 
             PhotonNetwork.Disconnect();
             SceneController.Instance.LoadScene(SceneName.Title, 0.7f);
         }
 
-        private void updateOtherPlayerStatus() {
-            if (PhotonNetwork.otherPlayers.Length > 0) {
-                StartCoroutine(successMatching());
-            }
+        private IEnumerator observeRoomStatus() {
+            var timeoutSeconds = Random.Range(5.0f, 10.0f);
+            yield return new WaitForSeconds(timeoutSeconds);
+            if (foundOpponent) { yield break; }
+
+            PhotonNetwork.LeaveRoom();
+
+            var retrySeconds = Random.Range(0.0f, 10.0f);
+            yield return new WaitForSeconds(retrySeconds);
+
+            StartMatching();
         }
 
         private IEnumerator successMatching() {
+            foundOpponent = true;
             Debug.Log(@"Found the other player. Will begin transit to network battle scene, Wait a moment...");
             messageLabel.text = @"対戦相手が見つかりました！";
             statusLabel.text = @"あいて: " + IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
@@ -93,7 +103,10 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
 
         public void OnPhotonPlayerConnected(PhotonPlayer player) {
             Debug.Log($"Joined player(id: { player.ID }) in this room.");
-            updateOtherPlayerStatus();
+
+            if (PhotonNetwork.otherPlayers.Length > 0) {
+                StartCoroutine(successMatching());
+            }
         }
 
         public void OnPhotonPlayerDisconnected(PhotonPlayer player) {
@@ -102,8 +115,12 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
 
         public void OnJoinedRoom() {
             Debug.Log("OnJoinedRoom");
-            statusLabel.text = $"あなた: {playerName} (ホスト)";
-            updateOtherPlayerStatus();
+
+            if (PhotonNetwork.otherPlayers.Length > 0) {
+                StartCoroutine(successMatching());
+            } else {
+                StartCoroutine(observeRoomStatus());
+            }
         }
 
         public void OnJoinedLobby() {
@@ -113,16 +130,12 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
             var id = PhotonNetwork.AuthValues.UserId;
             PhotonNetwork.playerName = IdentificationNameUtility.Create(name, id);
 
-            statusLabel.text = $"あなた: {playerName}";
             StartMatching();
         }
 
         public void OnPhotonCreateRoomFailed() {
             Debug.Log("OnPhotonCreateRoomFailed");
-        }
-
-        public void OnPhotonJoinRoomFailed(object[] cause) {
-            Debug.Log("OnPhotonJoinRoomFailed");
+            statusLabel.text = @"ルーム作成に失敗";
         }
 
         public void OnPhotonRandomJoinFailed() {
@@ -140,19 +153,14 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
             StartCoroutine(retryConnectToPhoton());
         }
 
-        public void OnFailedToConnectToPhoton(object parameters) {
-            Debug.Log("OnFailedToConnectToPhoton. StatusCode: " + parameters + " ServerAddress: " + PhotonNetwork.ServerAddress);
-        }
-
         private IEnumerator retryConnectToPhoton() {
             statusLabel.text = $"サーバーから切断されました\n3秒後にリトライします";
             yield return new WaitForSeconds(3.0f);
             connectToPhoton();
         }
 
-
         public void OnConnectedToMaster() {
-            Debug.Log("OnConnectedToMaster()");
+            Debug.Log("OnConnectedToMaster");
             joinLobby();
         }
     }

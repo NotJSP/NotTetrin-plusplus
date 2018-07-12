@@ -526,7 +526,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91290769d315f934c8a26de45ced80ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupManager: {fileID: 764596589}
   score: {fileID: 1429037204}
 --- !u!1 &827451205
 GameObject:
@@ -1461,7 +1460,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: {fileID: 1429037204}
-  minoManager: {fileID: 1777563732}
 --- !u!1001 &1782065562
 Prefab:
   m_ObjectHideFlags: 0
