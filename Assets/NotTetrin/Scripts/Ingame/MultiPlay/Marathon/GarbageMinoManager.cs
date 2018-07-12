@@ -69,7 +69,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
                 rigidbody.AddTorque(torque);
                 rigidbody.AddForce(ForceGarbage);
                 garbages.Add(obj);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.35f);
             }
             yield return new WaitForSeconds(0.8f);
             IsFalling = false;
