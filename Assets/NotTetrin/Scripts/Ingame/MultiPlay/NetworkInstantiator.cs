@@ -20,7 +20,7 @@ namespace NotTetrin.Ingame.MultiPlay {
 
         private IEnumerator destroyAfterSeconds(GameObject obj, float t) {
             yield return new WaitForSeconds(t);
-            this.Destroy(obj);
+            Destroy(obj);
         }
     }
 }

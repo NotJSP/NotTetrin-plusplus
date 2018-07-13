@@ -821,6 +821,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000224343869572, guid: 78f8f9e04b2f3794b8ff340635450198,
+        type: 2}
+      propertyPath: Instantiator
+      value: 
+      objectReference: {fileID: 1266729197}
+    - target: {fileID: 114000224343869572, guid: 78f8f9e04b2f3794b8ff340635450198,
+        type: 2}
+      propertyPath: Prefab
+      value: 
+      objectReference: {fileID: 1442648769551242, guid: f510da60fbf9ccf4da7ed0e680de252a,
+        type: 2}
+    - target: {fileID: 1807476647688852, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
+      propertyPath: m_Name
+      value: CollidersField (Right)
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
   m_IsPrefabParent: 0
@@ -1736,6 +1751,21 @@ Prefab:
     - target: {fileID: 4229140773569474, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
       propertyPath: m_RootOrder
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000224343869572, guid: 78f8f9e04b2f3794b8ff340635450198,
+        type: 2}
+      propertyPath: Instantiator
+      value: 
+      objectReference: {fileID: 1266729197}
+    - target: {fileID: 114000224343869572, guid: 78f8f9e04b2f3794b8ff340635450198,
+        type: 2}
+      propertyPath: Prefab
+      value: 
+      objectReference: {fileID: 1442648769551242, guid: f510da60fbf9ccf4da7ed0e680de252a,
+        type: 2}
+    - target: {fileID: 1807476647688852, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
+      propertyPath: m_Name
+      value: CollidersField (Left)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
