@@ -7,13 +7,7 @@ namespace NotTetrin.Ingame.MultiPlay {
 
         public override void Destroy(GameObject obj) {
             if (obj == null) { return; }
-            
-            var view = obj.GetComponent<PhotonView>();
-            if (view) {
-                PhotonNetwork.Destroy(view);
-            } else {
-                Object.Destroy(obj);
-            }
+            PhotonNetwork.Destroy(obj);
         }
 
         public override void Destroy(GameObject obj, float t) => StartCoroutine(destroyAfterSeconds(obj, t));
