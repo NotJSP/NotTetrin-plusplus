@@ -40,8 +40,8 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void Start() {
-            PhotonNetwork.sendRate = 10;
-            PhotonNetwork.sendRateOnSerialize = 10;
+            PhotonNetwork.sendRate = 15;
+            PhotonNetwork.sendRateOnSerialize = 15;
             StartCoroutine(updateAndSendPing());
         }
 
