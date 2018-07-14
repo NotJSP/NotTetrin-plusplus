@@ -87,22 +87,22 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         }
 
         private void reset() {
+            startedGame = false;
             acceptedResult = false;
             minoManager.Reset();
             garbageMinoManager.Clear();
+            director.Floor.SetActive(true);
         }
 
         private void ready() {
-            startedGame = false;
+            reset();
             photonView.RPC(@"OnReadyOpponent", PhotonTargets.Others);
         }
 
         private void gamestart() {
+            startedGame = true;
             photonView.RPC(@"OnGamestartOpponent", PhotonTargets.Others);
 
-            reset();
-            startedGame = true;
-            director.Floor.SetActive(true);
             sfxManager.Stop(IngameSfxType.GameOver);
             sfxManager.Play(IngameSfxType.GameStart);
             bgmManager.RandomPlay();
