@@ -15,6 +15,8 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         private Text statusLabel;
         [SerializeField]
         private Button cancelButton;
+        [SerializeField]
+        private Text startingCounter;
 
         private bool quit = false;
         private bool foundOpponent = false;
@@ -38,6 +40,7 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         private void Start() {
             matchingWindow.SetActive(true);
             matchingWindow.GetComponent<Animator>().Play(@"OpenWindow");
+            startingCounter.text = "";
         }
 
         private void Update() {
@@ -90,15 +93,27 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         }
 
         private IEnumerator successMatching() {
-            foundOpponent = true;
             Debug.Log(@"Found the other player. Will begin transit to network battle scene, Wait a moment...");
+
+            foundOpponent = true;
             messageLabel.text = @"対戦相手が見つかりました！";
             statusLabel.text = @"あいて: " + IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
             cancelButton.interactable = false;
             PhotonNetwork.room.IsOpen = false;
-            yield return new WaitForSeconds(2.0f);
+
+            updateStartingCounter(3);
+            yield return new WaitForSeconds(1.0f);
+            updateStartingCounter(2);
+            yield return new WaitForSeconds(1.0f);
+            updateStartingCounter(1);
+            yield return new WaitForSeconds(1.0f);
+            updateStartingCounter(0);
 
             SceneController.Instance.LoadScene(SceneName.NetworkBattle, 0.4f);
+        }
+
+        private void updateStartingCounter(int count) {
+            startingCounter.text = $"<size=36>{count}</size><size=18> </size>秒後に開始します...";
         }
 
         public void OnPhotonPlayerConnected(PhotonPlayer player) {
