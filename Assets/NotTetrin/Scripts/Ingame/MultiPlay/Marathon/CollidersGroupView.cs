@@ -1,17 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using NotTetrin.Utility;
 
 namespace NotTetrin.Ingame.MultiPlay.Marathon {
     [RequireComponent(typeof(Renderer))]
     public class CollidersGroupView : MonoBehaviour {
         private new Renderer renderer;
+        private Renderer Renderer {
+            get {
+                if (renderer == null) {
+                    renderer = GetComponent<Renderer>();
+                }
+                return renderer;
+            }
+        }
+
         private bool firstRead = true;
         private bool firstWrite = true;
-
-        private void Awake() {
-            renderer = GetComponent<Renderer>();
-        }
 
         private void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info) {
             if (stream.isWriting) {
@@ -25,13 +31,13 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             if (firstWrite) {
                 serializeFirst(stream, info);
             }
-            var enabled = renderer.enabled;
+            var enabled = Renderer.enabled;
             stream.SendNext(enabled);
         }
 
         private void serializeFirst(PhotonStream stream, PhotonMessageInfo info) {
-            var parent = transform.parent.name;
-            stream.SendNext(parent);
+            var parent_path = transform.parent.path();
+            stream.SendNext(parent_path);
             var position = transform.position;
             stream.SendNext(position);
             var scale = transform.localScale;
@@ -46,12 +52,12 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
                 deserializeFirst(stream, info);
             }
             var enabled = (bool)stream.ReceiveNext();
-            renderer.enabled = enabled;
+            Renderer.enabled = enabled;
         }
 
         private void deserializeFirst(PhotonStream stream, PhotonMessageInfo info) {
-            var parent = (string)stream.ReceiveNext();
-            transform.parent = GameObject.Find(parent).transform;
+            var parent_path = (string)stream.ReceiveNext();
+            transform.parent = GameObject.Find(parent_path).transform;
             var position = (Vector3)stream.ReceiveNext();
             transform.position = position;
             var scale = (Vector3)stream.ReceiveNext();

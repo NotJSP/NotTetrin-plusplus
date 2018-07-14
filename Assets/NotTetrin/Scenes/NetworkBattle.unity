@@ -834,7 +834,7 @@ Prefab:
         type: 2}
     - target: {fileID: 1807476647688852, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
       propertyPath: m_Name
-      value: CollidersField (Right)
+      value: CollidersField
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
@@ -1765,7 +1765,7 @@ Prefab:
         type: 2}
     - target: {fileID: 1807476647688852, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}
       propertyPath: m_Name
-      value: CollidersField (Left)
+      value: CollidersField
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 78f8f9e04b2f3794b8ff340635450198, type: 2}

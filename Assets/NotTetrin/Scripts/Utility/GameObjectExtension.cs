@@ -15,5 +15,7 @@ namespace NotTetrin.Utility {
             var s = obj.size();
             return new Rect(p - s / 2, s);
         }
+
+        public static string path(this GameObject obj) => obj.transform.path();
     }
 }

@@ -4,12 +4,14 @@ using NotTetrin.Utility;
 namespace NotTetrin.Ingame.Marathon {
     [RequireComponent(typeof(SpriteRenderer))]
     public class DensityIndicator : MonoBehaviour {
+        [SerializeField]
+        private Color color;
+
         private new SpriteRenderer renderer;
         private float maxScaleX;
         private float halfSizeX;
         private Vector3 defaultPosition;
         private Vector3 scale;
-        private Color color;
 
         public void Initialize(GameObject wall) {
             renderer = GetComponent<SpriteRenderer>();
@@ -25,7 +27,7 @@ namespace NotTetrin.Ingame.Marathon {
             transform.localScale = scale;
 
             defaultPosition = new Vector3(wall.transform.position.x - halfSizeX, transform.position.y);
-            color = new Color(renderer.color.r, renderer.color.g, renderer.color.b, 0.0f);
+            color.a = 0.0f;
 
             transform.position = defaultPosition;
             renderer.color = color;
