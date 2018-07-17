@@ -10,7 +10,8 @@ using NotTetrin.Utility.Tiling;
 namespace NotTetrin.Ingame.Marathon {
     [RequireComponent(typeof(Renderer), typeof(TileCreator))]
     public class CollidersGroup : MonoBehaviour {
-        [SerializeField] DensityIndicator indicatorPrefab;
+        [SerializeField]
+        private GameObject indicatorPrefab;
 
         private new Renderer renderer;
         private List<GameObject> minos = new List<GameObject>();
@@ -22,22 +23,21 @@ namespace NotTetrin.Ingame.Marathon {
         public int EnteredObjectCount => minos.Count();
         private ParticleSystem MinoDeleteEffect;
 
-        private void Awake() {
+        protected virtual void Awake() {
             renderer = GetComponent<Renderer>();
             MinoDeleteEffect = GetComponentInChildren<ParticleSystem>();
             MinoDeleteEffect.Stop();
         }
 
-        private void Start() {
+        protected virtual void Start() {
             var objects = GetComponent<TileCreator>().Create();
             var colliders = objects.Select(o => o.GetComponent<ColliderHelper>());
             group = new ColliderGroup(colliders);
         }
 
-        public void Initialize(Instantiator instantiator, GameObject wall) {
+        public virtual void Initialize(Instantiator instantiator, GameObject wall) {
             this.instantiator = instantiator;
-
-            this.indicator = Instantiate(indicatorPrefab, transform, false);
+            this.indicator = instantiator.Instantiate(indicatorPrefab, transform.position, Quaternion.identity).GetComponent<DensityIndicator>();
             var rate = gameObject.size().y / indicator.gameObject.size().y;
             var scale = indicator.gameObject.transform.localScale;
             scale.y *= rate;
@@ -45,13 +45,13 @@ namespace NotTetrin.Ingame.Marathon {
             indicator.Initialize(wall);
         }
 
-        private void Update() {
+        protected virtual void Update() {
             var density = (float)group.EnterCount / group.Children.Count();
             indicator.UpdateDensity(density);
             renderer.enabled = IsEntered;
         }
 
-        public void DeleteMino() {
+        public virtual void DeleteMino() {
             Debug.Log("ミノ削除");
             MinoDeleteEffect.Play();
             foreach (var mino in minos) {
@@ -62,11 +62,11 @@ namespace NotTetrin.Ingame.Marathon {
             minos.Clear();
         }
 
-        private void OnTriggerEnter2D(Collider2D collision) {
+        protected virtual void OnTriggerEnter2D(Collider2D collision) {
             minos.Add(collision.gameObject);
         }
 
-        private void OnTriggerExit2D(Collider2D collision) {
+        protected virtual void OnTriggerExit2D(Collider2D collision) {
             minos.Remove(collision.gameObject);
         }
     }
