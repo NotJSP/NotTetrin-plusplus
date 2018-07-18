@@ -162,9 +162,9 @@ MonoBehaviour:
     SynchronizeEnabled: 1
     TeleportEnabled: 1
     TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
+    InterpolateOption: 4
     InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
+    InterpolateLerpSpeed: 12
     InterpolateMoveTowardsAcceleration: 2
     InterpolateMoveTowardsDeceleration: 2
     InterpolateSpeedCurve:
@@ -209,16 +209,16 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    ExtrapolateOption: 0
+    ExtrapolateOption: 1
     ExtrapolateSpeed: 1
     ExtrapolateIncludingRoundTripTime: 1
     ExtrapolateNumberOfStoredPositions: 1
     DrawErrorGizmo: 1
   m_RotationModel:
     SynchronizeEnabled: 1
-    InterpolateOption: 1
+    InterpolateOption: 2
     InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 5
+    InterpolateLerpSpeed: 12
   m_ScaleModel:
     SynchronizeEnabled: 1
     InterpolateOption: 0
@@ -239,7 +239,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 2
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0

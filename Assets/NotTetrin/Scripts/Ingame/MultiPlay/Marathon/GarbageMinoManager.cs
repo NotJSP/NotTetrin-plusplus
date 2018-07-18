@@ -13,6 +13,7 @@ using Random = UnityEngine.Random;
 namespace NotTetrin.Ingame.MultiPlay.Marathon {
     public class GarbageMinoManager : MonoBehaviour {
         [SerializeField] Instantiator instantiator;
+        [SerializeField] NetworkMarathonDirector director;
         [SerializeField] MinoResolver resolver;
         [SerializeField] MinoSpawner spawner;
         [SerializeField] Rigidbody2D minoRigidbody;
@@ -23,19 +24,37 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         private List<GameObject> garbages = new List<GameObject>();
         private int readyGarbageCount;
+        private float elapsedTime;
+
         public bool IsFalling { get; private set; }
+
+        private int ReadyGarbageCount {
+            get {
+                return readyGarbageCount;
+            }
+            set {
+                readyGarbageCount = value;
+                updateIndicator();
+            }
+        }
 
         public void Clear() {
             garbages.ForEach(instantiator.Destroy);
-            readyGarbageCount = 0;
+            ReadyGarbageCount = 0;
+            elapsedTime = 0.0f;
+        }
+
+        private void Update() {
+            elapsedTime += Time.deltaTime;
         }
 
         public bool Fall() {
-            if (readyGarbageCount == 0) { return false; }
+            if (ReadyGarbageCount == 0) { return false; }
 
             IsFalling = true;
-            StartCoroutine(fallCoroutine(readyGarbageCount));
-            readyGarbageCount = 0;
+            StartCoroutine(fallCoroutine(ReadyGarbageCount));
+            ReadyGarbageCount = 0;
+            updateIndicator();
 
             return true;
         }
@@ -50,7 +69,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
                 rigidbody.AddTorque(torque);
                 rigidbody.AddForce(ForceGarbage);
                 garbages.Add(obj);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.35f);
             }
             yield return new WaitForSeconds(0.8f);
             IsFalling = false;
@@ -58,9 +77,16 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         public void Add(DeleteMinoInfo info) {
             Debug.Log($"lines: {info.LineCount}, objects: {info.ObjectCount}");
-            var amount = info.LineCount + info.ObjectCount / 7;
+            var lineAmount = (float)info.LineCount;
+            var objectAmount = (float)info.ObjectCount / 7;
+            var cf = 1.0f + 0.25f * (int)(elapsedTime / 60);
+            var amount = (lineAmount + objectAmount) * cf;
             Debug.Log(amount);
-            readyGarbageCount += amount;
+            ReadyGarbageCount += (int)amount;
+        }
+
+        private void updateIndicator() {
+            director.GarbageIndicator.Value = readyGarbageCount;
         }
     }
 }

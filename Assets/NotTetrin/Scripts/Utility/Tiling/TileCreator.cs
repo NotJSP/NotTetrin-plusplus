@@ -5,6 +5,7 @@ using UnityEngine;
 namespace NotTetrin.Utility.Tiling {
     public class TileCreator : MonoBehaviour {
         [Header(@"Objects")]
+        public Instantiator Instantiator;
         public GameObject Prefab;
         public GameObject Field;
 
@@ -26,7 +27,7 @@ namespace NotTetrin.Utility.Tiling {
                 for (int i = 0; i < DivideNumX; i++) {
                     var x = (helper.Unit.x / 2) + rect.xMin + helper.Unit.x * i;
                     var position = new Vector3(x, y);
-                    var obj = Instantiate(Prefab, position, Quaternion.identity);
+                    var obj = instantiate(Prefab, position, Quaternion.identity);
                     obj.transform.localScale = new Vector3(obj.transform.localScale.x * helper.Rate.x, obj.transform.localScale.y * helper.Rate.y);
                     obj.transform.SetParent(transform);
                     objects[i + j * DivideNumX] = obj;
@@ -34,6 +35,13 @@ namespace NotTetrin.Utility.Tiling {
             }
 
             return objects;
+        }
+
+        private GameObject instantiate(GameObject original, Vector3 position, Quaternion rotation) {
+            if (Instantiator != null) {
+                return Instantiator.Instantiate(original, position, rotation);
+            }
+            return Instantiate(original, position, rotation);
         }
     }
 }
