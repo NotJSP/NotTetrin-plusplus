@@ -11,7 +11,6 @@ namespace NotTetrin.Utility {
                 path = parent.name + "/" + path;
                 parent = parent.parent;
             }
-            Debug.Log(path);
             return path;
         }
     }

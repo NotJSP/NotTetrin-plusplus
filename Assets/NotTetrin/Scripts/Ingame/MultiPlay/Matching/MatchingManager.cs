@@ -24,17 +24,15 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         private string PlayerName => IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
 
         private void Awake() {
-            PhotonNetwork.automaticallySyncScene = true;
-            Debug.Log(PhotonNetwork.connectionStateDetailed);
-
             var state = PhotonNetwork.connectionStateDetailed;
+            Debug.Log("PhotonNetwork.connectionStateDetailed: " + state);
+
             if (state == ClientState.PeerCreated) {
                 connectToPhoton();
             }
-            if (state == ClientState.ConnectedToMaster) {
+            else if (state == ClientState.ConnectedToMaster) {
                 joinLobby();
             }
-            // PhotonNetwork.logLevel = PhostonLogLevel.Full;
         }
 
         private void Start() {
@@ -96,10 +94,13 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
             Debug.Log(@"Found the other player. Will begin transit to network battle scene, Wait a moment...");
 
             foundOpponent = true;
+
             messageLabel.text = @"対戦相手が見つかりました！";
             statusLabel.text = @"あいて: " + IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
             cancelButton.interactable = false;
+
             PhotonNetwork.room.IsOpen = false;
+            PhotonNetwork.isMessageQueueRunning = false;
 
             updateStartingCounter(3);
             yield return new WaitForSeconds(1.0f);

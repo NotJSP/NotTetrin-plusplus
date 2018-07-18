@@ -13,9 +13,11 @@ namespace NotTetrin.Ingame.Marathon {
         private Vector3 defaultPosition;
         private Vector3 scale;
 
-        public void Initialize(GameObject wall) {
+        private void Awake() {
             renderer = GetComponent<SpriteRenderer>();
+        }
 
+        public void Initialize(GameObject wall) {
             var rateX = wall.size().x / gameObject.size().x;
             maxScaleX = transform.localScale.x * rateX;
 

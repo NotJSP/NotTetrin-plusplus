@@ -14,11 +14,6 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             base.Awake();
         }
 
-        protected override void Start() {
-            if (!view.isMine) { return; }
-            base.Start();
-        }
-
         protected override void Update() {
             if (!view.isMine) { return; }
             base.Update();
