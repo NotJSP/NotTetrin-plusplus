@@ -42,7 +42,7 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
         }
 
         private void Update() {
-            if (Input.GetButtonDown("Escape")) {
+            if (!foundOpponent && Input.GetButtonDown("Escape")) {
                 CancelMatching();
             }
         }
