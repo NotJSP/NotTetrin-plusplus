@@ -22,7 +22,8 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         private PhotonView photonView;
         private double gameOverTime = 0.0;
-        private bool startedGame = false;
+        private bool isReady = false;
+        private bool isReadyOpponent = false;
         private bool acceptedResult = false;
         private bool quit = false;
 
@@ -30,24 +31,23 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
         protected override void Awake() {
             base.Awake();
-
             photonView = GetComponent<PhotonView>();
+            PhotonNetwork.sendRate = 15;
+            PhotonNetwork.sendRateOnSerialize = 15;
+            Debug.Log("PhotonNetwork.isMessageQueueRunning: " + PhotonNetwork.isMessageQueueRunning);
+            PhotonNetwork.isMessageQueueRunning = false;
+        }
+
+        protected override void OnSceneReady(object sender, EventArgs args) {
+            minoManager.HitMino += onHitMino;
             groupManager.MinoDeleted += onMinoDeleted;
 
             director.PlayerNameLabel.text = IdentificationNameUtility.ParseName(PhotonNetwork.player.NickName);
             director.OpponentNameLabel.text = IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
             director.PlayerYouLabel.enabled = true;
-        }
 
-        private void Start() {
-            PhotonNetwork.sendRate = 15;
-            PhotonNetwork.sendRateOnSerialize = 15;
             StartCoroutine(updateAndSendPing());
-        }
 
-        protected override void OnSceneReady(object sender, EventArgs args) {
-            base.OnSceneReady(sender, args);
-            minoManager.HitMino += onHitMino;
             ready();
         }
 
@@ -86,24 +86,37 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             }
         }
 
-        private void reset() {
-            startedGame = false;
+        private void resetReadyFlags() {
+            Debug.Log(@"GameManager.resetReadyFlags()");
+            isReady = false;
+            isReadyOpponent = false;
+        }
+
+        private void resetObjects() {
+            Debug.Log(@"GameManager.resetObjects()");
             acceptedResult = false;
             minoManager.Reset();
             garbageMinoManager.Clear();
             director.Floor.SetActive(true);
+            sfxManager.Stop(IngameSfxType.GameOver);
         }
 
         private void ready() {
-            reset();
+            Debug.Log(@"GameManager.ready()");
+            PhotonNetwork.isMessageQueueRunning = true;
+            isReady = true;
+
             photonView.RPC(@"OnReadyOpponent", PhotonTargets.Others);
+
+            if (isReadyOpponent) {
+                gamestart();
+            }
         }
 
         private void gamestart() {
-            startedGame = true;
+            Debug.Log(@"GameManager.gamestart()");
+            resetObjects();
             photonView.RPC(@"OnGamestartOpponent", PhotonTargets.Others);
-
-            sfxManager.Stop(IngameSfxType.GameOver);
             sfxManager.Play(IngameSfxType.GameStart);
             bgmManager.RandomPlay();
             minoManager.Next();
@@ -176,15 +189,15 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
         [PunRPC]
         private void OnReadyOpponent() {
             Debug.Log("OnReadyOpponent");
-            if (startedGame) { return; }
-            gamestart();
+            isReadyOpponent = true;
+            if (isReady) {
+                gamestart();
+            }
         }
 
         [PunRPC]
         private void OnGamestartOpponent() {
             Debug.Log("OnGamestartOpponent");
-            if (startedGame) { return; }
-            gamestart();
         }
 
         [PunRPC]
@@ -208,13 +221,13 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
 
             bgmManager.Stop();
             sfxManager.Play(IngameSfxType.GameOver);
+            resetReadyFlags();
 
             if (winsManager.Finished) {
                 Invoke("win", 6.0f);
             } else {
                 Invoke("ready", 9.0f);
             }
-
             acceptedResult = true;
         }
 
@@ -226,6 +239,7 @@ namespace NotTetrin.Ingame.MultiPlay.Marathon {
             bgmManager.Stop();
             director.Floor.SetActive(false);
             sfxManager.Play(IngameSfxType.GameOver);
+            resetReadyFlags();
 
             if (winsManager.Finished) {
                 Invoke("lose", 6.0f);

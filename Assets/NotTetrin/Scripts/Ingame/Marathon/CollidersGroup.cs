@@ -26,13 +26,6 @@ namespace NotTetrin.Ingame.Marathon {
         protected virtual void Awake() {
             renderer = GetComponent<Renderer>();
             MinoDeleteEffect = GetComponentInChildren<ParticleSystem>();
-            MinoDeleteEffect.Stop();
-        }
-
-        protected virtual void Start() {
-            var objects = GetComponent<TileCreator>().Create();
-            var colliders = objects.Select(o => o.GetComponent<ColliderHelper>());
-            group = new ColliderGroup(colliders);
         }
 
         public virtual void Initialize(Instantiator instantiator, GameObject wall) {
@@ -43,6 +36,10 @@ namespace NotTetrin.Ingame.Marathon {
             scale.y *= rate;
             indicator.gameObject.transform.localScale = scale;
             indicator.Initialize(wall);
+
+            var objects = GetComponent<TileCreator>().Create();
+            var colliders = objects.Select(o => o.GetComponent<ColliderHelper>());
+            group = new ColliderGroup(colliders);
         }
 
         protected virtual void Update() {
