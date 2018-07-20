@@ -95,7 +95,7 @@ namespace NotTetrin.Ingame.MultiPlay.Matching {
 
             foundOpponent = true;
 
-            messageLabel.text = @"対戦相手が見つかりました！";
+            messageLabel.text = string.Format("対戦相手が見つかりました！\n<size=25>あなたは<color=red><size=40>{0}P</size></color>です</size>", PhotonNetwork.player.ID);
             statusLabel.text = @"あいて: " + IdentificationNameUtility.ParseName(PhotonNetwork.otherPlayers[0].NickName);
             cancelButton.interactable = false;
 
